@@ -4,67 +4,148 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Eating Glasses — understand your glucose patterns</title>
-<meta name="description" content="Eating Glasses is a wellness app for people living with insulin-dependent diabetes who use a continuous glucose monitor. Understand your glucose patterns. By Eating Glasses LLC." />
+<meta name="description" content="Eating Glasses is a general wellness app for people living with insulin-dependent diabetes who use a continuous glucose monitor. Understand your glucose patterns, with no manual logging. By Eating Glasses LLC, Washington, DC." />
 <meta property="og:title" content="Eating Glasses" />
-<meta property="og:description" content="Understand your glucose patterns. A wellness app by Eating Glasses LLC." />
+<meta property="og:description" content="Understand your glucose patterns. A general wellness app by Eating Glasses LLC." />
 <meta property="og:type" content="website" />
 <meta name="theme-color" content="#f97316" />
 <style>
-  :root{ --primary:#f97316; --bg:#f7f9fb; --ink:#1e293b; --muted:#64748b; --card:#ffffff; --border:#e8edf3; }
+  :root{
+    --primary:#f97316; --primary-ink:#c2560c;
+    --bg:#f7f9fb; --ink:#1e293b; --muted:#64748b; --card:#ffffff;
+    --border:#e8edf3; --soft:#fff7ed;
+  }
   *{ box-sizing:border-box; }
   html,body{ margin:0; padding:0; }
   body{
     font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-    background:var(--bg); color:var(--ink); line-height:1.55;
+    background:var(--bg); color:var(--ink); line-height:1.6;
     -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
-    min-height:100vh; display:flex; flex-direction:column;
   }
-  .wrap{ flex:1; display:flex; align-items:center; justify-content:center; padding:32px 20px; }
-  .card{
-    width:100%; max-width:640px; background:var(--card); border:1px solid var(--border);
-    border-radius:20px; padding:44px 36px; box-shadow:0 10px 40px rgba(15,23,42,.06);
+  a{ color:var(--primary-ink); }
+  .container{ width:100%; max-width:960px; margin:0 auto; padding:0 22px; }
+  header.site{ border-bottom:1px solid var(--border); background:#fff; }
+  header.site .container{ display:flex; align-items:center; justify-content:space-between; padding:16px 22px; }
+  header.site img{ height:34px; width:auto; display:block; }
+  header.site .contact{ font-size:14px; font-weight:600; color:var(--muted); text-decoration:none; }
+  .hero{ padding:72px 0 44px; }
+  .eyebrow{ display:inline-block; font-size:13px; font-weight:600; letter-spacing:.01em;
+    color:var(--primary-ink); background:var(--soft); border:1px solid #fde7cf;
+    border-radius:999px; padding:6px 14px; margin-bottom:22px; }
+  .hero h1{ font-size:44px; line-height:1.1; letter-spacing:-.02em; margin:0 0 18px; max-width:15ch; }
+  .hero h1 .accent{ color:var(--primary); }
+  .hero p.lead{ font-size:20px; color:#334155; margin:0; max-width:62ch; }
+  .hero p.avail{ font-size:14px; color:var(--muted); margin:22px 0 0; }
+  section{ padding:26px 0; }
+  h2.label{ font-size:14px; font-weight:700; letter-spacing:.01em; color:var(--primary-ink); margin:0 0 20px; }
+  .grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:18px; }
+  .feat{ background:var(--card); border:1px solid var(--border); border-radius:16px; padding:24px; }
+  .feat .step{ font-size:13px; font-weight:700; color:var(--primary); margin:0 0 8px; }
+  .feat h3{ font-size:18px; margin:0 0 8px; letter-spacing:-.01em; }
+  .feat p{ font-size:15.5px; color:#475569; margin:0; }
+  .panel{ background:var(--card); border:1px solid var(--border); border-radius:20px; padding:34px; }
+  .panel h2.label{ margin-bottom:14px; }
+  .panel p{ font-size:16.5px; color:#334155; margin:0 0 14px; }
+  .panel p:last-child{ margin-bottom:0; }
+  .disclaimer{ font-size:13.5px; color:var(--muted); background:#fbfdff; border:1px dashed var(--border);
+    border-radius:14px; padding:18px 20px; }
+  footer.site{ border-top:1px solid var(--border); margin-top:24px; padding:26px 0; background:#fff; }
+  footer.site .container{ display:flex; flex-wrap:wrap; gap:8px 18px; align-items:center; justify-content:space-between; }
+  footer.site .who{ font-size:13.5px; color:var(--muted); }
+  footer.site a{ font-size:13.5px; color:var(--muted); text-decoration:none; }
+  @media (max-width:640px){
+    .hero{ padding:48px 0 30px; } .hero h1{ font-size:34px; } .hero p.lead{ font-size:18px; }
+    .grid{ grid-template-columns:1fr; } .panel{ padding:26px; }
+    header.site .contact{ display:none; }
   }
-  .logo{ width:190px; max-width:60%; height:auto; display:block; margin:0 0 26px; }
-  h1{ font-size:30px; line-height:1.2; letter-spacing:-.02em; margin:0 0 14px; }
-  h1 .accent{ color:var(--primary); }
-  p{ font-size:17px; color:#334155; margin:0 0 18px; }
-  .fine{ font-size:13.5px; color:var(--muted); border-top:1px solid var(--border); padding-top:18px; margin-top:26px; }
-  .soon{
-    display:inline-block; font-size:13px; font-weight:600; color:var(--primary);
-    background:rgba(249,115,22,.10); border-radius:999px; padding:6px 14px; margin-bottom:24px;
-  }
-  footer{ text-align:center; color:var(--muted); font-size:13px; padding:22px; }
-  footer a{ color:var(--muted); }
-  @media (max-width:480px){ .card{ padding:32px 22px; } h1{ font-size:25px; } p{ font-size:16px; } }
 </style>
 </head>
 <body>
-  <main class="wrap">
-    <div class="card">
-      <img src="logo-light.png" alt="Eating Glasses" class="logo" />
+  <header class="site">
+    <div class="container">
+      <img src="logo-light.png" alt="Eating Glasses" />
+      <a class="contact" href="mailto:hello@eatingglasses.com">hello@eatingglasses.com</a>
+    </div>
+  </header>
 
-      <span class="soon">Coming soon to iPhone</span>
-      <h1>Understand your <span class="accent">glucose patterns</span>.</h1>
-      <p>
-        Eating Glasses is a wellness app for people living with insulin-dependent diabetes who
-        use a continuous glucose monitor. It reads your glucose patterns from Apple Health and
-        helps you explore safe, everyday lifestyle experiments — so your numbers finally mean
-        something to you.
-      </p>
-      <p>
-        Your glucose data stays on your device. Eating Glasses is built around general wellness
-        and self-understanding, with your care team always at the center of any treatment.
-      </p>
+  <main>
+    <div class="container">
 
-      <div class="fine">
-        Eating Glasses provides general wellness and educational information only. It is not
-        medical advice and does not diagnose, treat, or recommend changes to your medication.
-        Always work with your healthcare provider for treatment decisions.
-      </div>
+      <section class="hero">
+        <span class="eyebrow">A general wellness app for people who use insulin</span>
+        <h1>Understand your <span class="accent">glucose patterns</span>.</h1>
+        <p class="lead">
+          Eating Glasses reads the glucose data from your continuous glucose monitor and helps you
+          see what's really going on — then suggests safe, everyday experiments to try and checks
+          whether they actually helped. No manual logging.
+        </p>
+        <p class="avail">Coming to iPhone and Android in 2026</p>
+      </section>
+
+      <section>
+        <h2 class="label">How it works</h2>
+        <div class="grid">
+          <div class="feat">
+            <p class="step">01</p>
+            <h3>Reads your patterns automatically</h3>
+            <p>Connects to the health data on your phone and reads your glucose history automatically. Nothing to log, no meals to enter — it works from day one.</p>
+          </div>
+          <div class="feat">
+            <p class="step">02</p>
+            <h3>Turns numbers into plain language</h3>
+            <p>It surfaces the patterns in your data — the recurring highs, lows, and steady stretches — and explains what they tend to mean, in context.</p>
+          </div>
+          <div class="feat">
+            <p class="step">03</p>
+            <h3>Suggests safe experiments</h3>
+            <p>Small, everyday wellness ideas grounded in published evidence and tailored to your own data — never anything about insulin or medication.</p>
+          </div>
+          <div class="feat">
+            <p class="step">04</p>
+            <h3>Closes the loop</h3>
+            <p>It checks whether a change actually helped, so over time you learn what works for your body — not someone else's average.</p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="panel">
+          <h2 class="label">Built around safety</h2>
+          <p><strong>Your glucose stays on your device.</strong> Patterns are analyzed on your phone by a fixed, rules-based engine. Your glucose is never sent to an AI service, and we never sell your data.</p>
+          <p><strong>Your care team stays at the center.</strong> Eating Glasses is a general wellness app — it never tells you anything about insulin or doses. Those decisions are always between you and your healthcare provider.</p>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="label">About Eating Glasses</h2>
+        <div class="panel">
+          <p>
+            Eating Glasses LLC is an independent company based in Washington, DC, building wellness
+            tools for people living with insulin-dependent diabetes. It was founded by someone who
+            has lived with type 1 diabetes for more than two decades — and set out to build the
+            tool he always wished existed.
+          </p>
+          <p>Questions or press: <a href="mailto:hello@eatingglasses.com">hello@eatingglasses.com</a></p>
+        </div>
+      </section>
+
+      <section>
+        <div class="disclaimer">
+          Eating Glasses provides general wellness and educational information only. It is not
+          medical advice and does not diagnose, treat, cure, or prevent any condition, and it does
+          not recommend or calculate insulin or medication doses. Always work with your healthcare
+          provider for treatment decisions.
+        </div>
+      </section>
+
     </div>
   </main>
-  <footer>
-    Eating Glasses LLC &middot; Washington, DC &middot; &copy; 2026
+
+  <footer class="site">
+    <div class="container">
+      <span class="who">Eating Glasses LLC · 1717 N St NW #1, Washington, DC 20036 · © 2026</span>
+      <a href="mailto:hello@eatingglasses.com">Contact</a>
+    </div>
   </footer>
 </body>
 </html>
