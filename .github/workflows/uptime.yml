@@ -1,0 +1,48 @@
+name: Uptime monitor
+on:
+  schedule:
+    - cron: '*/30 * * * *'   # every ~30 min (GitHub may delay scheduled runs)
+  workflow_dispatch:
+permissions:
+  issues: write
+jobs:
+  uptime:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check apex + www
+        id: check
+        run: |
+          set +e
+          apex=$(curl -sS -o /dev/null -w '%{http_code}' --max-time 25 https://eatingglasses.com/)
+          www=$(curl -sS -o /dev/null -w '%{http_code}' --max-time 25 https://www.eatingglasses.com/)
+          echo "apex=$apex www=$www"
+          echo "apex=$apex" >> "$GITHUB_OUTPUT"
+          echo "www=$www"  >> "$GITHUB_OUTPUT"
+          # apex is canonical and must be 200; www is informational until its cert settles
+          if [ "$apex" = "200" ]; then echo "ok=true" >> "$GITHUB_OUTPUT"; else echo "ok=false" >> "$GITHUB_OUTPUT"; fi
+      - name: Open / append outage issue (apex down)
+        if: steps.check.outputs.ok != 'true'
+        uses: actions/github-script@v7
+        env:
+          APEX: ${{ steps.check.outputs.apex }}
+          WWW: ${{ steps.check.outputs.www }}
+        with:
+          script: |
+            const apex = process.env.APEX, www = process.env.WWW, ts = new Date().toISOString();
+            const body = `eatingglasses.com appears DOWN.\n\n- apex: HTTP ${apex} (expected 200)\n- www: HTTP ${www}\n- time: ${ts}\n- run: ${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            const open = await github.rest.issues.listForRepo({ owner: context.repo.owner, repo: context.repo.repo, state: 'open', labels: 'uptime' });
+            if (open.data.length === 0) {
+              await github.rest.issues.create({ owner: context.repo.owner, repo: context.repo.repo, title: '🔴 eatingglasses.com is DOWN', body, labels: ['uptime'] });
+            } else {
+              await github.rest.issues.createComment({ owner: context.repo.owner, repo: context.repo.repo, issue_number: open.data[0].number, body });
+            }
+      - name: Auto-close outage issue on recovery
+        if: steps.check.outputs.ok == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const open = await github.rest.issues.listForRepo({ owner: context.repo.owner, repo: context.repo.repo, state: 'open', labels: 'uptime' });
+            for (const iss of open.data) {
+              await github.rest.issues.createComment({ owner: context.repo.owner, repo: context.repo.repo, issue_number: iss.number, body: `✅ Recovered — apex HTTP 200 at ${new Date().toISOString()}.` });
+              await github.rest.issues.update({ owner: context.repo.owner, repo: context.repo.repo, issue_number: iss.number, state: 'closed' });
+            }
