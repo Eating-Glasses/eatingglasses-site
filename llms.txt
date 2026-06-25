@@ -1,0 +1,19 @@
+# Eating Glasses
+
+> Eating Glasses is a general-wellness glucose-pattern coach for insulin-using people with Type 1 diabetes. It reads the glucose data already on your iPhone (from a CGM through Apple Health), finds the patterns in it with no logging, matches what it finds to published clinical evidence, suggests one small wellness-safe thing to try, and then re-reads your own data to see whether it helped. It is not a medical device: it does not diagnose, predict glucose, or tell you anything about insulin or doses. All dosing decisions stay with you and your care team.
+
+## What makes it different
+- Zero-input safety insights: it surfaces patterns like an overnight low hiding under a good time-in-range, with no logging.
+- The full-circle "did it work?" check: when you try one small thing, it watches your own data to see whether it helped.
+- On-device privacy: your glucose is analyzed on your phone and never leaves it, and it never goes to any AI.
+- A clear, cited one-page summary you can bring to your care team.
+
+## Who it is for
+Insulin-using Type 1 diabetics. The founder is a 23-year Type 1.
+
+## Links
+- Home: https://eatingglasses.com/
+- For clinicians: https://eatingglasses.com/clinicians.html
+- Privacy Policy: https://eatingglasses.com/privacy.html
+- Consumer Health Data Privacy (Washington MHMDA): https://eatingglasses.com/chd.html
+- Terms of Service: https://eatingglasses.com/terms.html
