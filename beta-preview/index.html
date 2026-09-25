@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Join the Eating Glasses beta</title>
+<meta name="description" content="Join the Eating Glasses beta waitlist." />
+<meta name="robots" content="noindex, nofollow" />
+<meta name="theme-color" content="#f97316" />
+<link rel="icon" type="image/png" href="/favicon.png?v=4" />
+<link rel="apple-touch-icon" href="/favicon.png?v=4" />
+<style>
+  :root{
+    --primary:#f97316; --primary-ink:#c2560c;
+    --bg:#f7f9fb; --ink:#1e293b; --muted:#64748b; --card:#ffffff;
+    --border:#e8edf3; --soft:#fff7ed; --danger:#b91c1c; --danger-bg:#fef2f2; --danger-border:#fecaca;
+    --ok-bg:#f0fdf4; --ok-border:#bbf7d0;
+  }
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; }
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:var(--bg); color:var(--ink); line-height:1.6;
+    -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+  }
+  a{ color:var(--primary-ink); }
+  .container{ width:100%; max-width:640px; margin:0 auto; padding:0 22px; }
+  header.site{ border-bottom:1px solid var(--border); background:#fff; }
+  header.site .container{ display:flex; align-items:center; justify-content:space-between; padding:16px 22px; max-width:960px; }
+  header.site img{ height:56px; width:auto; display:block; }
+  header.site a.home{ display:block; }
+
+  .hero{ padding:44px 0 8px; }
+  .hero h1{ font-size:34px; line-height:1.15; letter-spacing:-.02em; margin:0 0 14px; }
+  .hero p.lead{ font-size:17px; color:#334155; margin:0 0 18px; }
+  .note{ background:var(--soft); border:1px solid #fde3c8; border-radius:14px; padding:16px 18px; font-size:15px; color:#7c3a0e; }
+  .note p{ margin:0 0 6px; }
+  .note p:last-child{ margin-bottom:0; }
+  .note .who{ font-size:13px; font-weight:600; color:var(--primary-ink); }
+
+  main{ padding-bottom:64px; }
+  .panel{ background:var(--card); border:1px solid var(--border); border-radius:20px; padding:28px; margin-top:22px; }
+
+  .progress{ display:flex; align-items:center; gap:8px; font-size:13px; font-weight:700; color:var(--muted); letter-spacing:.02em; margin-bottom:22px; }
+  .progress .dot{ width:8px; height:8px; border-radius:50%; background:var(--border); }
+  .progress .dot.active{ background:var(--primary); }
+  .progress .dot.done{ background:var(--primary-ink); }
+
+  fieldset{ border:0; margin:0; padding:0; }
+  legend{ font-size:20px; font-weight:700; letter-spacing:-.01em; margin:0 0 4px; padding:0; }
+  .step-sub{ font-size:14.5px; color:var(--muted); margin:0 0 20px; }
+
+  .field{ margin-bottom:20px; }
+  .field label.q{ display:block; font-size:15px; font-weight:600; margin-bottom:8px; }
+  .field .hint{ font-size:13px; color:var(--muted); margin:-4px 0 8px; }
+  input[type="text"], input[type="email"]{
+    width:100%; font-size:16px; padding:12px 14px; border:1px solid var(--border); border-radius:10px;
+    background:#fff; color:var(--ink); min-height:44px;
+  }
+  input[type="text"]:focus, input[type="email"]:focus{ outline:2px solid var(--primary); outline-offset:1px; }
+  input.has-error, select.has-error{ border-color:var(--danger); }
+
+  .chips{ display:flex; flex-wrap:wrap; gap:10px; }
+  .chip{ position:relative; }
+  .chip input{ position:absolute; opacity:0; width:1px; height:1px; }
+  .chip label{
+    display:flex; align-items:center; justify-content:center; min-height:44px; padding:10px 16px;
+    border:1px solid var(--border); border-radius:999px; background:#fff; color:var(--ink);
+    font-size:14.5px; font-weight:600; cursor:pointer; text-align:center; user-select:none;
+  }
+  .chip input:checked + label{ background:var(--primary-ink); border-color:var(--primary-ink); color:#fff; }
+  .chip input:focus-visible + label{ outline:2px solid var(--primary); outline-offset:2px; }
+  .chip.wide label{ padding-left:18px; padding-right:18px; }
+
+  .checkrow{ display:flex; align-items:flex-start; gap:12px; margin-bottom:14px; }
+  .checkrow input[type="checkbox"]{ width:22px; height:22px; min-width:22px; margin-top:2px; accent-color:var(--primary-ink); }
+  .checkrow label{ font-size:14.5px; color:#334155; line-height:1.5; }
+
+  .errtext{ display:block; font-size:13px; color:var(--danger); margin-top:6px; }
+
+  .notify-note{ background:var(--soft); border:1px solid #fde3c8; border-radius:12px; padding:14px 16px; font-size:14px; color:#7c3a0e; margin-top:4px; }
+
+  .actions{ display:flex; gap:12px; margin-top:26px; }
+  button{ font:inherit; cursor:pointer; }
+  .btn{ min-height:48px; padding:12px 22px; border-radius:12px; font-size:16px; font-weight:700; border:1px solid transparent; }
+  .btn-primary{ background:var(--primary-ink); color:#fff; flex:1; }
+  .btn-primary:hover{ background:#a8480a; }
+  .btn-primary:disabled{ background:#d8bfa8; cursor:not-allowed; }
+  .btn-secondary{ background:#fff; color:var(--ink); border-color:var(--border); }
+  .btn:focus-visible{ outline:2px solid var(--primary); outline-offset:2px; }
+
+  .status-banner{ display:none; border-radius:12px; padding:14px 16px; font-size:14.5px; margin-bottom:18px; }
+  .status-banner.show{ display:block; }
+  .status-banner.err{ background:var(--danger-bg); border:1px solid var(--danger-border); color:var(--danger); }
+  .status-banner.info{ background:var(--soft); border:1px solid #fde3c8; color:#7c3a0e; }
+
+  .hp-field{ position:absolute; left:-9999px; top:-9999px; width:1px; height:1px; overflow:hidden; }
+
+  .success{ display:none; text-align:center; padding:12px 6px; }
+  .success.show{ display:block; }
+  .success .num{ font-size:15px; font-weight:700; color:var(--primary-ink); letter-spacing:.02em; margin:0 0 10px; }
+  .success h2{ font-size:28px; margin:0 0 14px; letter-spacing:-.01em; }
+  .success p{ font-size:16px; color:#334155; margin:0 0 14px; }
+  .success .share{ margin-top:22px; padding-top:22px; border-top:1px solid var(--border); }
+  .success .share p{ font-size:14px; color:var(--muted); margin:0 0 10px; }
+  .copybar{ display:flex; gap:8px; }
+  .copybar input{ flex:1; font-size:13.5px; padding:10px 12px; border:1px solid var(--border); border-radius:10px; background:var(--bg); color:var(--muted); }
+
+  .step{ display:none; }
+  .step.show{ display:block; }
+
+  footer.site{ border-top:1px solid var(--border); margin-top:24px; padding:26px 0; background:#fff; }
+  footer.site .container{ display:flex; flex-wrap:wrap; gap:8px 18px; align-items:center; justify-content:space-between; max-width:960px; }
+  footer.site .who{ font-size:13.5px; color:var(--muted); }
+  footer.site a{ font-size:13.5px; color:var(--muted); text-decoration:none; }
+
+  @media (max-width:480px){
+    .hero h1{ font-size:28px; }
+    .panel{ padding:20px; border-radius:16px; }
+    .actions{ flex-direction:column-reverse; }
+    .btn{ width:100%; }
+  }
+</style>
+</head>
+<body>
+  <header class="site">
+    <div class="container">
+      <a class="home" href="/" aria-label="Eating Glasses home"><img src="/logo-light.png" alt="Eating Glasses" /></a>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+
+      <section class="hero">
+        <h1>Join the beta</h1>
+        <p class="lead">Small groups, starting with first invites in October. Two minutes to sign up.</p>
+        <div class="note">
+          <p>"I'm opening the beta in small groups so I can get to know how it's really working for you. I'd love to have you in the first round."</p>
+          <p class="who">Justin, founder</p>
+        </div>
+      </section>
+
+      <div class="panel">
+
+        <div id="statusBanner" class="status-banner" role="alert" aria-live="polite"></div>
+
+        <form id="joinForm" novalidate>
+
+          <!-- Honeypot: real visitors never see this field. Bots that fill every
+               input tend to fill this one too, and the function silently no-ops
+               on it. -->
+          <div class="hp-field" aria-hidden="true">
+            <label for="website">Leave this field empty</label>
+            <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" />
+          </div>
+
+          <!-- Step 1: you -->
+          <div class="step show" id="step1" data-step="1">
+            <div class="progress"><span class="dot active"></span><span class="dot"></span> Step 1 of 2: You</div>
+            <fieldset>
+              <legend>A little about you</legend>
+              <p class="step-sub">So we know who's joining and how to reach you.</p>
+
+              <div class="field">
+                <label class="q" for="first_name">First name</label>
+                <input type="text" id="first_name" name="first_name" autocomplete="given-name" maxlength="40" required />
+                <span class="errtext" id="err-first_name" hidden></span>
+              </div>
+
+              <div class="field">
+                <label class="q" for="email">Email</label>
+                <input type="email" id="email" name="email" autocomplete="email" maxlength="200" required />
+                <span class="errtext" id="err-email" hidden></span>
+              </div>
+
+              <div class="field">
+                <label class="q" id="lbl-heard_from">How did you hear about us?</label>
+                <div class="chips" role="radiogroup" aria-labelledby="lbl-heard_from">
+                  <span class="chip"><input type="radio" name="heard_from" id="hf-reddit" value="reddit"><label for="hf-reddit">Reddit</label></span>
+                  <span class="chip"><input type="radio" name="heard_from" id="hf-friend" value="friend"><label for="hf-friend">A friend</label></span>
+                  <span class="chip"><input type="radio" name="heard_from" id="hf-clinician" value="clinician"><label for="hf-clinician">My clinician</label></span>
+                  <span class="chip"><input type="radio" name="heard_from" id="hf-other" value="other"><label for="hf-other">Other</label></span>
+                </div>
+                <span class="errtext" id="err-heard_from" hidden></span>
+              </div>
+
+              <div class="field" id="heardDetailWrap" hidden>
+                <label class="q" for="heard_detail" id="heardDetailLabel">Which subreddit?</label>
+                <input type="text" id="heard_detail" name="heard_detail" maxlength="200" />
+              </div>
+
+              <div class="checkrow">
+                <input type="checkbox" id="is_adult" name="is_adult" required />
+                <label for="is_adult">I'm 18 or older.</label>
+              </div>
+              <div class="checkrow">
+                <input type="checkbox" id="contact_ok" name="contact_ok" required />
+                <label for="contact_ok">It's OK to email me about the beta. See our <a href="/privacy.html" target="_blank" rel="noopener">privacy policy</a>.</label>
+              </div>
+              <span class="errtext" id="err-checks" hidden></span>
+
+              <div class="actions">
+                <button type="button" class="btn btn-primary" id="toStep2">Next: your setup</button>
+              </div>
+            </fieldset>
+          </div>
+
+          <!-- Step 2: your setup -->
+          <div class="step" id="step2" data-step="2">
+            <div class="progress"><span class="dot done"></span><span class="dot active"></span> Step 2 of 2: Your setup</div>
+            <fieldset>
+              <legend>Your setup</legend>
+              <p class="step-sub">This helps us match you to the right round.</p>
+
+              <div class="field">
+                <label class="q" id="lbl-diabetes_type">Diabetes type</label>
+                <div class="chips" role="radiogroup" aria-labelledby="lbl-diabetes_type">
+                  <span class="chip"><input type="radio" name="diabetes_type" id="dt-type1" value="type1"><label for="dt-type1">Type 1</label></span>
+                  <span class="chip"><input type="radio" name="diabetes_type" id="dt-lada" value="lada"><label for="dt-lada">LADA</label></span>
+                  <span class="chip"><input type="radio" name="diabetes_type" id="dt-type2" value="type2"><label for="dt-type2">Type 2</label></span>
+                  <span class="chip"><input type="radio" name="diabetes_type" id="dt-caregiver" value="caregiver"><label for="dt-caregiver">Caregiver</label></span>
+                  <span class="chip"><input type="radio" name="diabetes_type" id="dt-other" value="other"><label for="dt-other">Other</label></span>
+                </div>
+                <span class="errtext" id="err-diabetes_type" hidden></span>
+              </div>
+
+              <div class="field">
+                <label class="q" id="lbl-insulin">Do you take insulin?</label>
+                <div class="chips" role="radiogroup" aria-labelledby="lbl-insulin">
+                  <span class="chip"><input type="radio" name="insulin" id="ins-yes" value="yes"><label for="ins-yes">Yes</label></span>
+                  <span class="chip"><input type="radio" name="insulin" id="ins-no" value="no"><label for="ins-no">No</label></span>
+                </div>
+                <span class="errtext" id="err-insulin" hidden></span>
+              </div>
+
+              <div class="field">
+                <label class="q" id="lbl-cgm_model">CGM model</label>
+                <div class="chips" role="radiogroup" aria-labelledby="lbl-cgm_model">
+                  <span class="chip"><input type="radio" name="cgm_model" id="cgm-g6" value="dexcom_g6"><label for="cgm-g6">Dexcom G6</label></span>
+                  <span class="chip"><input type="radio" name="cgm_model" id="cgm-g7" value="dexcom_g7"><label for="cgm-g7">Dexcom G7</label></span>
+                  <span class="chip"><input type="radio" name="cgm_model" id="cgm-stelo" value="stelo"><label for="cgm-stelo">Stelo</label></span>
+                  <span class="chip"><input type="radio" name="cgm_model" id="cgm-libre2" value="libre_2"><label for="cgm-libre2">Libre 2</label></span>
+                  <span class="chip"><input type="radio" name="cgm_model" id="cgm-libre3" value="libre_3"><label for="cgm-libre3">Libre 3</label></span>
+                  <span class="chip"><input type="radio" name="cgm_model" id="cgm-guardian" value="guardian_4"><label for="cgm-guardian">Guardian 4</label></span>
+                  <span class="chip"><input type="radio" name="cgm_model" id="cgm-simplera" value="simplera"><label for="cgm-simplera">Simplera</label></span>
+                  <span class="chip"><input type="radio" name="cgm_model" id="cgm-eversense" value="eversense"><label for="cgm-eversense">Eversense</label></span>
+                  <span class="chip"><input type="radio" name="cgm_model" id="cgm-other" value="other"><label for="cgm-other">Other</label></span>
+                  <span class="chip"><input type="radio" name="cgm_model" id="cgm-none" value="none"><label for="cgm-none">None yet</label></span>
+                </div>
+                <span class="errtext" id="err-cgm_model" hidden></span>
+              </div>
+
+              <div class="field">
+                <label class="q" id="lbl-iphone">iPhone or Android?</label>
+                <div class="chips" role="radiogroup" aria-labelledby="lbl-iphone">
+                  <span class="chip"><input type="radio" name="iphone" id="ph-iphone" value="yes"><label for="ph-iphone">iPhone</label></span>
+                  <span class="chip"><input type="radio" name="iphone" id="ph-android" value="no"><label for="ph-android">Android</label></span>
+                </div>
+                <span class="errtext" id="err-iphone" hidden></span>
+              </div>
+
+              <div class="field">
+                <label class="q" id="lbl-in_us">Are you in the US?</label>
+                <div class="chips" role="radiogroup" aria-labelledby="lbl-in_us">
+                  <span class="chip"><input type="radio" name="in_us" id="us-yes" value="yes"><label for="us-yes">Yes</label></span>
+                  <span class="chip"><input type="radio" name="in_us" id="us-no" value="no"><label for="us-no">No</label></span>
+                </div>
+                <span class="errtext" id="err-in_us" hidden></span>
+              </div>
+
+              <div class="notify-note" id="notifyNote" hidden>
+                The first round is US and iPhone only. No problem, we'll email you the moment that changes, so you'll still get your spot in line.
+              </div>
+
+              <div class="actions">
+                <button type="button" class="btn btn-secondary" id="toStep1">Back</button>
+                <button type="submit" class="btn btn-primary" id="submitBtn">Join the beta</button>
+              </div>
+            </fieldset>
+          </div>
+
+        </form>
+
+        <!-- Success screen -->
+        <div class="success" id="success">
+          <p class="num" id="successNum"></p>
+          <h2 id="successHeadline">You're on the list!</h2>
+          <p id="successBody"></p>
+          <div class="share">
+            <p>Know someone else who'd want in?</p>
+            <div class="copybar">
+              <input type="text" id="shareUrl" readonly value="https://eatingglasses.com/beta-preview/" aria-label="Beta signup link" />
+              <button type="button" class="btn btn-secondary" id="copyBtn">Copy link</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site">
+    <div class="container">
+      <span class="who">Eating Glasses LLC · © 2026</span>
+      <nav style="display:flex;gap:16px;flex-wrap:wrap;align-items:center;">
+        <a href="/">Home</a><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a>
+      </nav>
+    </div>
+  </footer>
+
+<script>
+(function () {
+  "use strict";
+
+  // DEV Supabase project only (S74 lane signup). Swap to the PRD function URL +
+  // publishable key when this page graduates from unlinked preview to launched.
+  var FUNCTION_URL = "https://tmxdevvvlzcimubfxghb.supabase.co/functions/v1/beta-join";
+  var PUBLISHABLE_KEY = "sb_publishable_KrGwhNTd1Z3eAO5RC1vGMA_vUIKH1Uz";
+
+  var form = document.getElementById("joinForm");
+  var step1 = document.getElementById("step1");
+  var step2 = document.getElementById("step2");
+  var success = document.getElementById("success");
+  var banner = document.getElementById("statusBanner");
+  var submitBtn = document.getElementById("submitBtn");
+
+  function showBanner(kind, text) {
+    banner.textContent = text;
+    banner.className = "status-banner show " + kind;
+  }
+  function clearBanner() {
+    banner.className = "status-banner";
+    banner.textContent = "";
+  }
+
+  function fieldValue(name) {
+    var checked = form.querySelector('input[name="' + name + '"]:checked');
+    return checked ? checked.value : null;
+  }
+
+  function setError(key, msg) {
+    var el = document.getElementById("err-" + key);
+    var input = document.getElementById(key);
+    if (el) { el.textContent = msg || ""; el.hidden = !msg; }
+    if (input && msg) input.classList.add("has-error");
+    if (input && !msg) input.classList.remove("has-error");
+  }
+
+  function clearStep1Errors() {
+    ["first_name", "email", "heard_from"].forEach(function (k) { setError(k, ""); });
+    var chk = document.getElementById("err-checks"); chk.hidden = true; chk.textContent = "";
+  }
+  function clearStep2Errors() {
+    ["diabetes_type", "insulin", "cgm_model", "iphone", "in_us"].forEach(function (k) { setError(k, ""); });
+  }
+
+  function validateStep1() {
+    clearStep1Errors();
+    var ok = true;
+    var firstName = document.getElementById("first_name").value.trim();
+    var email = document.getElementById("email").value.trim();
+    var heard = fieldValue("heard_from");
+    var adult = document.getElementById("is_adult").checked;
+    var contactOk = document.getElementById("contact_ok").checked;
+
+    if (!firstName) { setError("first_name", "Enter your first name."); ok = false; }
+    else if (!/^[\p{L}\p{M}][\p{L}\p{M}' ’-]{0,39}$/u.test(firstName)) { setError("first_name", "Just your first name, please (letters only)."); ok = false; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { setError("email", "Enter a valid email address."); ok = false; }
+    if (!heard) { setError("heard_from", "Choose one."); ok = false; }
+    if (!adult || !contactOk) {
+      var chk = document.getElementById("err-checks");
+      chk.textContent = "Both boxes above are required to continue.";
+      chk.hidden = false;
+      ok = false;
+    }
+    return ok;
+  }
+
+  function validateStep2() {
+    clearStep2Errors();
+    var ok = true;
+    ["diabetes_type", "insulin", "cgm_model", "iphone", "in_us"].forEach(function (k) {
+      if (!fieldValue(k)) { setError(k, "Choose one."); ok = false; }
+    });
+    return ok;
+  }
+
+  document.getElementById("toStep2").addEventListener("click", function () {
+    if (!validateStep1()) return;
+    clearBanner();
+    step1.classList.remove("show");
+    step2.classList.add("show");
+    document.querySelectorAll("#step1 .progress .dot")[0].classList.add("done");
+    step2.querySelector('input, button, [tabindex]') && document.getElementById("dt-type1").focus();
+  });
+
+  document.getElementById("toStep1").addEventListener("click", function () {
+    step2.classList.remove("show");
+    step1.classList.add("show");
+  });
+
+  // Instant eligibility preview: never a dead end, just a different promise.
+  function refreshNotifyNote() {
+    var iphone = fieldValue("iphone");
+    var inUs = fieldValue("in_us");
+    var note = document.getElementById("notifyNote");
+    if (iphone === null || inUs === null) { note.hidden = true; return; }
+    var eligible = iphone === "yes" && inUs === "yes";
+    note.hidden = eligible;
+  }
+  document.querySelectorAll('input[name="iphone"], input[name="in_us"]').forEach(function (el) {
+    el.addEventListener("change", refreshNotifyNote);
+  });
+
+  // "Which sub / detail" only matters for reddit or other.
+  function refreshHeardDetail() {
+    var heard = fieldValue("heard_from");
+    var wrap = document.getElementById("heardDetailWrap");
+    var label = document.getElementById("heardDetailLabel");
+    var input = document.getElementById("heard_detail");
+    if (heard === "reddit") {
+      wrap.hidden = false; label.textContent = "Which subreddit?"; input.placeholder = "e.g. r/diabetes_t1";
+    } else if (heard === "other") {
+      wrap.hidden = false; label.textContent = "Tell us where"; input.placeholder = "";
+    } else {
+      wrap.hidden = true; input.value = "";
+    }
+  }
+  document.querySelectorAll('input[name="heard_from"]').forEach(function (el) {
+    el.addEventListener("change", refreshHeardDetail);
+  });
+
+  function showSuccess(statusKind, position, message) {
+    form.style.display = "none";
+    clearBanner();
+    var numEl = document.getElementById("successNum");
+    var headline = document.getElementById("successHeadline");
+    var body = document.getElementById("successBody");
+
+    numEl.textContent = position ? ("You're #" + position + " on the list") : "You're on the list";
+    if (statusKind === "notify") {
+      headline.textContent = "You're on the list!";
+      body.textContent = "The first round is US and iPhone only, so we'll email you the moment Android or your country opens up. Check your inbox for a confirmation.";
+    } else if (statusKind === "exists") {
+      headline.textContent = "You're already in!";
+      body.textContent = "Looks like that email is already on the list. We've got you, no need to sign up twice.";
+    } else {
+      headline.textContent = "You're on the list!";
+      body.textContent = "We're inviting people in small groups, with the first invites going out in October. When it's your turn, you'll get a personal email from Justin. Check your inbox for a confirmation.";
+    }
+    success.classList.add("show");
+    success.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  document.getElementById("copyBtn").addEventListener("click", function () {
+    var input = document.getElementById("shareUrl");
+    var btn = document.getElementById("copyBtn");
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(input.value).then(function () {
+        var old = btn.textContent; btn.textContent = "Copied"; setTimeout(function () { btn.textContent = old; }, 1800);
+      });
+    } else {
+      input.select();
+      try { document.execCommand("copy"); } catch (e) {}
+    }
+  });
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    if (!validateStep1() || !validateStep2()) {
+      // If step 1 has the problem, send the visitor back to see it.
+      if (!validateStep1()) {
+        step2.classList.remove("show");
+        step1.classList.add("show");
+      }
+      return;
+    }
+    clearBanner();
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Joining...";
+
+    var payload = {
+      website: document.getElementById("website").value, // honeypot, always empty for real visitors
+      email: document.getElementById("email").value.trim(),
+      first_name: document.getElementById("first_name").value.trim(),
+      diabetes_type: fieldValue("diabetes_type"),
+      insulin: fieldValue("insulin") === "yes",
+      cgm_model: fieldValue("cgm_model"),
+      iphone: fieldValue("iphone") === "yes",
+      in_us: fieldValue("in_us") === "yes",
+      heard_from: fieldValue("heard_from"),
+      heard_detail: document.getElementById("heard_detail").value.trim() || null,
+      is_adult: document.getElementById("is_adult").checked,
+      contact_ok: document.getElementById("contact_ok").checked
+    };
+
+    fetch(FUNCTION_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "apikey": PUBLISHABLE_KEY,
+        "Authorization": "Bearer " + PUBLISHABLE_KEY
+      },
+      body: JSON.stringify(payload)
+    })
+      .then(function (res) { return res.json().then(function (data) { return { res: res, data: data }; }); })
+      .then(function (r) {
+        var data = r.data;
+        if (data.status === "waitlist" || data.status === "notify") {
+          showSuccess(data.status, data.position, data.message);
+        } else if (data.status === "exists") {
+          showSuccess("exists", data.position, data.message);
+        } else if (data.status === "throttled") {
+          showBanner("info", data.message || "You're going a little fast. Give it a few seconds and try again.");
+        } else if (data.status === "invalid") {
+          showBanner("err", "Please fix the highlighted fields and try again.");
+          if (data.errors) {
+            Object.keys(data.errors).forEach(function (k) { setError(k, data.errors[k]); });
+            if (["first_name", "email", "heard_from", "is_adult", "contact_ok"].some(function (k) { return data.errors[k]; })) {
+              step2.classList.remove("show"); step1.classList.add("show");
+            }
+          }
+        } else {
+          showBanner("err", (data && data.message) || "Something went wrong. Please try again in a moment.");
+        }
+      })
+      .catch(function () {
+        showBanner("err", "Couldn't reach the server. Check your connection and try again.");
+      })
+      .finally(function () {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Join the beta";
+      });
+  });
+})();
+</script>
+</body>
+</html>
