@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Join the Eating Glasses beta</title>
 <meta name="description" content="Join the Eating Glasses beta. It reads your CGM data, finds your glucose patterns and explains them in plain language." />
-<meta name="robots" content="noindex, nofollow" />
 <meta name="theme-color" content="#f97316" />
 <link rel="icon" type="image/png" href="/favicon.png?v=4" />
 <link rel="apple-touch-icon" href="/favicon.png?v=4" />
@@ -312,7 +311,7 @@
           <div class="share">
             <p>Know someone else who'd want in?</p>
             <div class="copybar">
-              <input type="text" id="shareUrl" readonly value="https://eatingglasses.com/beta-preview/" aria-label="Beta signup link" />
+              <input type="text" id="shareUrl" readonly value="https://eatingglasses.com/beta/" aria-label="Beta signup link" />
               <button type="button" class="btn btn-secondary" id="copyBtn">Copy link</button>
             </div>
           </div>
@@ -336,10 +335,9 @@
 (function () {
   "use strict";
 
-  // DEV Supabase project only (S74 lane signup). Swap to the PRD function URL +
-  // publishable key when this page graduates from unlinked preview to launched.
-  var FUNCTION_URL = "https://tmxdevvvlzcimubfxghb.supabase.co/functions/v1/beta-join";
-  var PUBLISHABLE_KEY = "sb_publishable_KrGwhNTd1Z3eAO5RC1vGMA_vUIKH1Uz";
+  // PRD Supabase project: the live /beta page (S74).
+  var FUNCTION_URL = "https://pnnqxzqpfjsliwymmecv.supabase.co/functions/v1/beta-join";
+  var PUBLISHABLE_KEY = "sb_publishable_eI0ziX_WG6M2UepQG4lM7Q_i8IbS3Dk";
 
   var form = document.getElementById("joinForm");
   var step1 = document.getElementById("step1");
