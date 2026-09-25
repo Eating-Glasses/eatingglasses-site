@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Join the beta — Eating Glasses</title>
+<title>Join the Eating Glasses beta</title>
 <meta name="description" content="Join the Eating Glasses beta waitlist." />
 <meta name="robots" content="noindex, nofollow" />
 <meta name="theme-color" content="#f97316" />
@@ -137,7 +137,7 @@
         <p class="lead">Small groups, starting with first invites in October. Two minutes to sign up.</p>
         <div class="note">
           <p>"I'm opening the beta in small groups so I can get to know how it's really working for you. I'd love to have you in the first round."</p>
-          <p class="who">— Justin, founder</p>
+          <p class="who">Justin, founder</p>
         </div>
       </section>
 
@@ -157,14 +157,14 @@
 
           <!-- Step 1: you -->
           <div class="step show" id="step1" data-step="1">
-            <div class="progress"><span class="dot active"></span><span class="dot"></span> Step 1 of 2 — You</div>
+            <div class="progress"><span class="dot active"></span><span class="dot"></span> Step 1 of 2: You</div>
             <fieldset>
               <legend>A little about you</legend>
               <p class="step-sub">So we know who's joining and how to reach you.</p>
 
               <div class="field">
                 <label class="q" for="first_name">First name</label>
-                <input type="text" id="first_name" name="first_name" autocomplete="given-name" maxlength="100" required />
+                <input type="text" id="first_name" name="first_name" autocomplete="given-name" maxlength="40" required />
                 <span class="errtext" id="err-first_name" hidden></span>
               </div>
 
@@ -208,10 +208,10 @@
 
           <!-- Step 2: your setup -->
           <div class="step" id="step2" data-step="2">
-            <div class="progress"><span class="dot done"></span><span class="dot active"></span> Step 2 of 2 — Your setup</div>
+            <div class="progress"><span class="dot done"></span><span class="dot active"></span> Step 2 of 2: Your setup</div>
             <fieldset>
               <legend>Your setup</legend>
-              <p class="step-sub">This tells us whether you're in for the first round, or the notify list.</p>
+              <p class="step-sub">This helps us match you to the right round.</p>
 
               <div class="field">
                 <label class="q" id="lbl-diabetes_type">Diabetes type</label>
@@ -366,6 +366,7 @@
     var contactOk = document.getElementById("contact_ok").checked;
 
     if (!firstName) { setError("first_name", "Enter your first name."); ok = false; }
+    else if (!/^[\p{L}\p{M}][\p{L}\p{M}' ’-]{0,39}$/u.test(firstName)) { setError("first_name", "Just your first name, please (letters only)."); ok = false; }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { setError("email", "Enter a valid email address."); ok = false; }
     if (!heard) { setError("heard_from", "Choose one."); ok = false; }
     if (!adult || !contactOk) {
@@ -400,7 +401,7 @@
     step1.classList.add("show");
   });
 
-  // Instant eligibility preview — never a dead end, just a different promise.
+  // Instant eligibility preview: never a dead end, just a different promise.
   function refreshNotifyNote() {
     var iphone = fieldValue("iphone");
     var inUs = fieldValue("in_us");
@@ -517,6 +518,9 @@
           showBanner("err", "Please fix the highlighted fields and try again.");
           if (data.errors) {
             Object.keys(data.errors).forEach(function (k) { setError(k, data.errors[k]); });
+            if (["first_name", "email", "heard_from", "is_adult", "contact_ok"].some(function (k) { return data.errors[k]; })) {
+              step2.classList.remove("show"); step1.classList.add("show");
+            }
           }
         } else {
           showBanner("err", (data && data.message) || "Something went wrong. Please try again in a moment.");
