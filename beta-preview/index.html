@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Join the Eating Glasses beta</title>
-<meta name="description" content="Join the Eating Glasses beta waitlist." />
+<meta name="description" content="Join the Eating Glasses beta. It reads your CGM data, finds your glucose patterns and explains them in plain language." />
 <meta name="robots" content="noindex, nofollow" />
 <meta name="theme-color" content="#f97316" />
 <link rel="icon" type="image/png" href="/favicon.png?v=4" />
@@ -37,6 +37,12 @@
   .note p{ margin:0 0 6px; }
   .note p:last-child{ margin-bottom:0; }
   .note .who{ font-size:13px; font-weight:600; color:var(--primary-ink); }
+  .note.founder{ margin-top:22px; }
+
+  .about{ display:grid; gap:12px; margin-top:22px; }
+  .about .card{ background:var(--card); border:1px solid var(--border); border-radius:16px; padding:18px 20px; }
+  .about h2{ font-size:13px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--primary-ink); margin:0 0 6px; }
+  .about p{ font-size:15.5px; color:#334155; margin:0; }
 
   main{ padding-bottom:64px; }
   .panel{ background:var(--card); border:1px solid var(--border); border-radius:20px; padding:28px; margin-top:22px; }
@@ -135,11 +141,27 @@
       <section class="hero">
         <h1>Join the beta</h1>
         <p class="lead">Small groups, starting with first invites in October. Two minutes to sign up.</p>
-        <div class="note">
-          <p>"I'm opening the beta in small groups so I can get to know how it's really working for you. I'd love to have you in the first round."</p>
-          <p class="who">Justin, founder</p>
+      </section>
+
+      <section class="about" aria-label="About Eating Glasses and the beta">
+        <div class="card">
+          <h2>What it does</h2>
+          <p>Eating Glasses reads the glucose data from your CGM, finds the patterns in it (the highs, lows and steady stretches that keep coming back) and explains them in plain language. No manual logging.</p>
+        </div>
+        <div class="card">
+          <h2>How it helps</h2>
+          <p>It suggests small, safe, everyday experiments chosen for your data, then checks whether your numbers actually moved. Detect, try, track, results: over time you learn what works for your body, not someone else's average. Your glucose stays on your phone, and the app never tells you anything about insulin or doses.</p>
+        </div>
+        <div class="card">
+          <h2>Why your feedback matters</h2>
+          <p>The beta is small on purpose. Your notes go straight to Justin, and what testers tell us shapes what we fix and build next, for you and for everyone living with diabetes.</p>
         </div>
       </section>
+
+      <div class="note founder">
+        <p>"Thank you for taking the time to use and test Eating Glasses. We take your feedback seriously, and will use it to help improve the app for you and diabetics like you. As a fellow diabetic, I want to make this journey as easy as possible for all diabetics. Thanks for being part of it."</p>
+        <p class="who">Justin Silver, founder</p>
+      </div>
 
       <div class="panel">
 
