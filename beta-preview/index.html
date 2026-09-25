@@ -140,7 +140,7 @@
 
       <section class="hero">
         <h1>Join the beta</h1>
-        <p class="lead">Small groups, starting with first invites in October. Two minutes to sign up.</p>
+        <p class="lead">Help test a new diabetic app that works with your current blood sugar readings, identifies hidden patterns, makes personalized suggestions, and guides you on the results.</p>
       </section>
 
       <section class="about" aria-label="About Eating Glasses and the beta">
@@ -154,7 +154,7 @@
         </div>
         <div class="card">
           <h2>Why your feedback matters</h2>
-          <p>The beta is small on purpose. Your notes go straight to Justin, and what testers tell us shapes what we fix and build next, for you and for everyone living with diabetes.</p>
+          <p>This app is built for diabetics by diabetics. The more you let us know about how the app is and isn't working for you, the better we can make it for all of us. While we all have unique journeys, we share many of the same problems and solutions. Thanks for being part of the solution.</p>
         </div>
       </section>
 
@@ -185,8 +185,8 @@
               <p class="step-sub">So we know who's joining and how to reach you.</p>
 
               <div class="field">
-                <label class="q" for="first_name">First name</label>
-                <input type="text" id="first_name" name="first_name" autocomplete="given-name" maxlength="40" required />
+                <label class="q" for="first_name">Name</label>
+                <input type="text" id="first_name" name="first_name" autocomplete="name" maxlength="40" required />
                 <span class="errtext" id="err-first_name" hidden></span>
               </div>
 
@@ -387,8 +387,8 @@
     var adult = document.getElementById("is_adult").checked;
     var contactOk = document.getElementById("contact_ok").checked;
 
-    if (!firstName) { setError("first_name", "Enter your first name."); ok = false; }
-    else if (!/^[\p{L}\p{M}][\p{L}\p{M}' ’-]{0,39}$/u.test(firstName)) { setError("first_name", "Just your first name, please (letters only)."); ok = false; }
+    if (!firstName) { setError("first_name", "Enter your name."); ok = false; }
+    else if (!/^[\p{L}\p{M}][\p{L}\p{M}' ’-]{0,39}$/u.test(firstName)) { setError("first_name", "Just your name, please (letters only)."); ok = false; }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { setError("email", "Enter a valid email address."); ok = false; }
     if (!heard) { setError("heard_from", "Choose one."); ok = false; }
     if (!adult || !contactOk) {
