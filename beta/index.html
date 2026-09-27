@@ -202,6 +202,10 @@
                   <span class="chip"><input type="radio" name="heard_from" id="hf-friend" value="friend"><label for="hf-friend">A friend</label></span>
                   <span class="chip"><input type="radio" name="heard_from" id="hf-clinician" value="clinician"><label for="hf-clinician">My clinician</label></span>
                   <span class="chip"><input type="radio" name="heard_from" id="hf-other" value="other"><label for="hf-other">Other</label></span>
+                  <!-- S76: only shown when a valid ?ref= (a flyer QR code) is in the URL;
+                       see the script below. Absent that, this stays hidden and the page
+                       looks exactly as it did before. -->
+                  <span class="chip" id="chip-flyer" hidden><input type="radio" name="heard_from" id="hf-flyer" value="flyer"><label for="hf-flyer">A flyer</label></span>
                 </div>
                 <span class="errtext" id="err-heard_from" hidden></span>
               </div>
@@ -345,6 +349,45 @@
   var success = document.getElementById("success");
   var banner = document.getElementById("statusBanner");
   var submitBtn = document.getElementById("submitBtn");
+
+  // ── flyer ref (S76): eatingglasses.com/beta/?ref=<code> from a printed
+  //    flyer's QR code (e.g. ?ref=pa01). Read once at load. When absent or
+  //    invalid, flyerRef stays null and nothing on the page changes. ──────────
+  var REF_RE = /^[a-z0-9]{2,8}$/;
+  var flyerRef = null;
+  (function () {
+    var params;
+    try { params = new URLSearchParams(location.search); } catch (e) { return; }
+    var raw = (params.get("ref") || "").trim().toLowerCase();
+    if (!REF_RE.test(raw)) return;
+    flyerRef = raw;
+
+    var chip = document.getElementById("chip-flyer");
+    var radio = document.getElementById("hf-flyer");
+    if (chip) chip.hidden = false;
+    if (radio) radio.checked = true;
+    refreshHeardDetail();
+
+    // One visit ping per browser session per code (sessionStorage guard), so
+    // reloading or navigating back within the same tab never double-counts a
+    // scan. keepalive lets it finish even if the visitor taps away immediately.
+    var sentKey = "eg_beta_visit_sent:" + raw;
+    var already = false;
+    try { already = sessionStorage.getItem(sentKey) === "1"; } catch (e) {}
+    if (!already) {
+      try { sessionStorage.setItem(sentKey, "1"); } catch (e) {}
+      fetch(FUNCTION_URL, {
+        method: "POST",
+        keepalive: true,
+        headers: {
+          "Content-Type": "application/json",
+          "apikey": PUBLISHABLE_KEY,
+          "Authorization": "Bearer " + PUBLISHABLE_KEY
+        },
+        body: JSON.stringify({ action: "visit", ref: raw })
+      }).catch(function () {});
+    }
+  })();
 
   function showBanner(kind, text) {
     banner.textContent = text;
@@ -513,7 +556,8 @@
       heard_from: fieldValue("heard_from"),
       heard_detail: document.getElementById("heard_detail").value.trim() || null,
       is_adult: document.getElementById("is_adult").checked,
-      contact_ok: document.getElementById("contact_ok").checked
+      contact_ok: document.getElementById("contact_ok").checked,
+      ref: flyerRef
     };
 
     fetch(FUNCTION_URL, {
