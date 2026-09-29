@@ -42,6 +42,8 @@
   .about .card{ background:var(--card); border:1px solid var(--border); border-radius:16px; padding:18px 20px; }
   .about h2{ font-size:13px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--primary-ink); margin:0 0 6px; }
   .about p{ font-size:15.5px; color:#334155; margin:0; }
+  .about .card.who-can{ border-color:#fde3c8; background:var(--soft); }
+  .jump{ display:inline-flex; align-items:center; justify-content:center; text-decoration:none; min-width:200px; }
 
   main{ padding-bottom:64px; }
   .panel{ background:var(--card); border:1px solid var(--border); border-radius:20px; padding:28px; margin-top:22px; }
@@ -140,9 +142,14 @@
       <section class="hero">
         <h1>Join the beta</h1>
         <p class="lead">Help test a new diabetic app that works with your current blood sugar readings, identifies hidden patterns, makes personalized suggestions, and guides you on the results.</p>
+        <p><a class="btn btn-primary jump" href="#join">Join the beta</a></p>
       </section>
 
       <section class="about" aria-label="About Eating Glasses and the beta">
+        <div class="card who-can">
+          <h2>Who can join</h2>
+          <p>You're 18 or older and in the US, you have an iPhone, and you use a Dexcom G6 or G7 (it connects through Apple Health) or a Medtronic CGM (you bring your data in from CareLink). <a href="/setup/">See how setup works</a>.</p>
+        </div>
         <div class="card">
           <h2>What it does</h2>
           <p>Eating Glasses reads the glucose data from your CGM, finds the patterns in it (the highs, lows and steady stretches that keep coming back) and explains them in plain language. No manual logging.</p>
@@ -162,7 +169,7 @@
         <p class="who">Justin Silver, founder</p>
       </div>
 
-      <div class="panel">
+      <div class="panel" id="join">
 
         <div id="statusBanner" class="status-banner" role="alert" aria-live="polite"></div>
 

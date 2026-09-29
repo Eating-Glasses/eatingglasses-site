@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Set up Eating Glasses</title>
+<meta name="description" content="How to get your CGM data into Eating Glasses: Dexcom G6 and G7 through Apple Health, Medtronic through a CareLink export." />
+<meta name="theme-color" content="#f97316" />
+<link rel="icon" type="image/png" href="/favicon.png?v=4" />
+<link rel="apple-touch-icon" href="/favicon.png?v=4" />
+<style>
+  :root{
+    --primary:#f97316; --primary-ink:#c2560c;
+    --bg:#f7f9fb; --ink:#1e293b; --muted:#64748b; --card:#ffffff;
+    --border:#e8edf3; --soft:#fff7ed;
+  }
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; }
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:var(--bg); color:var(--ink); line-height:1.6;
+    -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+  }
+  a{ color:var(--primary-ink); }
+  .container{ width:100%; max-width:640px; margin:0 auto; padding:0 22px; }
+  header.site{ border-bottom:1px solid var(--border); background:#fff; }
+  header.site .container{ display:flex; align-items:center; justify-content:space-between; padding:16px 22px; max-width:960px; }
+  header.site img{ height:56px; width:auto; display:block; }
+  header.site a.home{ display:block; }
+
+  .hero{ padding:44px 0 8px; }
+  .hero h1{ font-size:34px; line-height:1.15; letter-spacing:-.02em; margin:0 0 14px; }
+  .hero p.lead{ font-size:17px; color:#334155; margin:0 0 10px; }
+  .jumps{ display:flex; flex-wrap:wrap; gap:8px; margin:14px 0 0; padding:0; list-style:none; }
+  .jumps a{ display:inline-block; padding:8px 14px; border:1px solid var(--border); border-radius:999px; background:#fff; font-size:14.5px; font-weight:600; text-decoration:none; color:var(--ink); }
+
+  main{ padding-bottom:64px; }
+  .card{ background:var(--card); border:1px solid var(--border); border-radius:16px; padding:20px 22px; margin-top:16px; }
+  .card.soft{ background:var(--soft); border-color:#fde3c8; }
+  .card h2{ font-size:20px; letter-spacing:-.01em; margin:0 0 8px; }
+  .card h3{ font-size:13px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--primary-ink); margin:16px 0 6px; }
+  .card p{ font-size:15.5px; color:#334155; margin:0 0 10px; }
+  .card p:last-child{ margin-bottom:0; }
+  .card ol{ margin:0 0 10px; padding-left:22px; }
+  .card li{ font-size:15.5px; color:#334155; margin:0 0 6px; }
+  .small{ font-size:14px !important; color:var(--muted) !important; }
+
+  footer.site{ border-top:1px solid var(--border); margin-top:24px; padding:26px 0; background:#fff; }
+  footer.site .container{ display:flex; flex-wrap:wrap; gap:8px 18px; align-items:center; justify-content:space-between; max-width:960px; }
+  footer.site .who{ font-size:13.5px; color:var(--muted); }
+  footer.site a{ font-size:13.5px; color:var(--muted); text-decoration:none; }
+
+  @media (max-width:480px){
+    .hero h1{ font-size:28px; }
+    .card{ padding:18px; }
+  }
+</style>
+</head>
+<body>
+  <header class="site">
+    <div class="container">
+      <a class="home" href="/" aria-label="Eating Glasses home"><img src="/logo-light.png" alt="Eating Glasses" /></a>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+
+      <section class="hero">
+        <h1>Set up Eating Glasses</h1>
+        <p class="lead">Getting your glucose data in takes a few minutes. Pick your CGM below.</p>
+        <ul class="jumps" aria-label="Jump to your CGM">
+          <li><a href="#dexcom-g7">Dexcom G7</a></li>
+          <li><a href="#dexcom-g6">Dexcom G6</a></li>
+          <li><a href="#medtronic">Medtronic (CareLink)</a></li>
+          <li><a href="#help">Stuck?</a></li>
+        </ul>
+      </section>
+
+      <div class="card soft">
+        <h2>Before you start</h2>
+        <p>After you install the app from TestFlight, open it once, wait about a minute, then close it completely and open it again. That makes sure you're on the newest version before you begin.</p>
+      </div>
+
+      <div class="card" id="dexcom-g7">
+        <h2>Dexcom G7</h2>
+        <h3>In the Dexcom G7 app</h3>
+        <ol>
+          <li>Open the Dexcom G7 app.</li>
+          <li>Tap the Connections tab.</li>
+          <li>Tap Apple Health.</li>
+          <li>Tap "Activate to share."</li>
+          <li>Turn on Blood Glucose.</li>
+          <li>Tap Allow.</li>
+        </ol>
+        <h3>In Eating Glasses</h3>
+        <p>Tap Connect Apple Health, turn on Blood Glucose, and tap Allow. Your readings come in from there.</p>
+      </div>
+
+      <div class="card" id="dexcom-g6">
+        <h2>Dexcom G6</h2>
+        <h3>In the Dexcom G6 app</h3>
+        <ol>
+          <li>Open the Dexcom G6 app.</li>
+          <li>Open Settings.</li>
+          <li>Tap Connections.</li>
+          <li>Tap Apple Health.</li>
+          <li>Turn on Blood Glucose.</li>
+          <li>Tap Allow.</li>
+        </ol>
+        <p class="small">Menu names can differ a little between versions of the Dexcom app.</p>
+        <h3>In Eating Glasses</h3>
+        <p>Tap Connect Apple Health, turn on Blood Glucose, and tap Allow.</p>
+      </div>
+
+      <div class="card" id="medtronic">
+        <h2>Medtronic (CareLink)</h2>
+        <p>Medtronic doesn't share readings with Apple Health, so you bring your history in from a CareLink file instead.</p>
+        <h3>Get your file (easiest on a computer)</h3>
+        <ol>
+          <li>Open carelink.minimed.com and sign in.</li>
+          <li>Go to Reports.</li>
+          <li>Choose Data export (CSV).</li>
+          <li>Pick the widest date range.</li>
+          <li>Save the CSV, then get it onto your iPhone: email it to yourself and save the attachment to Files, or put it in iCloud Drive.</li>
+        </ol>
+        <h3>Bring it into Eating Glasses</h3>
+        <ol>
+          <li>On the connect screen, tap "My CGM isn't in Apple Health" (the link under the big button).</li>
+          <li>Choose Medtronic Guardian, then tap "Import my CareLink data".</li>
+          <li>Tap Choose file and pick your CSV.</li>
+        </ol>
+        <p class="small">Already past setup? Tap Settings, then Import new data, then Choose file. If that screen shows Dexcom instructions, pick your CareLink file anyway: it reads CareLink files too. To refresh your data later, export a new file and import it the same way.</p>
+      </div>
+
+      <div class="card" id="help">
+        <h2>Stuck, or something looks off?</h2>
+        <p>Take a screenshot inside the app. TestFlight will offer Share Beta Feedback, which sends the screenshot straight to us with a note from you. You can also email <a href="mailto:support@eatingglasses.com">support@eatingglasses.com</a>.</p>
+        <p class="small">Your glucose data stays on your phone, and the app never tells you anything about insulin or dosing.</p>
+      </div>
+
+      <p class="small" style="margin-top:22px">Not in the beta yet? <a href="/beta/">Join here</a>.</p>
+
+    </div>
+  </main>
+
+  <footer class="site">
+    <div class="container">
+      <span class="who">Eating Glasses LLC · © 2026</span>
+      <nav style="display:flex;gap:16px;flex-wrap:wrap;align-items:center;">
+        <a href="/">Home</a><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a>
+      </nav>
+    </div>
+  </footer>
+</body>
+</html>
