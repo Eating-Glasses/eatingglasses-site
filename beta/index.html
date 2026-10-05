@@ -148,7 +148,7 @@
       <section class="about" aria-label="About Eating Glasses and the beta">
         <div class="card who-can">
           <h2>Who can join</h2>
-          <p>You're in the US, you have an iPhone, and you use a Dexcom G6 or G7 (it connects through Apple Health) or a Medtronic CGM (you bring your data in from CareLink). You're 18 or older, or 13 to 17 with a parent or guardian's OK. <a href="/setup/">See how setup works</a>.</p>
+          <p>You're in the US, you have an iPhone, and you use a Dexcom G6 or G7 (it connects through Apple Health), an Eversense (it connects through Apple Health), a FreeStyle Libre 2 or 3 (you export your readings from LibreView and import the file in the app), or a Medtronic CGM (you bring your data in from CareLink). You're 18 or older, or 13 to 17 with a parent or guardian's OK. <a href="/setup/">See how setup works</a>.</p>
           <p>Signing up your teen? Fill in the form yourself as their parent or guardian and choose Caregiver. We'll email you the beta agreement to accept for them before they get the app.</p>
         </div>
         <div class="card">
@@ -485,19 +485,29 @@
     el.addEventListener("change", refreshNotifyNote);
   });
 
-  // "Which sub / detail" only matters for reddit or other.
+  // The detail box is always optional: which subreddit (reddit), where (other), or
+  // who told you (a friend or clinician, capped at 80 characters). Switching between
+  // the "where" and "who" questions clears the box, so an answer to one never rides
+  // along as the answer to the other.
+  var heardDetailKind = null;
   function refreshHeardDetail() {
     var heard = fieldValue("heard_from");
     var wrap = document.getElementById("heardDetailWrap");
     var label = document.getElementById("heardDetailLabel");
     var input = document.getElementById("heard_detail");
+    var kind = (heard === "friend" || heard === "clinician") ? "who"
+      : (heard === "reddit" || heard === "other") ? "where" : null;
+    if (kind !== heardDetailKind) input.value = "";
     if (heard === "reddit") {
-      wrap.hidden = false; label.textContent = "Which subreddit?"; input.placeholder = "e.g. r/diabetes_t1";
+      wrap.hidden = false; label.textContent = "Which subreddit?"; input.placeholder = "e.g. r/diabetes_t1"; input.maxLength = 200;
     } else if (heard === "other") {
-      wrap.hidden = false; label.textContent = "Tell us where"; input.placeholder = "";
+      wrap.hidden = false; label.textContent = "Tell us where"; input.placeholder = ""; input.maxLength = 200;
+    } else if (kind === "who") {
+      wrap.hidden = false; label.textContent = "Who told you about it? (optional)"; input.placeholder = ""; input.maxLength = 80;
     } else {
       wrap.hidden = true; input.value = "";
     }
+    heardDetailKind = kind;
   }
   document.querySelectorAll('input[name="heard_from"]').forEach(function (el) {
     el.addEventListener("change", refreshHeardDetail);
