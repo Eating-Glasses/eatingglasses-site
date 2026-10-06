@@ -65,6 +65,11 @@
     background:#fff; color:var(--ink); min-height:44px;
   }
   input[type="text"]:focus, input[type="email"]:focus{ outline:2px solid var(--primary); outline-offset:1px; }
+  select{
+    width:100%; font-size:16px; padding:12px 14px; border:1px solid var(--border); border-radius:10px;
+    background:#fff; color:var(--ink); min-height:44px;
+  }
+  select:focus{ outline:2px solid var(--primary); outline-offset:1px; }
   input.has-error, select.has-error{ border-color:var(--danger); }
 
   .chips{ display:flex; flex-wrap:wrap; gap:10px; }
@@ -268,20 +273,52 @@
               </div>
 
               <div class="field">
-                <label class="q" id="lbl-cgm_model">CGM model</label>
-                <div class="chips" role="radiogroup" aria-labelledby="lbl-cgm_model">
-                  <span class="chip"><input type="radio" name="cgm_model" id="cgm-g6" value="dexcom_g6"><label for="cgm-g6">Dexcom G6</label></span>
-                  <span class="chip"><input type="radio" name="cgm_model" id="cgm-g7" value="dexcom_g7"><label for="cgm-g7">Dexcom G7</label></span>
-                  <span class="chip"><input type="radio" name="cgm_model" id="cgm-stelo" value="stelo"><label for="cgm-stelo">Stelo</label></span>
-                  <span class="chip"><input type="radio" name="cgm_model" id="cgm-libre2" value="libre_2"><label for="cgm-libre2">Libre 2</label></span>
-                  <span class="chip"><input type="radio" name="cgm_model" id="cgm-libre3" value="libre_3"><label for="cgm-libre3">Libre 3</label></span>
-                  <span class="chip"><input type="radio" name="cgm_model" id="cgm-guardian" value="guardian_4"><label for="cgm-guardian">Guardian 4</label></span>
-                  <span class="chip"><input type="radio" name="cgm_model" id="cgm-simplera" value="simplera"><label for="cgm-simplera">Simplera</label></span>
-                  <span class="chip"><input type="radio" name="cgm_model" id="cgm-eversense" value="eversense"><label for="cgm-eversense">Eversense</label></span>
-                  <span class="chip"><input type="radio" name="cgm_model" id="cgm-other" value="other"><label for="cgm-other">Other</label></span>
-                  <span class="chip"><input type="radio" name="cgm_model" id="cgm-none" value="none"><label for="cgm-none">None yet</label></span>
-                </div>
+                <label class="q" for="cgm_model">CGM model</label>
+                <select id="cgm_model" name="cgm_model">
+                  <option value="">Choose your CGM</option>
+                  <optgroup label="Dexcom">
+                    <option value="dexcom_g7">Dexcom G7</option>
+                    <option value="dexcom_g7_15day">Dexcom G7 15 Day</option>
+                    <option value="dexcom_g6">Dexcom G6</option>
+                    <option value="dexcom_one_plus">Dexcom ONE+</option>
+                    <option value="stelo">Dexcom Stelo</option>
+                  </optgroup>
+                  <optgroup label="FreeStyle Libre">
+                    <option value="libre_3">FreeStyle Libre 3</option>
+                    <option value="libre_3_plus">FreeStyle Libre 3 Plus</option>
+                    <option value="libre_2">FreeStyle Libre 2</option>
+                    <option value="libre_2_plus">FreeStyle Libre 2 Plus</option>
+                    <option value="lingo">Abbott Lingo</option>
+                  </optgroup>
+                  <optgroup label="Medtronic">
+                    <option value="simplera">Simplera</option>
+                    <option value="guardian_4">Guardian 4</option>
+                    <option value="guardian_3">Guardian 3</option>
+                  </optgroup>
+                  <optgroup label="Eversense">
+                    <option value="eversense_365">Eversense 365</option>
+                    <option value="eversense_e3">Eversense E3</option>
+                  </optgroup>
+                  <option value="other">Other</option>
+                  <option value="none">None yet</option>
+                </select>
                 <span class="errtext" id="err-cgm_model" hidden></span>
+              </div>
+
+              <!-- Opens only when the CGM is Other. Optional, 80 characters max, sent as cgm_other. -->
+              <div class="field" id="cgmOtherWrap" hidden>
+                <label class="q" for="cgm_other">Which one? (optional)</label>
+                <input type="text" id="cgm_other" name="cgm_other" maxlength="80" />
+              </div>
+
+              <!-- Optional: never blocks the form. Sent as apple_health (yes, no, not_sure), or null when skipped. -->
+              <div class="field">
+                <label class="q" id="lbl-apple_health">Do your glucose readings show up in Apple Health? (optional)</label>
+                <div class="chips" role="radiogroup" aria-labelledby="lbl-apple_health">
+                  <span class="chip"><input type="radio" name="apple_health" id="ah-yes" value="yes"><label for="ah-yes">Yes</label></span>
+                  <span class="chip"><input type="radio" name="apple_health" id="ah-no" value="no"><label for="ah-no">No</label></span>
+                  <span class="chip"><input type="radio" name="apple_health" id="ah-not_sure" value="not_sure"><label for="ah-not_sure">Not sure</label></span>
+                </div>
               </div>
 
               <div class="field">
@@ -408,7 +445,10 @@
 
   function fieldValue(name) {
     var checked = form.querySelector('input[name="' + name + '"]:checked');
-    return checked ? checked.value : null;
+    if (checked) return checked.value;
+    // The CGM question is a select (grouped by brand); every other question is radio chips.
+    var select = form.querySelector('select[name="' + name + '"]');
+    return select && select.value ? select.value : null;
   }
 
   function setError(key, msg) {
@@ -513,6 +553,22 @@
     el.addEventListener("change", refreshHeardDetail);
   });
 
+  // "Which one?" opens only for an Other CGM, is always optional and is capped at 80
+  // characters. Picking any other CGM clears it, so a typed answer never rides along
+  // with a specific model.
+  function refreshCgmOther() {
+    var wrap = document.getElementById("cgmOtherWrap");
+    var input = document.getElementById("cgm_other");
+    var isOther = fieldValue("cgm_model") === "other";
+    wrap.hidden = !isOther;
+    if (!isOther) input.value = "";
+  }
+  document.getElementById("cgm_model").addEventListener("change", function () {
+    setError("cgm_model", ""); // a "Choose one." must not stay beside a CGM that was just chosen
+    refreshCgmOther();
+  });
+  refreshCgmOther(); // a reload can restore the select to Other without firing change
+
   function showSuccess(statusKind, position, message) {
     form.style.display = "none";
     clearBanner();
@@ -569,6 +625,9 @@
       diabetes_type: fieldValue("diabetes_type"),
       insulin: fieldValue("insulin") === "yes",
       cgm_model: fieldValue("cgm_model"),
+      // Both answers below are optional and never block the form; blank or skipped sends null.
+      cgm_other: (fieldValue("cgm_model") === "other" && document.getElementById("cgm_other").value.trim()) || null,
+      apple_health: fieldValue("apple_health"),
       iphone: fieldValue("iphone") === "yes",
       in_us: fieldValue("in_us") === "yes",
       heard_from: fieldValue("heard_from"),
