@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Set up Eating Glasses</title>
-<meta name="description" content="How to get your CGM data into Eating Glasses: Dexcom G6, G7 and Eversense through Apple Health, FreeStyle Libre through a LibreView export, Medtronic through a CareLink export." />
+<meta name="description" content="How to get your CGM data into Eating Glasses: Dexcom G6, G7, Stelo and Eversense through Apple Health, FreeStyle Libre through a LibreView export, Medtronic through a CareLink export." />
 <meta name="theme-color" content="#f97316" />
 <link rel="icon" type="image/png" href="/favicon.png?v=4" />
 <link rel="apple-touch-icon" href="/favicon.png?v=4" />
@@ -72,6 +72,7 @@
         <ul class="jumps" aria-label="Jump to your CGM">
           <li><a href="#dexcom-g7">Dexcom G7</a></li>
           <li><a href="#dexcom-g6">Dexcom G6</a></li>
+          <li><a href="#stelo">Stelo</a></li>
           <li><a href="#eversense">Eversense</a></li>
           <li><a href="#libre">FreeStyle Libre (LibreView)</a></li>
           <li><a href="#medtronic">Medtronic (CareLink)</a></li>
@@ -104,15 +105,31 @@
         <h3>In the Dexcom G6 app</h3>
         <ol>
           <li>Open the Dexcom G6 app.</li>
-          <li>Open Settings.</li>
-          <li>Tap Connections.</li>
-          <li>Tap Apple Health.</li>
+          <li>Open the menu.</li>
+          <li>Tap Settings.</li>
+          <li>Tap Health.</li>
+          <li>Tap Enable.</li>
           <li>Turn on Blood Glucose.</li>
-          <li>Tap Allow.</li>
+          <li>Tap Done.</li>
         </ol>
         <p class="small">Menu names can differ a little between versions of the Dexcom app.</p>
         <h3>In Eating Glasses</h3>
         <p>Tap Connect Apple Health, turn on Blood Glucose, and tap Allow.</p>
+      </div>
+
+      <div class="card" id="stelo">
+        <h2>Stelo</h2>
+        <h3>In the Stelo app</h3>
+        <ol>
+          <li>Open the Stelo app.</li>
+          <li>Tap Settings.</li>
+          <li>Tap Connections.</li>
+          <li>Follow the steps on screen for Apple Health.</li>
+          <li>If Apple Health asks, turn on Blood Glucose and tap Allow.</li>
+        </ol>
+        <p class="small">Stelo sends readings to Apple Health on about a 3 hour delay. That is fine for patterns.</p>
+        <h3>In Eating Glasses</h3>
+        <p>Tap Connect Apple Health, turn on Blood Glucose, and tap Allow. Your readings come in from there.</p>
       </div>
 
       <div class="card" id="eversense">
@@ -120,9 +137,12 @@
         <h3>In the Eversense app</h3>
         <ol>
           <li>Open the Eversense app.</li>
-          <li>Open "Share My Data."</li>
+          <li>Tap Menu.</li>
+          <li>Tap "Share My Data."</li>
+          <li>Tap "Application Sharing."</li>
           <li>Tap Apple Health.</li>
           <li>Turn on "Share Data."</li>
+          <li>If Apple Health asks, turn on Blood Glucose and tap Allow.</li>
         </ol>
         <p class="small">Menu names can differ a little between versions of the Eversense app.</p>
         <h3>In Eating Glasses</h3>
@@ -132,13 +152,14 @@
       <div class="card" id="libre">
         <h2>FreeStyle Libre 2 or 3 (LibreView)</h2>
         <p>Libre doesn't share readings with Apple Health, so you bring your history in from a LibreView file instead.</p>
-        <h3>Get your file (easiest on a computer)</h3>
+        <h3>Get your file</h3>
         <ol>
-          <li>Open libreview.com and sign in.</li>
-          <li>Go to Glucose History.</li>
-          <li>Choose Download Glucose Data.</li>
-          <li>Pass the quick check.</li>
-          <li>Save the CSV, then get it onto your iPhone: email it to yourself and save the attachment to Files, or put it in iCloud Drive.</li>
+          <li>Use a computer. It is the simplest way.</li>
+          <li>Open libreview.com. If it asks, pick United States and English.</li>
+          <li>Sign in with the same email and password as your Libre app.</li>
+          <li>Click the Glucose History icon, then Download Glucose Data.</li>
+          <li>Tick I'm not a robot, then click Download.</li>
+          <li>Send the file to your iPhone with AirDrop, or email it to yourself and save it to Files. Do not open or re-save it in Excel.</li>
         </ol>
         <h3>Bring it into Eating Glasses</h3>
         <ol>
