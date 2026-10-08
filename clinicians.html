@@ -137,7 +137,7 @@
 <section>
 <p class="eyebrow">Where the line is</p>
 <h2>What it does, and what it never does</h2>
-<p>The distinction is the whole design, so it leads, not the fine print. Every report carries a footer stating that it is observations only, contains no treatment recommendations, and is not a diagnosis.</p>
+<p>The distinction is the whole design, so it leads, not the fine print. Every PDF report carries a footer stating that it is observations only, contains no treatment recommendations, and is not a diagnosis.</p>
 <div class="twocol">
 <div class="never"><h3>Never</h3><ul>
 <li>Calculates or suggests an insulin dose, carbohydrate ratio, correction factor, or basal setting</li>
@@ -158,7 +158,7 @@
 <p class="eyebrow">Methodology</p>
 <h2>Deterministic, on-device, auditable</h2>
 <p>Patterns are computed by a fixed, rules-based engine that runs on the patient's phone. The same data always produces the same report. Glucose is never sent to a large-language model or any third party. There is no generative step in the analysis, and so nothing to hallucinate.</p>
-<p>The metrics follow the standard consensus definitions, with the Glucose Management Indicator computed as <span class="mono">GMI = 3.31 + 0.02392 × mean&nbsp;mg/dL</span> and <span class="mono">CV = SD / mean × 100%</span>. The cutpoints and the GMI constant are pinned as unit-tested constants, so the app, the PDF, and this page never diverge.</p>
+<p>The metrics follow the standard consensus definitions, with the Glucose Management Indicator computed as <span class="mono">GMI = 3.31 + 0.02392 × mean&nbsp;mg/dL</span> and <span class="mono">CV = SD / mean × 100%</span>. The cutpoints and the GMI constant are pinned as unit-tested constants, so the app and the PDF use the same definitions.</p>
 <p style="margin-top:6px;"><strong>What it cannot see:</strong> it has no insulin, pump, or meal data unless the patient supplies it, and it does not infer dosing. When CGM coverage is too sparse to summarize, it says so rather than guessing.</p>
 </section>
 
@@ -177,17 +177,17 @@
 <div class="report">
 <div class="rh"><b>Glucose Pattern Summary</b><span>Dexcom G7 via Apple Health · 90 days · <span class="tagline">illustrative · synthetic</span></span></div>
 <table class="metrics"><thead><tr><th>Metric</th><th>Value</th><th>Consensus target</th></tr></thead><tbody>
-<tr><td>Time in Range (70–180)</td><td class="v">88%</td><td class="t">&gt;70%</td></tr>
-<tr class="sub"><td>Tight range (70–140)</td><td class="v">71%</td><td class="t">n/a</td></tr>
-<tr><td>Time Below Range (&lt;70)</td><td class="v">2.2%</td><td class="t">&lt;4%</td></tr>
+<tr><td>Time in Range <span style="white-space:nowrap">(70–180)</span></td><td class="v">88%</td><td class="t">&gt;70%</td></tr>
+<tr class="sub"><td>Tight range <span style="white-space:nowrap">(70–140)</span></td><td class="v">71%</td><td class="t">n/a</td></tr>
+<tr><td>Time Below Range <span style="white-space:nowrap">(&lt;70)</span></td><td class="v">2.2%</td><td class="t">&lt;4%</td></tr>
 <tr class="sub"><td>&lt;54</td><td class="v">0.3%</td><td class="t">&lt;1%</td></tr>
-<tr><td>Time Above Range (&gt;180)</td><td class="v">9.8%</td><td class="t">&lt;25%</td></tr>
+<tr><td>Time Above Range <span style="white-space:nowrap">(&gt;180)</span></td><td class="v">9.8%</td><td class="t">&lt;25%</td></tr>
 <tr class="sub"><td>&gt;250</td><td class="v">2%</td><td class="t">&lt;5%</td></tr>
 <tr><td>Mean glucose</td><td class="v">128 mg/dL</td><td class="t">n/a</td></tr>
 <tr><td>GMI</td><td class="v">6.4%</td><td class="t">n/a</td></tr>
 <tr><td>Variability</td><td class="v">32%</td><td class="t">≤36%</td></tr>
 </tbody></table>
-<p style="font-size:11.5px;color:var(--muted);margin:6px 2px 0;">Tight range (70&ndash;140) has no established consensus target. It is an emerging metric, so its target cell reads n/a, not a missing value.</p>
+<p style="font-size:11.5px;color:var(--muted);margin:6px 2px 0;">Tight range (70&ndash;140) is shown as a measurement and is not graded: the consensus paper cited above sets no adult target for that range, so its target cell reads n/a, not a missing value.</p>
 <p style="margin:14px 0 4px;font-weight:600;color:var(--ink);">Observations, ranked and time-stamped</p>
 <ul class="obs">
 <li>Readings below 70 on 24 of 90 nights, onset clustered around 03:00; three sustained below 54.</li>
@@ -211,7 +211,7 @@
 <section>
 <p class="eyebrow">Data, privacy & security</p>
 <h2>The liability question, answered plainly</h2>
-<p>Glucose is read from Apple Health or from a CareLink or LibreView file export, and analyzed on the patient's device; it is never sent to a large-language model and is not stored on our servers. Data in transit and at rest is encrypted, records are row-level isolated per account, the patient controls all sharing, and account deletion is available in-app.</p>
+<p>Glucose is read from Apple Health or from a CareLink or LibreView file export, and analyzed on the patient's device; it is never sent to a large-language model and is not stored on our servers. Data in transit and at rest is encrypted, records are row-level isolated per account, the patient controls all sharing, and account deletion is available in-app. Optional food scanning is separate: a food photo, voice note or typed description goes to our server and to Google Gemini to estimate nutrition, and glucose is not part of that request.</p>
 <p>HIPAA does not apply to a direct-to-consumer app like Eating Glasses, so we do not claim it. We are built to meet the requirements of the FTC Health Breach Notification Rule and the Washington My Health My Data Act. See the <a href="/chd.html">Consumer Health Data Privacy Policy</a> and the <a href="/privacy.html">Privacy Policy</a>.</p>
 </section>
 
@@ -225,7 +225,7 @@
 <section>
 <p class="eyebrow">If it's useful to your patients</p>
 <h2>There's nothing to sign up for</h2>
-<p>Status: private beta for adults in the US who use insulin and have an iPhone and a CGM. People are invited in small groups.</p>
+<p><strong>Status:</strong> private beta in the US for people who use insulin and have an iPhone and a CGM from Dexcom, FreeStyle Libre, Medtronic or Eversense (adults, or ages 13 to 17 with a parent or guardian's OK). People are invited in small groups.</p>
 <p>No clinician account, no portal, no referral program, and no incentive of any kind. The report belongs to the patient and is shared at their discretion. If you'd like to point patients to it, a line that works:</p>
 <p style="background:var(--soft);border-left:3px solid var(--primary);border-radius:8px;padding:14px 18px;font-style:italic;color:var(--ink);margin:10px 0;">"There's a wellness app called Eating Glasses, in private beta for iPhone, that turns your CGM into a plain-language summary you can bring to our visits. It doesn't touch your insulin or your doses, and your glucose readings stay on your phone. Patients can ask for a spot at <a href="/beta/">eatingglasses.com/beta</a>."</p>
 <p class="sub">You're welcome to print this page for the exam room. To flag an inaccuracy or ask a question, email <a href="mailto:hello@eatingglasses.com">hello@eatingglasses.com</a> and please leave out any patient-identifiable detail.</p>
