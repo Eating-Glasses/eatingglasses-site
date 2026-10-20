@@ -8,172 +8,167 @@
 <meta name="theme-color" content="#f97316" />
 <link rel="icon" type="image/png" href="/favicon.png?v=4" />
 <link rel="apple-touch-icon" href="/favicon.png?v=4" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400..800&family=Geist+Mono:wght@500..600&display=swap" />
+<link rel="stylesheet" href="/site.css?v=1" />
 <style>
-  :root{
-    --primary:#f97316; --primary-ink:#c2560c;
-    --bg:#f7f9fb; --ink:#1e293b; --muted:#64748b; --card:#ffffff;
-    --border:#e8edf3; --soft:#fff7ed; --danger:#b91c1c; --danger-bg:#fef2f2; --danger-border:#fecaca;
-    --ok-bg:#f0fdf4; --ok-border:#bbf7d0;
+/* /beta: orange field, white cards, ink cards below. The form markup itself is untouched; everything here is styling. */
+  .beta-field{ padding:0 0 40px; }
+  .field-grid{ display:grid; gap:16px; padding-top:30px; }
+  .hero{ padding:0 0 8px; }
+  .hero h1{ font-size:clamp(54px,17vw,96px); margin:0 0 18px; color:var(--ink); }
+  .hero p.lead{ font-size:18px; line-height:1.42; font-weight:560; color:var(--ink); max-width:34ch; margin:0 0 22px; letter-spacing:-.01em; }
+  .hero .btn{ min-width:200px; }
+
+  .who-can{ padding:22px 20px 20px; }
+  .who-can .k{ margin-bottom:14px; }
+  .tick-row{ display:flex; gap:14px; align-items:flex-start; }
+  .tick-row .chk{ margin-top:1px; }
+  .tick-row p{ font-size:16.5px; line-height:1.5; font-weight:520; color:var(--ink); letter-spacing:-.008em; margin:0; }
+  .tick-row p a{ font-weight:650; }
+  .note-row{ display:flex; gap:12px; align-items:flex-start; background:var(--cream); border-radius:14px; padding:12px 14px; margin-top:14px; box-shadow:0 0 0 1px var(--line); }
+  .note-row .chk{ width:22px; height:22px; margin-top:2px; }
+  .note-row p{ font-size:15px; line-height:1.5; color:var(--body); margin:0; }
+
+  .panel{ background:#fff; border-radius:24px; box-shadow:var(--shadow); padding:26px 18px 22px; scroll-margin-top:16px; color:var(--body); }
+  .trust{ display:flex; gap:10px; align-items:flex-start; font-size:16px; line-height:1.45; font-weight:620; color:var(--ink); letter-spacing:-.01em; margin:2px 2px 0; }
+  .trust .chk{ margin-top:1px; }
+
+  /* progress */
+  .progress{ display:flex; align-items:center; gap:7px; font-family:var(--mono); font-size:12px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--oink); margin-bottom:20px; }
+  .progress .dot{ width:30px; height:6px; border-radius:3px; background:var(--line); }
+  .progress .dot.active{ background:var(--orange); }
+  .progress .dot.done{ background:var(--ink); }
+  .progress .dot + .dot{ margin-right:4px; }
+
+  fieldset{ border:0; margin:0; padding:0; min-width:0; }
+  legend{ font-size:30px; font-weight:700; letter-spacing:-.045em; line-height:1.05; color:var(--ink); margin:0 0 6px; padding:0; }
+  .step-sub{ font-size:16px; color:var(--muted); margin:0 0 22px; }
+
+  .field .q, .field label.q{ display:block; font-size:16px; font-weight:650; color:var(--ink); letter-spacing:-.01em; line-height:1.35; margin-bottom:10px; }
+  .panel .field{ margin-bottom:22px; }
+  .panel .field .field{ margin-bottom:0; }
+  .hp-field{ position:absolute; left:-9999px; top:-9999px; width:1px; height:1px; overflow:hidden; }
+
+  input[type="text"], input[type="email"], select{
+    width:100%; min-height:56px; font-family:var(--sans); font-size:17px; font-weight:500; color:var(--ink);
+    padding:14px 16px; background:#fff; border:2px solid var(--edge); border-radius:14px; letter-spacing:-.005em;
+    -webkit-appearance:none; appearance:none;
   }
-  *{ box-sizing:border-box; }
-  html,body{ margin:0; padding:0; }
-  body{
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-    background:var(--bg); color:var(--ink); line-height:1.6;
-    -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
-  }
-  a{ color:var(--primary-ink); }
-  .container{ width:100%; max-width:640px; margin:0 auto; padding:0 22px; }
-  header.site{ border-bottom:1px solid var(--border); background:#fff; }
-  header.site .container{ display:flex; align-items:center; justify-content:space-between; padding:16px 22px; max-width:960px; }
-  header.site img{ height:56px; width:auto; display:block; }
-  header.site a.home{ display:block; }
-
-  .hero{ padding:44px 0 8px; }
-  .hero h1{ font-size:34px; line-height:1.15; letter-spacing:-.02em; margin:0 0 14px; }
-  .hero p.lead{ font-size:17px; color:#334155; margin:0 0 18px; }
-  .note{ background:var(--soft); border:1px solid #fde3c8; border-radius:14px; padding:16px 18px; font-size:15px; color:#7c3a0e; }
-  .note p{ margin:0 0 6px; }
-  .note p:last-child{ margin-bottom:0; }
-  .note .who{ font-size:13px; font-weight:600; color:var(--primary-ink); }
-  .note.founder{ margin-top:22px; }
-
-  .about{ display:grid; gap:12px; margin-top:22px; }
-  .about .card{ background:var(--card); border:1px solid var(--border); border-radius:16px; padding:18px 20px; }
-  .about h2{ font-size:13px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--primary-ink); margin:0 0 6px; }
-  .about p{ font-size:15.5px; color:#334155; margin:0; }
-  .about .card.who-can{ border-color:#fde3c8; background:var(--soft); }
-  .jump{ display:inline-flex; align-items:center; justify-content:center; text-decoration:none; min-width:200px; }
-
-  main{ padding-bottom:64px; }
-  .panel{ background:var(--card); border:1px solid var(--border); border-radius:20px; padding:28px; margin-top:22px; }
-
-  .progress{ display:flex; align-items:center; gap:8px; font-size:13px; font-weight:700; color:var(--muted); letter-spacing:.02em; margin-bottom:22px; }
-  .progress .dot{ width:8px; height:8px; border-radius:50%; background:var(--border); }
-  .progress .dot.active{ background:var(--primary); }
-  .progress .dot.done{ background:var(--primary-ink); }
-
-  fieldset{ border:0; margin:0; padding:0; }
-  legend{ font-size:20px; font-weight:700; letter-spacing:-.01em; margin:0 0 4px; padding:0; }
-  .step-sub{ font-size:14.5px; color:var(--muted); margin:0 0 20px; }
-
-  .field{ margin-bottom:20px; }
-  .field label.q{ display:block; font-size:15px; font-weight:600; margin-bottom:8px; }
-  .field .hint{ font-size:13px; color:var(--muted); margin:-4px 0 8px; }
-  input[type="text"], input[type="email"]{
-    width:100%; font-size:16px; padding:12px 14px; border:1px solid var(--border); border-radius:10px;
-    background:#fff; color:var(--ink); min-height:44px;
-  }
-  input[type="text"]:focus, input[type="email"]:focus{ outline:2px solid var(--primary); outline-offset:1px; }
+  input::placeholder{ color:#7d7064; opacity:1; }
   select{
-    width:100%; font-size:16px; padding:12px 14px; border:1px solid var(--border); border-radius:10px;
-    background:#fff; color:var(--ink); min-height:44px;
+    padding-right:48px; cursor:pointer;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 9l6 6 6-6' fill='none' stroke='%2314110f' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat:no-repeat; background-position:right 14px center; background-size:22px;
   }
-  select:focus{ outline:2px solid var(--primary); outline-offset:1px; }
-  input.has-error, select.has-error{ border-color:var(--danger); }
+  input[type="text"]:focus, input[type="email"]:focus, select:focus{ border-color:var(--ink); outline:3px solid var(--ink); outline-offset:2px; }
+  input.has-error, select.has-error{ border-color:#b91c1c; }
 
   .chips{ display:flex; flex-wrap:wrap; gap:10px; }
   .chip{ position:relative; }
   .chip input{ position:absolute; opacity:0; width:1px; height:1px; }
   .chip label{
-    display:flex; align-items:center; justify-content:center; min-height:44px; padding:10px 16px;
-    border:1px solid var(--border); border-radius:999px; background:#fff; color:var(--ink);
-    font-size:14.5px; font-weight:600; cursor:pointer; text-align:center; user-select:none;
+    display:flex; align-items:center; justify-content:center; min-height:52px; padding:10px 20px;
+    border:2px solid var(--edge); border-radius:999px; background:#fff; color:var(--ink);
+    font-size:16.5px; font-weight:600; letter-spacing:-.01em; cursor:pointer; text-align:center; user-select:none; -webkit-user-select:none;
   }
-  .chip input:checked + label{ background:var(--primary-ink); border-color:var(--primary-ink); color:#fff; }
-  .chip input:focus-visible + label{ outline:2px solid var(--primary); outline-offset:2px; }
-  .chip.wide label{ padding-left:18px; padding-right:18px; }
+  .chip input:checked + label{ background:var(--orange); border-color:var(--ink); color:var(--ink); font-weight:700; }
+  .chip input:checked + label::before{
+    content:""; width:16px; height:16px; margin:0 8px 0 -4px; flex:none; background:var(--ink);
+    -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M5 12.5l4.6 4.6L19 7.5' fill='none' stroke='black' stroke-width='3.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat;
+            mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M5 12.5l4.6 4.6L19 7.5' fill='none' stroke='black' stroke-width='3.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat;
+  }
+  .chip input:focus-visible + label{ outline:3px solid var(--ink); outline-offset:3px; }
+  .chip.wide label{ padding-left:22px; padding-right:22px; }
 
-  .checkrow{ display:flex; align-items:flex-start; gap:12px; margin-bottom:14px; }
-  .checkrow input[type="checkbox"]{ width:22px; height:22px; min-width:22px; margin-top:2px; accent-color:var(--primary-ink); }
-  .checkrow label{ font-size:14.5px; color:#334155; line-height:1.5; }
+  .checkrow{ position:relative; display:flex; align-items:flex-start; gap:14px; margin-bottom:12px; padding:14px 16px; min-height:56px; border:2px solid var(--line); border-radius:14px; background:var(--cream); }
+  .checkrow:has(input:checked){ background:var(--sand); border-color:var(--ink); }
+  .checkrow input[type="checkbox"]{ width:26px; height:26px; min-width:26px; margin:1px 0 0; accent-color:var(--ink); }
+  .checkrow label{ font-size:15.5px; color:var(--body); line-height:1.45; flex:1; }
+  .checkrow label::before{ content:""; position:absolute; inset:0; border-radius:12px; }
+  .checkrow label a{ position:relative; z-index:1; font-weight:600; padding:12px 3px; margin:0 -3px; } /* inline link: the tap area grows to 44px, the line height does not */
+  .checkrow:focus-within{ outline:3px solid var(--ink); outline-offset:2px; }
+  .checkrow input:focus-visible{ outline:none; }
 
-  .errtext{ display:block; font-size:13px; color:var(--danger); margin-top:6px; }
-
-  .notify-note{ background:var(--soft); border:1px solid #fde3c8; border-radius:12px; padding:14px 16px; font-size:14px; color:#7c3a0e; margin-top:4px; }
+  .errtext{ display:block; font-size:14.5px; font-weight:600; color:#b91c1c; margin-top:8px; line-height:1.4; }
+  .notify-note{ background:var(--sand); border-left:6px solid var(--orange); border-radius:6px 14px 14px 6px; padding:14px 16px; font-size:15px; color:#7c3a0e; margin:4px 0 18px; line-height:1.5; }
 
   .actions{ display:flex; gap:12px; margin-top:26px; }
-  button{ font:inherit; cursor:pointer; }
-  .btn{ min-height:48px; padding:12px 22px; border-radius:12px; font-size:16px; font-weight:700; border:1px solid transparent; }
-  .btn-primary{ background:var(--primary-ink); color:#fff; flex:1; }
-  .btn-primary:hover{ background:#a8480a; }
-  .btn-primary:disabled{ background:#d8bfa8; cursor:not-allowed; }
-  .btn-secondary{ background:#fff; color:var(--ink); border-color:var(--border); }
-  .btn:focus-visible{ outline:2px solid var(--primary); outline-offset:2px; }
+  .actions .btn-primary{ flex:1; }
+  .btn:focus-visible{ outline:3px solid var(--ink); outline-offset:3px; }
 
-  .status-banner{ display:none; border-radius:12px; padding:14px 16px; font-size:14.5px; margin-bottom:18px; }
+  .status-banner{ display:none; border-radius:14px; padding:14px 16px; font-size:15.5px; font-weight:600; line-height:1.45; margin-bottom:20px; }
   .status-banner.show{ display:block; }
-  .status-banner.err{ background:var(--danger-bg); border:1px solid var(--danger-border); color:var(--danger); }
-  .status-banner.info{ background:var(--soft); border:1px solid #fde3c8; color:#7c3a0e; }
+  .status-banner.err{ background:#fef2f2; border:2px solid #b91c1c; color:#991b1b; }
+  .status-banner.info{ background:var(--sand); border:2px solid var(--oink); color:#7c3a0e; }
 
-  .hp-field{ position:absolute; left:-9999px; top:-9999px; width:1px; height:1px; overflow:hidden; }
-
-  .success{ display:none; text-align:center; padding:12px 6px; }
+  .success{ display:none; text-align:left; padding:6px 2px 2px; }
   .success.show{ display:block; }
-  .success .num{ font-size:15px; font-weight:700; color:var(--primary-ink); letter-spacing:.02em; margin:0 0 10px; }
-  .success h2{ font-size:28px; margin:0 0 14px; letter-spacing:-.01em; }
-  .success p{ font-size:16px; color:#334155; margin:0 0 14px; }
-  .success .share{ margin-top:22px; padding-top:22px; border-top:1px solid var(--border); }
-  .success .share p{ font-size:14px; color:var(--muted); margin:0 0 10px; }
-  .copybar{ display:flex; gap:8px; }
-  .copybar input{ flex:1; font-size:13.5px; padding:10px 12px; border:1px solid var(--border); border-radius:10px; background:var(--bg); color:var(--muted); }
+  .success .num{ font-family:var(--mono); font-size:12.5px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--oink); margin:0 0 12px; }
+  .success h2{ font-size:38px; letter-spacing:-.05em; line-height:1; margin:0 0 16px; }
+  .success p{ font-size:17px; line-height:1.55; color:var(--body); margin:0 0 14px; }
+  .success .share{ margin-top:24px; padding-top:22px; border-top:2px solid var(--line); }
+  .success .share p{ font-size:15.5px; font-weight:600; color:var(--ink); margin:0 0 12px; }
+  .copybar{ display:flex; gap:10px; flex-wrap:wrap; }
+  .copybar input{ flex:1 1 200px; min-width:0; font-family:var(--mono); font-size:14px; padding:12px 14px; min-height:52px; background:var(--cream); color:var(--ink); border-color:var(--edge); border-width:2px; border-radius:14px; }
 
   .step{ display:none; }
   .step.show{ display:block; }
 
-  footer.site{ border-top:1px solid var(--border); margin-top:24px; padding:26px 0; background:#fff; }
-  footer.site .container{ display:flex; flex-wrap:wrap; gap:8px 18px; align-items:center; justify-content:space-between; max-width:960px; }
-  footer.site .who{ font-size:13.5px; color:var(--muted); }
-  footer.site a{ font-size:13.5px; color:var(--muted); text-decoration:none; }
+  /* below the form */
+  .about-band{ padding:44px 0 56px; }
+  .about{ display:grid; gap:16px; }
+  .about .card{ padding:24px 22px 26px; }
+  .about .k{ margin-bottom:12px; }
+  .about p{ font-size:16.5px; line-height:1.55; color:var(--soft-ink); font-weight:450; }
+  .founder{ margin-top:18px; padding:24px 24px 22px; }
+  .founder .quote{ font-size:18.5px; line-height:1.5; font-weight:520; letter-spacing:-.012em; color:var(--ink); margin:0 0 14px; }
+  .founder .who{ margin:0; text-transform:none; letter-spacing:.04em; font-size:13.5px; }
 
+  @media (min-width:600px){
+    .panel{ padding:34px 34px 30px; }
+    .who-can{ padding:26px 26px 24px; }
+  }
+  @media (min-width:900px){
+    .beta-field{ padding-bottom:64px; }
+    .field-grid{ grid-template-columns:minmax(0,1fr) minmax(0,540px); column-gap:56px; row-gap:18px; grid-template-areas:"hero panel" "who panel" "trust panel"; grid-template-rows:auto auto 1fr; align-items:start; padding-top:56px; }
+    .hero{ grid-area:hero; }
+    .who-can{ grid-area:who; }
+    .panel{ grid-area:panel; }
+    .trust{ grid-area:trust; }
+    .about{ grid-template-columns:repeat(3,1fr); gap:20px; }
+    .founder{ margin-top:20px; padding:30px 34px 28px; }
+    .founder .quote{ font-size:21px; max-width:60ch; }
+  }
   @media (max-width:480px){
-    .hero h1{ font-size:28px; }
-    .panel{ padding:20px; border-radius:16px; }
     .actions{ flex-direction:column-reverse; }
-    .btn{ width:100%; }
+    .actions .btn{ width:100%; }
   }
 </style>
 </head>
 <body>
-  <header class="site">
-    <div class="container">
-      <a class="home" href="/" aria-label="Eating Glasses home"><img src="/logo-light.png" alt="Eating Glasses" /></a>
+  <header class="eg-head">
+    <div class="wrap">
+      <a class="home" href="/" aria-label="Eating Glasses home"><img src="/logo-light.png" alt="Eating Glasses" width="1248" height="832" /></a>
     </div>
   </header>
 
   <main>
-    <div class="container">
+    <div class="beta-field band-or on-or">
+      <div class="wrap field-grid">
 
-      <section class="hero">
-        <h1>Join the beta</h1>
-        <p class="lead">Help test a new diabetes app that works with your current blood sugar readings, identifies hidden patterns, makes personalized suggestions, and guides you on the results.</p>
-        <p><a class="btn btn-primary jump" href="#join">Join the beta</a></p>
-      </section>
+        <section class="hero">
+          <h1 class="display">Join the beta</h1>
+          <p class="lead">Help test a new diabetes app that works with your current blood sugar readings, identifies hidden patterns, makes personalized suggestions, and guides you on the results.</p>
+          <p><a class="btn btn-primary jump" href="#join">Join the beta</a></p>
+        </section>
 
-      <section class="about" aria-label="About Eating Glasses and the beta">
-        <div class="card who-can">
-          <h2>Who can join</h2>
-          <p>You're in the US, you have an iPhone, and you use a Dexcom G6 or G7 (it connects through Apple Health), an Eversense (it connects through Apple Health), a FreeStyle Libre 2 or 3 (you export your readings from LibreView and import the file in the app), or a Medtronic CGM (you bring your data in from CareLink). You're 18 or older, or 13 to 17 with a parent or guardian's OK. <a href="/setup/">See how setup works</a>.</p>
-          <p>Signing up your teen? Fill in the form yourself as their parent or guardian and choose Caregiver. We'll email you the beta agreement to accept for them before they get the app.</p>
-        </div>
-        <div class="card">
-          <h2>What it does</h2>
-          <p>Eating Glasses reads the glucose data from your CGM, finds the patterns in it (the highs, lows and steady stretches that keep coming back) and explains them in plain language. No manual logging.</p>
-        </div>
-        <div class="card">
-          <h2>How it helps</h2>
-          <p>It suggests small, safe, everyday experiments chosen for your data, then checks whether your numbers actually moved. Detect, try, track, results: over time you learn what works for your body, not someone else's average. Your glucose stays on your phone, and the app never tells you anything about insulin or doses.</p>
-        </div>
-        <div class="card">
-          <h2>Why your feedback matters</h2>
-          <p>This app is built for people with diabetes, by people with diabetes. The more you let us know about how the app is and isn't working for you, the better we can make it for all of us. While we all have unique journeys, we share many of the same problems and solutions. Thanks for being part of the solution.</p>
-        </div>
-      </section>
-
-      <div class="note founder">
-        <p>"Thank you for taking the time to use and test Eating Glasses. We take your feedback seriously, and will use it to help improve the app for you and people like you. As someone who has lived with type 1 for 23 years, I want to make this journey as easy as possible for everyone. Thanks for being part of it."</p>
-        <p class="who">Justin Silver, founder</p>
-      </div>
+        <section class="card who-can" aria-labelledby="who-h">
+          <h2 class="k" id="who-h">Who can join</h2>
+          <div class="tick-row"><svg class="chk" viewBox="0 0 30 30" width="30" height="30" aria-hidden="true" focusable="false"><circle cx="15" cy="15" r="15" fill="#c2410c"/><path d="M8.5 15.5l4.2 4.2 8.8-9.4" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg><p>You're in the US, you have an iPhone, and you use a Dexcom G6 or G7 (it connects through Apple Health), an Eversense (it connects through Apple Health), a FreeStyle Libre 2 or 3 (you export your readings from LibreView and import the file in the app), or a Medtronic CGM (you bring your data in from CareLink). You're 18 or older, or 13 to 17 with a parent or guardian's OK. <a href="/setup/">See how setup works</a>.</p></div>
+          <div class="note-row"><svg class="chk sm" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10" fill="none" stroke="#c2410c" stroke-width="2"/><path d="M12 11v5.5M12 7.6v.2" fill="none" stroke="#c2410c" stroke-width="2.2" stroke-linecap="round"/></svg><p>Signing up your teen? Fill in the form yourself as their parent or guardian and choose Caregiver. We'll email you the beta agreement to accept for them before they get the app.</p></div>
+        </section>
 
       <div class="panel" id="join">
 
@@ -368,13 +363,40 @@
 
       </div>
 
+        <p class="trust"><svg class="chk sm" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false"><rect x="4.5" y="10.5" width="15" height="10" rx="2.5" fill="#14110f"/><path d="M8 10.5V8a4 4 0 018 0v2.5" fill="none" stroke="#14110f" stroke-width="2.2" stroke-linecap="round"/></svg><span>Your glucose stays on your phone, and the app never tells you anything about insulin or doses.</span></p>
+
+      </div>
+    </div>
+
+    <div class="band band-cr about-band">
+      <div class="wrap">
+        <section class="about" aria-label="About Eating Glasses and the beta">
+          <article class="card card-ink">
+            <h2 class="k">What it does</h2>
+            <p>Eating Glasses reads the glucose data from your CGM, finds the patterns in it (the highs, lows and steady stretches that keep coming back) and explains them in plain language. No manual logging.</p>
+          </article>
+          <article class="card card-ink">
+            <h2 class="k">How it helps</h2>
+            <p>It suggests small, safe, everyday experiments chosen for your data, then checks whether your numbers actually moved. Detect, try, track, results: over time you learn what works for your body, not someone else's average. Your glucose stays on your phone, and the app never tells you anything about insulin or doses.</p>
+          </article>
+          <article class="card card-ink">
+            <h2 class="k">Why your feedback matters</h2>
+            <p>This app is built for people with diabetes, by people with diabetes. The more you let us know about how the app is and isn't working for you, the better we can make it for all of us. While we all have unique journeys, we share many of the same problems and solutions. Thanks for being part of the solution.</p>
+          </article>
+        </section>
+
+        <div class="say founder">
+          <p class="quote">"Thank you for taking the time to use and test Eating Glasses. We take your feedback seriously, and will use it to help improve the app for you and people like you. As someone who has lived with type 1 for 23 years, I want to make this journey as easy as possible for everyone. Thanks for being part of it."</p>
+          <p class="who k">Justin Silver, founder</p>
+        </div>
+      </div>
     </div>
   </main>
 
-  <footer class="site">
-    <div class="container">
+  <footer class="eg-foot">
+    <div class="wrap">
       <span class="who">Eating Glasses LLC · © 2026</span>
-      <nav style="display:flex;gap:16px;flex-wrap:wrap;align-items:center;">
+      <nav>
         <a href="/">Home</a><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a>
       </nav>
     </div>

@@ -1,0 +1,101 @@
+/* Eating Glasses site: the "Patterns, named" system (same as the summit print set).
+   Orange field, cream band for the logo, white and ink cards, Geist + Geist Mono.
+   The logo only ever sits on cream or white: its lenses are transparent, so on orange the fruit vanishes. */
+:root{
+  --orange:#f97316; --cream:#fbf3e8; --ink:#14110f; --inkc:#17130f; --oink:#c2410c;
+  --muted:#6b5f55; --body:#2a221c; --line:#eadfd2; --edge:#8c7d70; --sand:#fff1e6; --glow:#fb923c; --soft-ink:#efe6db;
+  --sans:"Geist",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --mono:"Geist Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --shadow:0 18px 40px -26px rgba(80,30,0,.55),0 1px 0 rgba(0,0,0,.04);
+  color-scheme:light;
+}
+*{ box-sizing:border-box; }
+html{ -webkit-text-size-adjust:100%; text-size-adjust:100%; }
+html,body{ margin:0; padding:0; }
+body{
+  font-family:var(--sans); background:#fff; color:var(--body); line-height:1.6; font-weight:450;
+  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+}
+[hidden]{ display:none !important; }
+img{ max-width:100%; }
+a{ color:var(--oink); text-decoration-thickness:.08em; text-underline-offset:.18em; }
+a:hover{ color:var(--ink); }
+:focus-visible{ outline:3px solid var(--ink); outline-offset:3px; border-radius:6px; }
+.on-ink :focus-visible, .eg-foot :focus-visible{ outline-color:var(--glow); }
+p{ margin:0 0 14px; }
+p:last-child{ margin-bottom:0; }
+h1,h2,h3,h4{ font-family:var(--sans); color:var(--ink); margin:0; font-weight:700; letter-spacing:-.035em; line-height:1.1; }
+strong,b{ font-weight:650; color:var(--ink); }
+
+.wrap{ width:100%; max-width:1040px; margin:0 auto; padding:0 20px; }
+.wrap.narrow{ max-width:760px; }
+.wrap.mid{ max-width:880px; }
+
+/* ---------- header: cream band carries the logo ---------- */
+.eg-head{ background:var(--cream); }
+.eg-head{ --lw:188px; }
+.eg-head .wrap{ display:flex; align-items:center; justify-content:center; gap:16px; padding-top:14px; padding-bottom:14px; }
+.eg-head .home{ display:block; line-height:0; flex:none; }
+/* the logo file carries ~7% side and ~20% top/bottom transparent margin; it is placed whole and the margin is trimmed with negative margins */
+.eg-head img{ display:block; width:var(--lw); max-width:none; height:auto; margin:calc(var(--lw) * -.128) calc(var(--lw) * -.064); }
+@media (min-width:900px){ .eg-head{ --lw:220px; } }
+.eg-head .contact{ display:none; font-family:var(--mono); font-weight:600; font-size:13px; letter-spacing:.02em; color:var(--ink); text-decoration:none; padding:14px 0; }
+.eg-head .contact:hover{ color:var(--oink); text-decoration:underline; }
+@media (min-width:700px){ .eg-head .wrap{ justify-content:space-between; } .eg-head .contact{ display:block; } }
+
+/* ---------- footer ---------- */
+.eg-foot{ background:var(--ink); color:#cfc3b7; border-top:6px solid var(--orange); padding:28px 0 36px; }
+.eg-foot .wrap{ display:flex; flex-wrap:wrap; gap:6px 28px; align-items:center; justify-content:space-between; }
+.eg-foot .who{ font-family:var(--mono); font-weight:500; font-size:12.5px; line-height:1.55; letter-spacing:.01em; }
+.eg-foot nav{ display:flex; flex-wrap:wrap; gap:0 4px; margin:0 -10px; }
+.eg-foot a{ display:inline-flex; align-items:center; min-height:44px; padding:0 10px; color:var(--cream); font-weight:600; font-size:14.5px; text-decoration:none; }
+.eg-foot a:hover{ color:var(--glow); text-decoration:underline; }
+
+/* ---------- bands ---------- */
+.band{ padding:44px 0; }
+.band-or{ background:var(--orange); color:var(--ink); }
+.band-cr{ background:var(--cream); }
+.band-wh{ background:#fff; }
+.band-ink{ background:var(--ink); color:var(--soft-ink); }
+
+/* ---------- type ---------- */
+.k{ font-family:var(--mono); font-weight:600; letter-spacing:.14em; text-transform:uppercase; font-size:12px; line-height:1.35; color:var(--oink); margin:0 0 12px; }
+.on-or .k{ color:var(--ink); }
+.on-ink .k, .band-ink .k, .card-ink .k{ color:var(--glow); }
+.display{ font-weight:700; letter-spacing:-.05em; line-height:.96; }
+.mono{ font-family:var(--mono); }
+
+/* ---------- cards ---------- */
+.card{ background:#fff; border-radius:20px; box-shadow:var(--shadow); padding:22px; color:var(--body); }
+.card-ink{ background:var(--inkc); color:var(--soft-ink); box-shadow:0 18px 40px -28px rgba(20,10,0,.7); }
+.card-ink h2,.card-ink h3{ color:#fff; }
+.card-ink strong,.card-ink b{ color:#fff; }
+.card-ink a{ color:#fdba74; }
+.card-ink a:hover{ color:#fff; }
+.card-cream{ background:var(--cream); box-shadow:0 0 0 1px var(--line); }
+.say{ background:#fff; border-left:6px solid var(--orange); border-radius:8px 20px 20px 8px; box-shadow:var(--shadow); padding:20px 22px; color:var(--ink); }
+
+/* ---------- buttons ---------- */
+button{ font:inherit; cursor:pointer; }
+.btn{ display:inline-flex; align-items:center; justify-content:center; min-height:52px; padding:12px 28px; border-radius:14px; font-family:var(--sans); font-size:17px; font-weight:700; letter-spacing:-.01em; line-height:1.2; border:2px solid transparent; text-decoration:none; text-align:center; }
+.btn-primary{ background:var(--ink); color:var(--cream); }
+.btn-primary:hover{ background:var(--oink); color:#fff; }
+.btn-primary:disabled{ background:var(--muted); color:var(--cream); cursor:not-allowed; }
+.btn-secondary{ background:#fff; color:var(--ink); border-color:var(--ink); }
+.btn-secondary:hover{ background:var(--sand); color:var(--ink); }
+@media (prefers-reduced-motion:no-preference){ .btn{ transition:background-color .15s ease, color .15s ease; } }
+
+/* ---------- ticks, steps ---------- */
+.chk{ flex:none; width:30px; height:30px; display:block; }
+.ticks{ list-style:none; margin:0; padding:0; display:grid; gap:10px; }
+.ticks li{ position:relative; padding-left:34px; }
+.ticks li::before{ content:""; position:absolute; left:0; top:.2em; width:22px; height:22px; border-radius:50%; background:var(--oink) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath d='M8.5 15.5l4.2 4.2 8.8-9.4' fill='none' stroke='%23fff' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/100% no-repeat; }
+.ticks.x li::before{ background:var(--ink) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath d='M10 10l10 10M20 10L10 20' fill='none' stroke='%23fff' stroke-width='3.4' stroke-linecap='round'/%3E%3C/svg%3E") center/100% no-repeat; }
+
+/* ---------- print: the legal pages and the clinician page get printed ---------- */
+@media print{
+  .eg-head,.eg-foot{ background:#fff !important; border:0 !important; }
+  .band-or,.band-cr,.band-ink{ background:#fff !important; }
+  .card,.card-ink,.say{ box-shadow:none !important; border:1px solid #999 !important; background:#fff !important; color:#000 !important; }
+  .card-ink h2,.card-ink h3,.card-ink strong{ color:#000 !important; }
+}
