@@ -12,89 +12,141 @@
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="For Clinicians | Eating Glasses" />
 <meta name="twitter:description" content="What Eating Glasses is, where the line is, and how to verify the methodology." />
-<meta name="twitter:image" content="https://eatingglasses.com/og-image.png" /><meta name="theme-color" content="#f97316" /><style>
-  :root{
-    --primary:#f97316; --primary-ink:#b4530b;
-    --bg:#fbfcfd; --ink:#15202e; --body:#3a4757; --muted:#6b7888; --line:#e6ebf1; --soft:#fff7ed;
-    --inrange:#e9f6ee; --inrange-edge:#bfe3cd; --good:#16734a; --low:#b4341f; --high:#b9770a;
-    --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,"Times New Roman",serif;
-  }
-  *{ box-sizing:border-box; }
-  html,body{ margin:0; padding:0; }
-  body{ font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-    background:var(--bg); color:var(--body); line-height:1.65; -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; font-size:17px; }
-  a{ color:var(--primary-ink); }
-  .wrap{ width:100%; max-width:760px; margin:0 auto; padding:0 24px; }
-  .wide{ max-width:880px; }
-  header.site{ border-bottom:1px solid var(--line); background:#fff; }
-  header.site .bar{ max-width:880px; margin:0 auto; padding:14px 24px; display:flex; align-items:center; justify-content:space-between; }
-  header.site img{ height:46px; width:auto; display:block; }
-  header.site .for{ font-family:var(--serif); font-style:italic; font-size:16px; color:var(--muted); }
-  h1,h2,h3{ font-family:var(--serif); color:var(--ink); font-weight:600; letter-spacing:-.01em; }
-  h1{ font-size:40px; line-height:1.14; margin:0 0 18px; }
-  h2{ font-size:25px; line-height:1.2; margin:0 0 14px; }
-  h3{ font-size:18px; margin:0 0 6px; }
-  .eyebrow{ font-size:12px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--primary-ink); margin:0 0 14px; }
-  .eyebrow::after{ content:""; display:block; width:34px; height:2px; background:var(--primary); margin-top:8px; opacity:.8; }
-  .lead{ font-size:20px; line-height:1.5; color:var(--ink); margin:0 0 14px; }
-  .sub{ font-size:16px; color:var(--muted); margin:0; }
-  section{ padding:30px 0; border-top:1px solid var(--line); }
-  section:first-of-type{ border-top:none; }
-  p{ margin:0 0 14px; } p:last-child{ margin-bottom:0; }
-  .hero{ padding:56px 0 18px; border-top:none; }
-  .note{ font-size:14.5px; line-height:1.55; color:#7a5a36; background:#fffaf3; border:1px solid #f3dcbf; border-left:3px solid var(--primary); border-radius:8px; padding:14px 18px; margin:22px 0; }
-  .twocol{ display:grid; grid-template-columns:1fr 1fr; gap:0; border:1px solid var(--line); border-radius:12px; overflow:hidden; background:#fff; margin:8px 0; }
-  .twocol > div{ padding:22px 24px; }
-  .twocol > div:first-child{ border-right:1px solid var(--line); }
-  .twocol h3{ font-family:inherit; font-size:12px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; margin:0 0 12px; }
-  .twocol .never h3{ color:var(--low); } .twocol .does h3{ color:var(--good); }
-  .twocol ul{ margin:0; padding-left:18px; } .twocol li{ font-size:15.5px; margin:7px 0; color:var(--body); }
-  .figure{ background:#fff; border:1px solid var(--line); border-radius:14px; padding:20px 20px 14px; margin:6px 0 10px; }
-  .figure .cap{ font-size:13px; color:var(--muted); margin:8px 2px 0; display:flex; justify-content:space-between; flex-wrap:wrap; gap:6px; }
+<meta name="twitter:image" content="https://eatingglasses.com/og-image.png" /><meta name="theme-color" content="#f97316" /><link rel="preload" href="/fonts/Geist-latin-variable.woff2" as="font" type="font/woff2" crossorigin />
+<link rel="stylesheet" href="/site.css?v=2" />
+<style>
+/* clinicians: the same system as the handouts. Orange hero with the figure on a white card, kicker + heading rails, ink cards. */
+  .eg-head .for{ display:none; font-family:var(--mono); font-weight:600; font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--oink); }
+  @media (min-width:700px){ .eg-head .for{ display:block; } }
+
+  .eyebrow{ font-family:var(--mono); font-weight:600; letter-spacing:.14em; text-transform:uppercase; font-size:12px; line-height:1.4; color:var(--oink); margin:0 0 14px; }
+  .eyebrow::after{ content:""; display:block; width:34px; height:3px; background:var(--orange); margin-top:10px; }
+  .on-or .eyebrow{ color:var(--ink); }
+  .on-or .eyebrow::after{ background:var(--ink); }
+  .card-ink .eyebrow{ color:var(--glow); }
+  .card-ink .eyebrow::after{ background:var(--glow); }
+
+  .hero{ padding:0 0 28px; }
+  .hero h1{ font-size:clamp(34px,8.8vw,64px); line-height:1; max-width:22ch; margin:0 0 22px; }
+  .hero .lead{ font-size:clamp(18px,2.2vw,22px); line-height:1.45; font-weight:540; letter-spacing:-.012em; color:var(--ink); max-width:60ch; margin:0 0 16px; }
+  .hero .sub{ font-size:16px; line-height:1.55; font-weight:480; color:var(--ink); max-width:62ch; margin:0; }
+  .hero + .fig{ padding-bottom:50px; }
+  .fig{ padding-top:10px; }
+
+  .figure{ background:#fff; border-radius:22px; box-shadow:var(--shadow); padding:20px 18px 16px; }
+  .figure .cap{ font-size:13.5px; color:var(--muted); margin:10px 2px 0; display:flex; justify-content:space-between; flex-wrap:wrap; gap:6px; }
   .figure svg{ width:100%; height:auto; display:block; }
-  .legend{ display:flex; gap:18px; flex-wrap:wrap; font-size:12.5px; color:var(--muted); margin:6px 2px 0; }
+  .figure svg text{ font-family:var(--sans); }
+  .legend{ display:flex; gap:8px 18px; flex-wrap:wrap; font-size:13.5px; color:var(--muted); margin:8px 2px 0; }
   .legend i{ display:inline-block; width:14px; height:10px; border-radius:2px; margin-right:6px; vertical-align:middle; }
-  table.metrics{ width:100%; border-collapse:collapse; margin:6px 0; font-size:15px; background:#fff; }
-  table.metrics th,table.metrics td{ text-align:left; padding:9px 12px; border-bottom:1px solid var(--line); }
-  table.metrics thead th{ font-size:11.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); font-weight:700; }
-  table.metrics td.v{ font-variant-numeric:tabular-nums; font-weight:600; color:var(--ink); }
+  .tagline{ font-family:var(--mono); font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:.1em; color:var(--oink); }
+
+  /* a section = a rail (kicker + heading) and a body; side by side on a wide screen */
+  .sec{ display:grid; gap:18px; padding:0; }
+  .sec + .sec{ margin-top:48px; padding-top:44px; border-top:1px solid var(--line); }
+  .band-cr .sec + .sec{ border-top-color:#e2d4c3; }
+  .sec-head h2{ font-size:clamp(28px,6.2vw,40px); letter-spacing:-.05em; line-height:1.02; }
+  .sec-body p{ font-size:17px; line-height:1.66; color:var(--body); margin:0 0 16px; }
+  .sec-body p:last-child{ margin-bottom:0; }
+  .sec-body .sub{ font-size:15.5px; color:var(--muted); }
+  .sec-body strong{ color:var(--ink); }
+  .sec-body a{ font-weight:600; }
+  .tight{ margin-top:6px; }
+  .band-or .sec-head h2{ color:var(--ink); }
+  .card-ink .sec-head h2{ color:#fff; }
+  .card-ink .sec-body p{ color:var(--soft-ink); }
+  .card-ink .sec-body .sub{ color:#cfc3b7; }
+  .card-ink .sec-body strong{ color:#fff; }
+  .card-ink .sec-body a{ color:#fdba74; }
+  .card-ink .sec-body a:hover{ color:#fff; }
+  .privacy-card{ padding:30px 24px 32px; }
+
+  .mono{ font-family:var(--mono); font-size:14px; font-weight:500; background:var(--sand); padding:2px 7px; border-radius:6px; color:var(--ink); white-space:nowrap; }
+  em{ font-style:italic; }
+
+  .twocol{ display:grid; gap:14px; margin:20px 0 0; }
+  .twocol > div{ border-radius:20px; padding:22px 22px 20px; }
+  .twocol .does{ background:var(--cream); box-shadow:0 0 0 1px var(--line); }
+  .twocol .never{ background:#fff; box-shadow:inset 0 0 0 2px var(--ink); }
+  .twocol h3{ font-family:var(--mono); font-size:13px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; margin:0 0 14px; }
+  .twocol .does h3{ color:var(--oink); }
+  .twocol .never h3{ color:var(--ink); }
+  .twocol ul{ margin:0; }
+  .twocol li{ font-size:16px; line-height:1.5; color:var(--ink); font-weight:480; }
+
+  .report{ background:#fff; border-radius:22px; box-shadow:var(--shadow); padding:22px 18px 22px; font-size:15px; color:var(--body); }
+  .report .rh{ display:flex; justify-content:space-between; flex-wrap:wrap; gap:6px 16px; align-items:baseline; border-bottom:3px solid var(--orange); padding-bottom:12px; margin-bottom:16px; }
+  .report .rh b{ font-size:21px; letter-spacing:-.035em; color:var(--ink); }
+  .report .rh span{ font-size:13px; color:var(--muted); }
+  table.metrics{ width:100%; border-collapse:collapse; margin:6px 0; font-size:15px; }
+  table.metrics th, table.metrics td{ text-align:left; padding:10px 8px; border-bottom:1px solid var(--line); vertical-align:top; }
+  table.metrics thead th{ font-family:var(--mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--oink); font-weight:600; }
+  table.metrics td.v{ font-variant-numeric:tabular-nums; font-weight:650; color:var(--ink); }
   table.metrics td.t{ color:var(--muted); font-variant-numeric:tabular-nums; }
-  table.metrics tr.sub td:first-child{ padding-left:26px; color:var(--muted); }
-  .mono{ font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:15px; background:#f3f6f9; padding:2px 7px; border-radius:6px; color:var(--ink); }
-  .report{ background:#fff; border:1px solid var(--line); border-radius:12px; padding:24px; font-size:15px; box-shadow:0 1px 2px rgba(20,32,46,.04); }
-  .report .rh{ display:flex; justify-content:space-between; flex-wrap:wrap; gap:6px; align-items:baseline; border-bottom:2px solid var(--ink); padding-bottom:10px; margin-bottom:14px; }
-  .report .rh b{ font-family:var(--serif); font-size:18px; color:var(--ink); }
-  .report .rh span{ font-size:12.5px; color:var(--muted); }
-  .report .obs{ margin:8px 0; padding-left:18px; } .report .obs li{ margin:6px 0; }
-  .report .q{ background:var(--soft); border-radius:8px; padding:12px 14px; margin:12px 0 4px; font-size:14.5px; }
-  .report .foot{ font-size:12px; color:var(--muted); border-top:1px solid var(--line); margin-top:14px; padding-top:10px; }
-  .tagline{ font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); }
-  .closing{ font-size:15px; color:var(--muted); background:#fff; border:1px solid var(--line); border-radius:12px; padding:20px 22px; }
-  footer.site{ border-top:1px solid var(--line); margin-top:10px; padding:24px 0; background:#fff; }
-  footer.site .bar{ max-width:880px; margin:0 auto; padding:0 24px; display:flex; flex-wrap:wrap; gap:8px 18px; align-items:center; justify-content:space-between; }
-  footer.site .who{ font-size:13px; color:var(--muted); }
-  footer.site a{ font-size:13px; color:var(--muted); text-decoration:none; }
+  table.metrics tr.sub td:first-child{ padding-left:22px; color:var(--muted); }
+  .report .fine{ font-size:12.5px; line-height:1.5; color:var(--muted); margin:8px 2px 0; }
+  .report .obs-h{ margin:20px 0 6px; font-weight:650; color:var(--ink); font-size:16px; }
+  .report .obs{ margin:8px 0; padding-left:20px; } .report .obs li{ margin:7px 0; line-height:1.5; }
+  .report .q{ background:var(--sand); border-left:5px solid var(--orange); border-radius:6px 14px 14px 6px; padding:14px 16px; margin:16px 0 6px; font-size:15px; line-height:1.5; color:var(--ink); }
+  .report .foot{ font-size:12.5px; line-height:1.55; color:var(--muted); border-top:1px solid var(--line); margin-top:16px; padding-top:12px; }
+
+  .say-quote{ background:#fff; border-left:6px solid var(--orange); border-radius:8px 20px 20px 8px; box-shadow:var(--shadow); padding:20px 22px !important; font-style:italic; font-size:18px !important; line-height:1.55 !important; color:var(--ink) !important; margin:6px 0 22px !important; }
+  .closing{ font-size:15.5px; line-height:1.6; color:var(--soft-ink); padding:24px 24px; }
+
   @media (max-width:680px){
-    body{ font-size:16px; } h1{ font-size:31px; } h2{ font-size:22px; }
-    .twocol{ grid-template-columns:1fr; } .twocol > div:first-child{ border-right:none; border-bottom:1px solid var(--line); }
-    header.site .for{ display:none; }
+    .figure svg text{ font-size:18px; }
+    .figure svg text[font-weight="700"]{ font-size:14px; }
+    table.metrics{ font-size:14px; }
   }
-</style><link rel="icon" type="image/png" href="/favicon.png?v=4" /><link rel="apple-touch-icon" href="/favicon.png?v=4" /></head><body>
-<header class="site"><div class="bar"><a href="/"><img src="logo-light.png" alt="Eating Glasses" /></a><span class="for">For clinicians</span></div></header>
+  @media (min-width:700px){
+    .hero{ padding:0 0 36px; }
+    .hero + .fig{ padding-bottom:72px; }
+    .figure{ padding:28px 30px 22px; }
+    .band{ padding:68px 0; }
+    .report{ padding:34px 40px 32px; }
+    .privacy-card{ padding:44px 48px 46px; }
+    .twocol{ grid-template-columns:1fr 1fr; gap:16px; }
+  }
+  @media (min-width:960px){
+    .sec{ grid-template-columns:300px minmax(0,1fr); gap:60px; }
+    .sec.stack{ display:block; }
+    .sec-head{ position:sticky; top:24px; align-self:start; }
+    .sec.stack .sec-head{ position:static; margin-bottom:26px; }
+    .privacy-card .sec-head{ position:static; }
+  }
+  @media print{
+    body{ font-size:12pt; color:#000; }
+    .band{ padding:18px 0 !important; }
+    .sec{ display:block !important; }
+    .sec-head{ position:static !important; margin-bottom:8px; }
+    .sec + .sec{ margin-top:18px; padding-top:14px; }
+    .figure,.report,.say-quote{ box-shadow:none !important; border:1px solid #999; break-inside:avoid; }
+    .card-ink .sec-head h2,.card-ink .sec-body p,.card-ink .sec-body strong,.card-ink .sec-body .sub,.closing,.card-ink .sec-body a,.card-ink .eyebrow{ color:#000 !important; }
+    .twocol .never{ box-shadow:none; border:2px solid #000; }
+    a{ color:#000; }
+  }
+  .tail{ padding:0 0 48px; }
+</style><link rel="icon" type="image/png" href="/favicon.png?v=4" /><link rel="apple-touch-icon" href="/favicon.png?v=4" /></head>
+<body>
+<header class="eg-head">
+  <div class="wrap">
+    <a class="home" href="/"><img src="logo-light.png" alt="Eating Glasses" width="1248" height="832" /></a><span class="for">For clinicians</span>
+  </div>
+</header>
 <main>
 
-<div class="wrap">
-<section class="hero">
+<div class="band band-or on-or">
+  <div class="wrap">
+    <section class="hero">
 <p class="eyebrow">For the clinician a patient hands a report to</p>
-<h1>A summary of your patient's own CGM data, and nothing you didn't already decide.</h1>
+<h1 class="display">A summary of your patient's own CGM data, and nothing you didn't already decide.</h1>
 <p class="lead">Eating Glasses turns a patient's continuous glucose history into a clear, cited, observations-only summary for their visit with you. It surfaces patterns. It does not recommend a dose, diagnose a condition, or predict glucose. Those stay with you.</p>
 <p class="sub">A general-wellness tool operating in the FDA general-wellness enforcement-discretion lane, not a medical device. If you're reading this after a patient's appointment, this page exists so you can verify it in a few minutes.</p>
-</section>
-</div>
-
-<div class="wrap wide">
+    </section>
+  </div>
+  <div class="wrap mid fig">
 <div class="figure">
-<svg viewBox="0 0 760 286" role="img" aria-label="Illustrative ambulatory glucose profile showing the median glucose with interquartile and 5–95 percentile bands across a 24-hour day, against the 70–180 target range.">
+<svg viewBox="0 0 760 286" role="img" aria-label="Illustrative ambulatory glucose profile showing the median glucose with interquartile and 5 to 95 percentile bands across a 24-hour day, against the 70 to 180 target range.">
 <!-- target range band 70-180 -->
 <rect x="64" y="123.2" width="648" height="96.5" fill="#e9f6ee"/>
 <!-- 5-95 IDR band -->
@@ -121,64 +173,79 @@
 <text x="64" y="262">12a</text><text x="145" y="262">3a</text><text x="226" y="262">6a</text><text x="307" y="262">9a</text><text x="388" y="262">12p</text><text x="469" y="262">3p</text><text x="550" y="262">6p</text><text x="631" y="262">9p</text><text x="712" y="262">12a</text>
 <text x="388" y="280" fill="#8a96a4">Time of day</text>
 </g>
-<text x="708" y="138" text-anchor="end" font-size="10.5" fill="#2f7d54" font-family="-apple-system,Segoe UI,sans-serif" font-weight="700">TARGET 70–180</text>
+<text x="708" y="138" text-anchor="end" font-size="10.5" fill="#2f7d54" font-family="-apple-system,Segoe UI,sans-serif" font-weight="700">TARGET 70-180</text>
 </svg>
 <div class="legend">
 <span><i style="background:#103d5c"></i>Median</span>
-<span><i style="background:#aac6e0"></i>25–75% (IQR)</span>
-<span><i style="background:#d8e6f2"></i>5–95%</span>
+<span><i style="background:#aac6e0"></i>25-75% (IQR)</span>
+<span><i style="background:#d8e6f2"></i>5-95%</span>
 <span><i style="background:#e9f6ee;border:1px solid #bfe3cd"></i>Target range</span>
 </div>
 <div class="cap"><span>Ambulatory glucose profile: the same view you read in a clinic report.</span><span class="tagline">Illustrative · synthetic</span></div>
 </div>
+  </div>
 </div>
 
-<div class="wrap">
-<section>
-<p class="eyebrow">Where the line is</p>
-<h2>What it does, and what it never does</h2>
+<div class="band band-wh">
+  <div class="wrap">
+    <section>
+        <div class="sec">
+          <div class="sec-head"><p class="eyebrow">Where the line is</p><h2>What it does, and what it never does</h2></div>
+          <div class="sec-body">
 <p>The distinction is the whole design, so it leads, not the fine print. Every PDF report carries a footer stating that it is observations only, contains no treatment recommendations, and is not a diagnosis.</p>
 <div class="twocol">
-<div class="never"><h3>Never</h3><ul>
+<div class="never"><h3>Never</h3><ul class="ticks x">
 <li>Calculates or suggests an insulin dose, carbohydrate ratio, correction factor, or basal setting</li>
 <li>Diagnoses any condition</li>
 <li>Predicts a future glucose value, or issues real-time alarms</li>
 <li>Tells a patient to change their therapy</li>
 </ul></div>
-<div class="does"><h3>Does</h3><ul>
+<div class="does"><h3>Does</h3><ul class="ticks">
 <li>Computes the consensus CGM metrics</li>
 <li>Surfaces ranked, time-stamped past patterns</li>
 <li>Writes a plain-language question the patient brings to you</li>
 <li>Re-measures the same metric after a wellness change the patient chose to try</li>
 </ul></div>
 </div>
-</section>
-
-<section>
-<p class="eyebrow">Methodology</p>
-<h2>Deterministic, on-device, auditable</h2>
-<p>Patterns are computed by a fixed, rules-based engine that runs on the patient's phone. The same data always produces the same report. Glucose is never sent to a large-language model or any third party. There is no generative step in the analysis, and so nothing to hallucinate.</p>
-<p>The metrics follow the standard consensus definitions, with the Glucose Management Indicator computed as <span class="mono">GMI = 3.31 + 0.02392 × mean&nbsp;mg/dL</span> and <span class="mono">CV = SD / mean × 100%</span>. The cutpoints and the GMI constant are pinned as unit-tested constants, so the app and the PDF use the same definitions.</p>
-<p style="margin-top:6px;"><strong>What it cannot see:</strong> it has no insulin, pump, or meal data unless the patient supplies it, and it does not infer dosing. When CGM coverage is too sparse to summarize, it says so rather than guessing.</p>
-</section>
-
-<section>
-<p class="eyebrow">Evidence</p>
-<h2>Clinical reference points cite a primary source</h2>
-<p>Each reference point is tied to a primary citation with the population noted (type 1 vs. general). The consensus targets and the GMI definition follow the international CGM consensus (<a href="https://pubmed.ncbi.nlm.nih.gov/31177185/" rel="noopener" target="_blank">Battelino et al., <em>Diabetes Care</em>, 2019</a>) and the Glucose Management Indicator (<a href="https://pubmed.ncbi.nlm.nih.gov/30224348/" rel="noopener" target="_blank">Bergenstal et al., <em>Diabetes Care</em>, 2018</a>), alongside the current <a href="https://diabetesjournals.org/care/issue/49/Supplement_1" rel="noopener" target="_blank">ADA <em>Standards of Care</em></a>.</p>
-<p class="sub">Population and edition are noted on each so you can confirm the source supports the exact claim.</p>
-</section>
+          </div>
+        </div>
+    </section>
+  </div>
 </div>
 
-<div class="wrap wide">
-<section>
-<p class="eyebrow">The artifact</p>
-<h2>The one-pager your patient brings</h2>
+<div class="band band-cr">
+  <div class="wrap">
+    <section>
+        <div class="sec">
+          <div class="sec-head"><p class="eyebrow">Methodology</p><h2>Deterministic, on-device, auditable</h2></div>
+          <div class="sec-body">
+<p>Patterns are computed by a fixed, rules-based engine that runs on the patient's phone. The same data always produces the same report. Glucose is never sent to a large-language model or any third party. There is no generative step in the analysis, and so nothing to hallucinate.</p>
+<p>The metrics follow the standard consensus definitions, with the Glucose Management Indicator computed as <span class="mono">GMI = 3.31 + 0.02392 × mean&nbsp;mg/dL</span> and <span class="mono">CV = SD / mean × 100%</span>. The cutpoints and the GMI constant are pinned as unit-tested constants, so the app and the PDF use the same definitions.</p>
+<p class="tight"><strong>What it cannot see:</strong> it has no insulin, pump, or meal data unless the patient supplies it, and it does not infer dosing. When CGM coverage is too sparse to summarize, it says so rather than guessing.</p>
+          </div>
+        </div>
+        <div class="sec">
+          <div class="sec-head"><p class="eyebrow">Evidence</p><h2>Clinical reference points cite a primary source</h2></div>
+          <div class="sec-body">
+<p>Each reference point is tied to a primary citation with the population noted (type 1 vs. general). The consensus targets and the GMI definition follow the international CGM consensus (<a href="https://pubmed.ncbi.nlm.nih.gov/31177185/" rel="noopener" target="_blank">Battelino et al., <em>Diabetes Care</em>, 2019</a>) and the Glucose Management Indicator (<a href="https://pubmed.ncbi.nlm.nih.gov/30224348/" rel="noopener" target="_blank">Bergenstal et al., <em>Diabetes Care</em>, 2018</a>), alongside the current <a href="https://diabetesjournals.org/care/issue/49/Supplement_1" rel="noopener" target="_blank">ADA <em>Standards of Care</em></a>.</p>
+<p class="sub">Population and edition are noted on each so you can confirm the source supports the exact claim.</p>
+          </div>
+        </div>
+    </section>
+  </div>
+</div>
+
+<div class="band band-or on-or">
+  <div class="wrap mid">
+    <section>
+        <div class="sec stack">
+          <div class="sec-head"><p class="eyebrow">The artifact</p><h2>The one-pager your patient brings</h2></div>
+          <div class="sec-body">
 <div class="report">
 <div class="rh"><b>Glucose Pattern Summary</b><span>Dexcom G7 via Apple Health · 90 days · <span class="tagline">illustrative · synthetic</span></span></div>
 <table class="metrics"><thead><tr><th>Metric</th><th>Value</th><th>Consensus target</th></tr></thead><tbody>
-<tr><td>Time in Range <span style="white-space:nowrap">(70–180)</span></td><td class="v">88%</td><td class="t">&gt;70%</td></tr>
-<tr class="sub"><td>Tight range <span style="white-space:nowrap">(70–140)</span></td><td class="v">71%</td><td class="t">n/a</td></tr>
+<tr><td>Time in Range <span style="white-space:nowrap">(70 to 180)</span></td><td class="v">88%</td><td class="t">&gt;70%</td></tr>
+<tr class="sub"><td>Tight range <span style="white-space:nowrap">(70 to 140)</span></td><td class="v">71%</td><td class="t">n/a</td></tr>
 <tr><td>Time Below Range <span style="white-space:nowrap">(&lt;70)</span></td><td class="v">2.2%</td><td class="t">&lt;4%</td></tr>
 <tr class="sub"><td>&lt;54</td><td class="v">0.3%</td><td class="t">&lt;1%</td></tr>
 <tr><td>Time Above Range <span style="white-space:nowrap">(&gt;180)</span></td><td class="v">9.8%</td><td class="t">&lt;25%</td></tr>
@@ -187,8 +254,8 @@
 <tr><td>GMI</td><td class="v">6.4%</td><td class="t">n/a</td></tr>
 <tr><td>Variability</td><td class="v">32%</td><td class="t">≤36%</td></tr>
 </tbody></table>
-<p style="font-size:11.5px;color:var(--muted);margin:6px 2px 0;">Tight range (70&ndash;140) is shown as a measurement and is not graded: the consensus paper cited above sets no adult target for that range, so its target cell reads n/a, not a missing value.</p>
-<p style="margin:14px 0 4px;font-weight:600;color:var(--ink);">Observations, ranked and time-stamped</p>
+<p class="fine">Tight range (70 to 140) is shown as a measurement and is not graded: the consensus paper cited above sets no adult target for that range, so its target cell reads n/a, not a missing value.</p>
+<p class="obs-h">Observations, ranked and time-stamped</p>
 <ul class="obs">
 <li>Readings below 70 on 24 of 90 nights, onset clustered around 03:00; three sustained below 54.</li>
 <li>Evening runs higher: a median near 173 mg/dL around 8pm versus about 120 mg/dL across the day, with the widest day-to-day spread in that window.</li>
@@ -197,45 +264,81 @@
 <div class="q"><strong>A question to raise:</strong> "My overnight lows cluster around 3am. Is there anything on the overnight side worth looking at?"</div>
 <div class="foot">Deterministic from CGM data · observations only · contains no treatment recommendations. Not a diagnosis. Illustrative example using synthetic data; a real report uses the patient's own data and carries their name only if they choose to add it. Sustained or Level-2 lows are shown as an observation that routes to the care team, never paired with a lifestyle suggestion.</div>
 </div>
-</section>
+          </div>
+        </div>
+    </section>
+  </div>
 </div>
 
-<div class="wrap">
-<section>
-<p class="eyebrow">In practice</p>
-<h2>How your patients use it</h2>
+<div class="band band-wh">
+  <div class="wrap">
+    <section>
+        <div class="sec">
+          <div class="sec-head"><p class="eyebrow">In practice</p><h2>How your patients use it</h2></div>
+          <div class="sec-body">
 <p>It reads CGM glucose from Apple Health (Dexcom G6 and G7, Eversense, Stelo) or from a file export (FreeStyle Libre 2 and 3 from LibreView, Medtronic from CareLink), with no logging, and turns it into the profile above plus one focused question and this one-pager. The intent is narrow: the 15-minute visit can start at the decision, not the data review.</p>
 <p>When a patient tries a general wellness change, the app shows the same metric before and after. It is an association, n-of-1, not adjusted for confounders; it describes what <em>changed</em> or <em>differed</em>, never what "worked," and it never contradicts your plan.</p>
-</section>
+          </div>
+        </div>
+    </section>
+  </div>
+</div>
 
-<section>
-<p class="eyebrow">Data, privacy & security</p>
-<h2>The liability question, answered plainly</h2>
-<p>Glucose is read from Apple Health or from a CareLink or LibreView file export, and analyzed on the patient's device; it is never sent to a large-language model and is not stored on our servers. Data in transit and at rest is encrypted, records are row-level isolated per account, the patient controls all sharing, and account deletion is available in-app. Optional food scanning is separate: a food photo, voice note or typed description goes to our server and to Google Gemini to estimate nutrition, and glucose is not part of that request.</p>
-<p>HIPAA does not apply to a direct-to-consumer app like Eating Glasses, so we do not claim it. We are built to meet the requirements of the FTC Health Breach Notification Rule and the Washington My Health My Data Act. See the <a href="/chd.html">Consumer Health Data Privacy Policy</a> and the <a href="/privacy.html">Privacy Policy</a>.</p>
-</section>
+<div class="band band-or on-or">
+  <div class="wrap">
+    <section class="card card-ink privacy-card">
+        <div class="sec">
+          <div class="sec-head"><p class="eyebrow">Data, privacy & security</p><h2>The liability question, answered plainly</h2></div>
+          <div class="sec-body">
+<p>Glucose is read from Apple Health or from a CareLink or LibreView file export, and analyzed on the patient's device; it is never sent to a large-language model and is not stored on Eating Glasses servers. Data in transit and at rest is encrypted, records are row-level isolated per account, the patient controls all sharing, and account deletion is available in-app. Optional food scanning is separate: a food photo, voice note or typed description goes to an Eating Glasses server and to Google Gemini to estimate nutrition, and glucose is not part of that request.</p>
+<p>HIPAA does not apply to a direct-to-consumer app like Eating Glasses, so Eating Glasses does not claim it. Eating Glasses is built to meet the requirements of the FTC Health Breach Notification Rule and the Washington My Health My Data Act. See the <a href="/chd.html">Consumer Health Data Privacy Policy</a> and the <a href="/privacy.html">Privacy Policy</a>.</p>
+          </div>
+        </div>
+    </section>
+  </div>
+</div>
 
-<section>
-<p class="eyebrow">Accountability</p>
-<h2>Who's behind it</h2>
+<div class="band band-wh">
+  <div class="wrap">
+    <section>
+        <div class="sec">
+          <div class="sec-head"><p class="eyebrow">Accountability</p><h2>Who's behind it</h2></div>
+          <div class="sec-body">
 <p>Eating Glasses LLC is an independent company in Washington, DC. Its founder, Justin Silver, has lived with type 1 diabetes for decades (Dexcom G7, Omnipod 5) and has spent his career building the clinical systems that hospitals and digital-health companies run on. Eating Glasses is built to the standard that combination demands: evidence-cited, deterministic, and clear about its limits.</p>
-<p class="sub">Methodology authored by the founder. A formal clinical review has not happened yet, and clinician feedback is how we are starting one. Decades of living with type 1, and a career building clinical software, are not a substitute for clinical authority, and we do not present them as one. Contact: <a href="mailto:hello@eatingglasses.com">hello@eatingglasses.com</a>.</p>
-</section>
+<p class="sub">Methodology authored by the founder. A formal clinical review has not happened yet, and clinician feedback is how one is starting. Decades of living with type 1, and a career building clinical software, are not a substitute for clinical authority, and Eating Glasses does not present them as one. Contact: <a href="mailto:hello@eatingglasses.com">hello@eatingglasses.com</a>.</p>
+          </div>
+        </div>
+    </section>
+  </div>
+</div>
 
-<section>
-<p class="eyebrow">If it's useful to your patients</p>
-<h2>There's nothing to sign up for</h2>
+<div class="band band-cr">
+  <div class="wrap">
+    <section>
+        <div class="sec">
+          <div class="sec-head"><p class="eyebrow">If it's useful to your patients</p><h2>There's nothing to sign up for</h2></div>
+          <div class="sec-body">
 <p><strong>Status:</strong> private beta in the US for people who use insulin and have an iPhone and a CGM from Dexcom, FreeStyle Libre, Medtronic or Eversense (adults, or ages 13 to 17 with a parent or guardian's OK). People are invited in small groups.</p>
 <p>No clinician account, no portal, no referral program, and no incentive of any kind. The report belongs to the patient and is shared at their discretion. If you'd like to point patients to it, a line that works:</p>
-<p style="background:var(--soft);border-left:3px solid var(--primary);border-radius:8px;padding:14px 18px;font-style:italic;color:var(--ink);margin:10px 0;">"There's a wellness app called Eating Glasses, in private beta for iPhone, that turns your CGM into a plain-language summary you can bring to our visits. It doesn't touch your insulin or your doses, and your glucose readings stay on your phone. Patients can ask for a spot at <a href="/beta/">eatingglasses.com/beta</a>."</p>
+<p class="say-quote">"There's a wellness app called Eating Glasses, in private beta for iPhone, that turns your CGM into a plain-language summary you can bring to our visits. It doesn't touch your insulin or your doses, and your glucose readings stay on your phone. Patients can ask for a spot at <a href="/beta/">eatingglasses.com/beta</a>."</p>
 <p class="sub">You're welcome to print this page for the exam room. To flag an inaccuracy or ask a question, email <a href="mailto:hello@eatingglasses.com">hello@eatingglasses.com</a> and please leave out any patient-identifiable detail.</p>
-</section>
+          </div>
+        </div>
+    </section>
+  </div>
+</div>
 
-<section style="border-top:none;">
-<div class="closing">General wellness; not a medical device; not a substitute for clinical judgment. Patients share their own reports at their own discretion. Eating Glasses summarizes the patient's own data and the question to ask. The clinical decision is entirely yours.</div>
-</section>
+<div class="band band-wh tail">
+  <div class="wrap">
+    <div class="closing card card-ink">General wellness; not a medical device; not a substitute for clinical judgment. Patients share their own reports at their own discretion. Eating Glasses summarizes the patient's own data and the question to ask. The clinical decision is entirely yours.</div>
+  </div>
 </div>
 
 </main>
-<footer class="site"><div class="bar"><span class="who">Eating Glasses LLC · 1717 N St NW #1, Washington, DC 20036 · © 2026</span><nav style="display:flex;gap:16px;flex-wrap:wrap;align-items:center;"><a href="/">Home</a><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a><a href="/chd.html">Health Data</a><a href="mailto:hello@eatingglasses.com">Contact</a></nav></div></footer>
+<footer class="eg-foot">
+    <div class="wrap">
+      <span class="who">Eating Glasses LLC · 1717 N St NW #1, Washington, DC 20036 · © 2026</span>
+      <nav><a href="/">Home</a><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a><a href="/chd.html">Health Data</a><a href="mailto:hello@eatingglasses.com">Contact</a></nav>
+    </div>
+  </footer>
 </body></html>
