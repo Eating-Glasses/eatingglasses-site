@@ -1,6 +1,9 @@
 /* Eating Glasses site: the "Patterns, named" system (same as the summit print set).
    Orange field, cream band for the logo, white and ink cards, Geist + Geist Mono.
    The logo only ever sits on cream or white: its lenses are transparent, so on orange the fruit vanishes. */
+/* Geist and Geist Mono (SIL Open Font License), latin subset, served from this site: no request leaves for a third-party font host. */
+@font-face{ font-family:"Geist"; font-style:normal; font-weight:100 900; font-display:swap; src:url("/fonts/Geist-latin-variable.woff2") format("woff2"); }
+@font-face{ font-family:"Geist Mono"; font-style:normal; font-weight:100 900; font-display:swap; src:url("/fonts/GeistMono-latin-variable.woff2") format("woff2"); }
 :root{
   --orange:#f97316; --cream:#fbf3e8; --ink:#14110f; --inkc:#17130f; --oink:#c2410c;
   --muted:#6b5f55; --body:#2a221c; --line:#eadfd2; --edge:#8c7d70; --sand:#fff1e6; --glow:#fb923c; --soft-ink:#efe6db;

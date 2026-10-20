@@ -8,10 +8,8 @@
 <meta name="theme-color" content="#f97316" />
 <link rel="icon" type="image/png" href="/favicon.png?v=4" />
 <link rel="apple-touch-icon" href="/favicon.png?v=4" />
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400..800&family=Geist+Mono:wght@500..600&display=swap" />
-<link rel="stylesheet" href="/site.css?v=1" />
+<link rel="preload" href="/fonts/Geist-latin-variable.woff2" as="font" type="font/woff2" crossorigin />
+<link rel="stylesheet" href="/site.css?v=2" />
 <style>
 /* /beta: orange field, white cards, ink cards below. The form markup itself is untouched; everything here is styling. */
   .beta-field{ padding:0 0 40px; }
@@ -25,6 +23,10 @@
   .who-can .k{ margin-bottom:14px; }
   .tick-row{ display:flex; gap:14px; align-items:flex-start; }
   .tick-row .chk{ margin-top:1px; }
+  .who-lead{ font-size:19px; font-weight:650; letter-spacing:-.02em; line-height:1.25; color:var(--ink); margin:0 0 14px; }
+  .tick-row + .tick-row{ margin-top:12px; }
+  .who-link{ font-size:16px; font-weight:520; color:var(--ink); margin:16px 0 0; }
+  .who-link a{ font-weight:650; }
   .tick-row p{ font-size:16.5px; line-height:1.5; font-weight:520; color:var(--ink); letter-spacing:-.008em; margin:0; }
   .tick-row p a{ font-weight:650; }
   .note-row{ display:flex; gap:12px; align-items:flex-start; background:var(--cream); border-radius:14px; padding:12px 14px; margin-top:14px; box-shadow:0 0 0 1px var(--line); }
@@ -34,6 +36,8 @@
   .panel{ background:#fff; border-radius:24px; box-shadow:var(--shadow); padding:26px 18px 22px; scroll-margin-top:16px; color:var(--body); }
   .trust{ display:flex; gap:10px; align-items:flex-start; font-size:16px; line-height:1.45; font-weight:620; color:var(--ink); letter-spacing:-.01em; margin:2px 2px 0; }
   .trust .chk{ margin-top:1px; }
+  .trust-wrap{ display:grid; gap:6px; }
+  .trust-wrap .fine{ font-size:14px; line-height:1.4; font-weight:560; color:var(--ink); margin:0 2px 0 34px; }
 
   /* progress */
   .progress{ display:flex; align-items:center; gap:7px; font-family:var(--mono); font-size:12px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--oink); margin-bottom:20px; }
@@ -136,7 +140,7 @@
     .hero{ grid-area:hero; }
     .who-can{ grid-area:who; }
     .panel{ grid-area:panel; }
-    .trust{ grid-area:trust; }
+    .trust-wrap{ grid-area:trust; }
     .about{ grid-template-columns:repeat(3,1fr); gap:20px; }
     .founder{ margin-top:20px; padding:30px 34px 28px; }
     .founder .quote{ font-size:21px; max-width:60ch; }
@@ -166,8 +170,12 @@
 
         <section class="card who-can" aria-labelledby="who-h">
           <h2 class="k" id="who-h">Who can join</h2>
-          <div class="tick-row"><svg class="chk" viewBox="0 0 30 30" width="30" height="30" aria-hidden="true" focusable="false"><circle cx="15" cy="15" r="15" fill="#c2410c"/><path d="M8.5 15.5l4.2 4.2 8.8-9.4" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg><p>You're in the US, you have an iPhone, and you use a Dexcom G6 or G7 (it connects through Apple Health), an Eversense (it connects through Apple Health), a FreeStyle Libre 2 or 3 (you export your readings from LibreView and import the file in the app), or a Medtronic CGM (you bring your data in from CareLink). You're 18 or older, or 13 to 17 with a parent or guardian's OK. <a href="/setup/">See how setup works</a>.</p></div>
-          <div class="note-row"><svg class="chk sm" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10" fill="none" stroke="#c2410c" stroke-width="2"/><path d="M12 11v5.5M12 7.6v.2" fill="none" stroke="#c2410c" stroke-width="2.2" stroke-linecap="round"/></svg><p>Signing up your teen? Fill in the form yourself as their parent or guardian and choose Caregiver. We'll email you the beta agreement to accept for them before they get the app.</p></div>
+          <p class="who-lead">Yes, if all three are true:</p>
+          <div class="tick-row"><svg class="chk" viewBox="0 0 30 30" width="30" height="30" aria-hidden="true" focusable="false"><circle cx="15" cy="15" r="15" fill="#c2410c"/><path d="M8.5 15.5l4.2 4.2 8.8-9.4" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg><p>You live in the US and are 18 or older, or 13 to 17 with a parent's OK.</p></div>
+          <div class="tick-row"><svg class="chk" viewBox="0 0 30 30" width="30" height="30" aria-hidden="true" focusable="false"><circle cx="15" cy="15" r="15" fill="#c2410c"/><path d="M8.5 15.5l4.2 4.2 8.8-9.4" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg><p>You have an iPhone.</p></div>
+          <div class="tick-row"><svg class="chk" viewBox="0 0 30 30" width="30" height="30" aria-hidden="true" focusable="false"><circle cx="15" cy="15" r="15" fill="#c2410c"/><path d="M8.5 15.5l4.2 4.2 8.8-9.4" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg><p>You use a CGM: Dexcom G6, G7 or Stelo, Eversense, FreeStyle Libre 2 or 3, or Medtronic.</p></div>
+          <p class="who-link"><a href="/setup/">See how setup works</a>.</p>
+          <div class="note-row"><svg class="chk sm" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10" fill="none" stroke="#c2410c" stroke-width="2"/><path d="M12 11v5.5M12 7.6v.2" fill="none" stroke="#c2410c" stroke-width="2.2" stroke-linecap="round"/></svg><p>Signing up your teen? Fill in the form yourself as their parent or guardian and choose Caregiver. Eating Glasses will email you the beta agreement to accept for them before they get the app.</p></div>
         </section>
 
       <div class="panel" id="join">
@@ -189,7 +197,7 @@
             <div class="progress"><span class="dot active"></span><span class="dot"></span> Step 1 of 2: You</div>
             <fieldset>
               <legend>A little about you</legend>
-              <p class="step-sub">So we know who's joining and how to reach you.</p>
+              <p class="step-sub">So Eating Glasses knows who's joining and how to reach you.</p>
 
               <div class="field">
                 <label class="q" for="first_name">Name</label>
@@ -204,7 +212,7 @@
               </div>
 
               <div class="field">
-                <label class="q" id="lbl-heard_from">How did you hear about us?</label>
+                <label class="q" id="lbl-heard_from">How did you hear about Eating Glasses?</label>
                 <div class="chips" role="radiogroup" aria-labelledby="lbl-heard_from">
                   <span class="chip"><input type="radio" name="heard_from" id="hf-reddit" value="reddit"><label for="hf-reddit">Reddit</label></span>
                   <span class="chip"><input type="radio" name="heard_from" id="hf-friend" value="friend"><label for="hf-friend">A friend</label></span>
@@ -229,7 +237,7 @@
               </div>
               <div class="checkrow">
                 <input type="checkbox" id="contact_ok" name="contact_ok" required />
-                <label for="contact_ok">It's OK to email me about the beta. See our <a href="/privacy.html" target="_blank" rel="noopener">privacy policy</a>.</label>
+                <label for="contact_ok">It's OK to email me about the beta. See the <a href="/privacy.html" target="_blank" rel="noopener">privacy policy</a>.</label>
               </div>
               <span class="errtext" id="err-checks" hidden></span>
 
@@ -244,7 +252,7 @@
             <div class="progress"><span class="dot done"></span><span class="dot active"></span> Step 2 of 2: Your setup</div>
             <fieldset>
               <legend>Your setup</legend>
-              <p class="step-sub">This helps us match you to the right round.</p>
+              <p class="step-sub">This helps match you to the right round.</p>
 
               <div class="field">
                 <label class="q" id="lbl-diabetes_type">Diabetes type</label>
@@ -335,7 +343,7 @@
               </div>
 
               <div class="notify-note" id="notifyNote" hidden>
-                The first round is US and iPhone only. No problem, we'll email you the moment that changes, so you'll still get your spot in line.
+                The first round is US and iPhone only. No problem: Eating Glasses will email you the moment that changes, so you'll still get your spot in line.
               </div>
 
               <div class="actions">
@@ -363,7 +371,10 @@
 
       </div>
 
-        <p class="trust"><svg class="chk sm" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false"><rect x="4.5" y="10.5" width="15" height="10" rx="2.5" fill="#14110f"/><path d="M8 10.5V8a4 4 0 018 0v2.5" fill="none" stroke="#14110f" stroke-width="2.2" stroke-linecap="round"/></svg><span>Your glucose stays on your phone, and the app never tells you anything about insulin or doses.</span></p>
+        <div class="trust-wrap">
+          <p class="trust"><svg class="chk sm" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false"><rect x="4.5" y="10.5" width="15" height="10" rx="2.5" fill="#14110f"/><path d="M8 10.5V8a4 4 0 018 0v2.5" fill="none" stroke="#14110f" stroke-width="2.2" stroke-linecap="round"/></svg><span>Your CGM readings never leave your phone, and Eating Glasses never suggests an insulin dose.</span></p>
+          <p class="fine">Wellness insights only, not medical advice.</p>
+        </div>
 
       </div>
     </div>
@@ -377,16 +388,16 @@
           </article>
           <article class="card card-ink">
             <h2 class="k">How it helps</h2>
-            <p>It suggests small, safe, everyday experiments chosen for your data, then checks whether your numbers actually moved. Detect, try, track, results: over time you learn what works for your body, not someone else's average. Your glucose stays on your phone, and the app never tells you anything about insulin or doses.</p>
+            <p>It suggests small, everyday steps chosen for your data, then checks whether your numbers actually moved. Detect, try, track, results: over time you see what changed in your own numbers, not someone else's average. Your CGM readings never leave your phone, and Eating Glasses never suggests an insulin dose.</p>
           </article>
           <article class="card card-ink">
             <h2 class="k">Why your feedback matters</h2>
-            <p>This app is built for people with diabetes, by people with diabetes. The more you let us know about how the app is and isn't working for you, the better we can make it for all of us. While we all have unique journeys, we share many of the same problems and solutions. Thanks for being part of the solution.</p>
+            <p>This app is built for people with diabetes, by people with diabetes. The more you share about how the app is and isn't working for you, the better it gets for everyone who uses it. Every journey is different, but many of the problems and solutions are shared. Thanks for being part of the solution.</p>
           </article>
         </section>
 
         <div class="say founder">
-          <p class="quote">"Thank you for taking the time to use and test Eating Glasses. We take your feedback seriously, and will use it to help improve the app for you and people like you. As someone who has lived with type 1 for 23 years, I want to make this journey as easy as possible for everyone. Thanks for being part of it."</p>
+          <p class="quote">"Thank you for taking the time to use and test Eating Glasses. I take your feedback seriously, and will use it to help improve the app for you and people like you. As someone who has lived with type 1 for 23 years, I want to make this journey as easy as possible for everyone. Thanks for being part of it."</p>
           <p class="who k">Justin Silver, founder</p>
         </div>
       </div>
