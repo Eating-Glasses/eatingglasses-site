@@ -214,7 +214,8 @@
               <div class="field">
                 <label class="q" id="lbl-heard_from">How did you hear about Eating Glasses?</label>
                 <div class="chips" role="radiogroup" aria-labelledby="lbl-heard_from">
-                  <span class="chip"><input type="radio" name="heard_from" id="hf-reddit" value="reddit"><label for="hf-reddit">Reddit</label></span>
+                  <span class="chip"><input type="radio" name="heard_from" id="hf-support_group" value="support_group"><label for="hf-support_group">A support group</label></span>
+                  <span class="chip"><input type="radio" name="heard_from" id="hf-event" value="event"><label for="hf-event">An event</label></span>
                   <span class="chip"><input type="radio" name="heard_from" id="hf-friend" value="friend"><label for="hf-friend">A friend</label></span>
                   <span class="chip"><input type="radio" name="heard_from" id="hf-clinician" value="clinician"><label for="hf-clinician">My clinician</label></span>
                   <span class="chip"><input type="radio" name="heard_from" id="hf-other" value="other"><label for="hf-other">Other</label></span>
@@ -227,7 +228,7 @@
               </div>
 
               <div class="field" id="heardDetailWrap" hidden>
-                <label class="q" for="heard_detail" id="heardDetailLabel">Which subreddit?</label>
+                <label class="q" for="heard_detail" id="heardDetailLabel">Where?</label>
                 <input type="text" id="heard_detail" name="heard_detail" maxlength="200" />
               </div>
 
@@ -558,29 +559,31 @@
     el.addEventListener("change", refreshNotifyNote);
   });
 
-  // The detail box is always optional: which subreddit (reddit), where (other), or
-  // who told you (a friend or clinician, capped at 80 characters). Switching between
-  // the "where" and "who" questions clears the box, so an answer to one never rides
-  // along as the answer to the other.
-  var heardDetailKind = null;
+  // The detail box is always optional: which group (a support group), which event (an
+  // event), where (other, capped at 200 characters like the other two), or who told you
+  // (a friend or clinician, capped at 80). Each question has its own wording, and
+  // switching to a DIFFERENT question clears the box, so an answer to one ("T1D Parents")
+  // never rides along as the answer to another ("Which event?"). A friend and a clinician
+  // share one question, so that answer is kept when the chip changes between them.
+  // A retired chip's value is still accepted by the server (old rows, a cached page).
+  var heardDetailQuestion = null;
   function refreshHeardDetail() {
     var heard = fieldValue("heard_from");
     var wrap = document.getElementById("heardDetailWrap");
     var label = document.getElementById("heardDetailLabel");
     var input = document.getElementById("heard_detail");
-    var kind = (heard === "friend" || heard === "clinician") ? "who"
-      : (heard === "reddit" || heard === "other") ? "where" : null;
-    if (kind !== heardDetailKind) input.value = "";
-    if (heard === "reddit") {
-      wrap.hidden = false; label.textContent = "Which subreddit?"; input.placeholder = "e.g. r/diabetes_t1"; input.maxLength = 200;
-    } else if (heard === "other") {
-      wrap.hidden = false; label.textContent = "Where?"; input.placeholder = ""; input.maxLength = 200;
-    } else if (kind === "who") {
-      wrap.hidden = false; label.textContent = "Who told you about it? (optional)"; input.placeholder = ""; input.maxLength = 80;
-    } else {
+    var who = heard === "friend" || heard === "clinician";
+    var question = heard === "support_group" ? "Which group? (optional)"
+      : heard === "event" ? "Which event? (optional)"
+      : heard === "other" ? "Where?"
+      : who ? "Who told you about it? (optional)" : null;
+    if (question !== heardDetailQuestion) input.value = "";
+    if (question === null) {
       wrap.hidden = true; input.value = "";
+    } else {
+      wrap.hidden = false; label.textContent = question; input.placeholder = ""; input.maxLength = who ? 80 : 200;
     }
-    heardDetailKind = kind;
+    heardDetailQuestion = question;
   }
   document.querySelectorAll('input[name="heard_from"]').forEach(function (el) {
     el.addEventListener("change", refreshHeardDetail);
