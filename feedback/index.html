@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Eating Glasses beta feedback</title>
+<!-- A personal link from an email: never indexed, and the address (it carries the token) is never sent on as a referrer. -->
+<meta name="robots" content="noindex, nofollow" />
+<meta name="referrer" content="no-referrer" />
+<meta name="theme-color" content="#f97316" />
+<link rel="icon" type="image/png" href="/favicon.png?v=4" />
+<link rel="apple-touch-icon" href="/favicon.png?v=4" />
+<link rel="preload" href="/fonts/Geist-latin-variable.woff2" as="font" type="font/woff2" crossorigin />
+<link rel="stylesheet" href="/site.css?v=2" />
+<style>
+/* /feedback: orange field, one white card. The same chips, inputs and banners as the /beta sign-up form. The questions themselves come from the server. */
+  body{ min-height:100vh; display:flex; flex-direction:column; } /* a short state (thank you, a plain message) keeps the footer at the bottom of the screen */
+  main{ flex:1; display:flex; }
+  .fb-field{ flex:1; width:100%; padding:26px 0 48px; }
+  .panel{ background:#fff; border-radius:24px; box-shadow:var(--shadow); padding:26px 18px 24px; color:var(--body); }
+  .fb-title{ font-size:clamp(30px,8.4vw,42px); letter-spacing:-.045em; line-height:1.04; margin:0 0 10px; }
+  .fb-title:focus, .fb-h:focus{ outline:none; }
+  .step-sub{ font-size:16px; line-height:1.5; color:var(--muted); margin:0 0 6px; }
+  .fb-loading{ font-size:17px; color:var(--muted); margin:0; padding:10px 0; }
+  .fb-msg h2{ font-size:clamp(28px,7.6vw,38px); letter-spacing:-.045em; line-height:1.05; margin:0 0 14px; }
+  .fb-msg p{ font-size:17px; line-height:1.55; color:var(--body); margin:0; }
+  .fb-msg.ok h2::after{ content:""; display:block; width:56px; height:6px; border-radius:3px; background:var(--orange); margin-top:16px; }
+
+  .fq{ padding:22px 0 20px; border-top:2px solid var(--line); scroll-margin-top:14px; }
+  .fq.is-err{ outline:3px solid #b91c1c; outline-offset:6px; border-radius:12px; border-top-color:transparent; }
+  .q{ display:flex; gap:10px; align-items:baseline; font-size:16.5px; font-weight:650; color:var(--ink); letter-spacing:-.01em; line-height:1.35; margin:0 0 12px; }
+  .q-n{ flex:none; min-width:1.6em; font-family:var(--mono); font-size:12.5px; font-weight:600; letter-spacing:.06em; color:var(--oink); }
+  .q-sub{ margin-top:18px; padding-left:calc(1.6em + 10px); }
+  .req{ color:#b91c1c; }
+  .q-pre{ font-size:15.5px; line-height:1.5; color:var(--body); background:var(--sand); border-radius:12px; padding:12px 14px; margin:0 0 14px; }
+  .hint{ font-size:14px; line-height:1.45; color:var(--muted); margin:8px 0 0; }
+  .errtext{ display:block; font-size:14.5px; font-weight:600; color:#b91c1c; margin-top:10px; line-height:1.4; }
+
+  .chips{ display:flex; flex-wrap:wrap; gap:10px; }
+  .chip{ position:relative; }
+  .chip input{ position:absolute; opacity:0; width:1px; height:1px; }
+  .chip label{
+    display:flex; align-items:center; justify-content:center; min-height:52px; padding:10px 20px;
+    border:2px solid var(--edge); border-radius:999px; background:#fff; color:var(--ink);
+    font-size:16.5px; font-weight:600; letter-spacing:-.01em; cursor:pointer; text-align:center; user-select:none; -webkit-user-select:none;
+  }
+  .chip input:checked + label{ background:var(--orange); border-color:var(--ink); color:var(--ink); font-weight:700; }
+  .chip input:focus-visible + label{ outline:3px solid var(--ink); outline-offset:3px; }
+  .scale{ display:grid; grid-template-columns:repeat(auto-fit,minmax(40px,1fr)); gap:6px; }
+  .scale .chip label{ min-height:50px; padding:0; border-radius:14px; font-family:var(--mono); font-size:17px; }
+  .scale-ends{ display:flex; justify-content:space-between; gap:12px; font-size:13.5px; line-height:1.35; color:var(--muted); margin-top:10px; }
+  .scale-ends span:last-child{ text-align:right; }
+
+  textarea{
+    display:block; width:100%; min-height:92px; font-family:var(--sans); font-size:17px; font-weight:500; line-height:1.45; color:var(--ink);
+    padding:14px 16px; background:#fff; border:2px solid var(--edge); border-radius:14px; resize:vertical; -webkit-appearance:none; appearance:none;
+  }
+  textarea:focus{ border-color:var(--ink); outline:3px solid var(--ink); outline-offset:2px; }
+  .follow{ margin-top:16px; padding:14px 16px 12px; background:var(--sand); border-left:6px solid var(--orange); border-radius:6px 14px 14px 6px; }
+  .follow .q{ font-size:15.5px; margin-bottom:8px; }
+  .follow textarea{ min-height:76px; }
+
+  .rank-list{ list-style:none; margin:12px 0 0; padding:0; display:grid; gap:10px; }
+  .rk{ display:grid; gap:4px; }
+  .rk-main{
+    display:flex; align-items:center; gap:14px; width:100%; min-height:54px; padding:10px 16px; text-align:left;
+    border:2px solid var(--edge); border-radius:14px; background:#fff; color:var(--ink); font-size:16.5px; font-weight:600; letter-spacing:-.01em;
+  }
+  .rk-main:focus-visible{ outline:3px solid var(--ink); outline-offset:3px; }
+  .rk-n{ flex:none; display:inline-flex; align-items:center; justify-content:center; width:30px; height:30px; border-radius:50%; border:2px solid var(--edge); font-family:var(--mono); font-size:14px; font-weight:700; }
+  .is-ranked .rk-main{ background:var(--orange); border-color:var(--ink); font-weight:700; }
+  .is-ranked .rk-n{ background:var(--ink); border-color:var(--ink); color:var(--cream); }
+  .is-unused .rk-main{ opacity:.45; cursor:not-allowed; }
+  .rk-un{ display:flex; align-items:center; gap:10px; min-height:44px; font-size:15px; color:var(--body); padding-left:4px; cursor:pointer; }
+  .rk-un input{ width:24px; height:24px; accent-color:var(--ink); }
+  .rk-status{ font-size:14px; color:var(--muted); margin:10px 0 0; }
+
+  .status-banner{ display:none; border-radius:14px; padding:14px 16px; font-size:15.5px; font-weight:600; line-height:1.45; margin:18px 0 0; }
+  .status-banner.show{ display:block; }
+  .status-banner.err{ background:#fef2f2; border:2px solid #b91c1c; color:#991b1b; }
+  .fb-foot{ border-top:2px solid var(--line); padding-top:22px; display:grid; gap:14px; }
+  .prog{ font-family:var(--mono); font-size:12.5px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--oink); margin:0; }
+  .fb-foot .btn{ width:100%; }
+  .btn:focus-visible{ outline:3px solid var(--ink); outline-offset:3px; }
+
+  @media (min-width:600px){
+    .fb-field{ padding:44px 0 72px; }
+    .panel{ padding:38px 36px 34px; }
+    .fb-foot{ grid-template-columns:1fr auto; align-items:center; }
+    .fb-foot .btn{ width:auto; min-width:200px; }
+  }
+</style>
+</head>
+<body>
+  <header class="eg-head">
+    <div class="wrap">
+      <a class="home" href="/" aria-label="Eating Glasses home"><img src="/logo-light.png" alt="Eating Glasses" width="1248" height="832" /></a>
+    </div>
+  </header>
+
+  <main>
+    <div class="fb-field band-or on-or">
+      <div class="wrap narrow">
+        <div class="panel">
+          <div id="app" aria-live="polite"><p class="fb-loading">Loading your form...</p></div>
+          <noscript><p class="fb-loading">This form needs JavaScript. Open the link from your email in your phone's browser.</p></noscript>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="eg-foot">
+    <div class="wrap">
+      <span class="who">Eating Glasses LLC · © 2026</span>
+      <nav>
+        <a href="/">Home</a><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a>
+      </nav>
+    </div>
+  </footer>
+
+<script src="/feedback/feedback.js?v=1"></script>
+<script>EGFeedback.boot(window);</script>
+</body>
+</html>
