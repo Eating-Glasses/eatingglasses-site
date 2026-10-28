@@ -190,9 +190,10 @@ test("a full submit sends exactly the shown answers once and ends on the thank-y
     token: TOKEN,
     answers: { q1: "very", q2: 9, q4: "yes", q4_t: "The home screen", q6: { order: ["results", "patterns"], unused: ["widget"] }, q9: "Useful", pay: "none", q12b: "yes" },
   });
-  assert.equal(p.$("h2").textContent, "Thank you");
+  assert.equal(p.$("h1").textContent, "Thank you");
+  assert.equal(p.$$("h1").length, 1, "one h1 on every state of the page");
   assert.equal(p.$("#app p").textContent, "Your answers are saved and every one is read.");
-  assert.equal(p.w.document.activeElement, p.$("h2"), "focus moves to the heading, so a screen reader announces it");
+  assert.equal(p.w.document.activeElement, p.$("h1"), "focus moves to the heading, so a screen reader announces it");
   assert.equal(p.$$("form").length, 0, "the form is gone");
   assert.equal(storage.size, 0, "the draft is cleared");
 });
@@ -209,7 +210,7 @@ test("a dropped connection keeps the form and the answers; the next tap sends", 
   assert.equal(p.$$("form").length, 1);
   p.click("button[type=submit]");
   await p.settle(); await p.settle();
-  assert.equal(p.$("h2").textContent, "Thank you");
+  assert.equal(p.$("h1").textContent, "Thank you");
 });
 
 test("the server's refusal marks the questions it names", { skip }, async () => {
@@ -238,15 +239,16 @@ test("a link that opens nothing shows a plain message, with the same wording the
   ];
   for (const [reply, title] of cases) {
     const p = await page({ replies: [reply] });
-    assert.equal(p.$("h2").textContent, title);
+    assert.equal(p.$("h1").textContent, title);
+    assert.equal(p.$$("h1").length, 1);
     assert.equal(p.$$("form").length, 0);
-    assert.equal(p.w.document.activeElement, p.$("h2"));
+    assert.equal(p.w.document.activeElement, p.$("h1"));
   }
   const noLink = await page({ search: "" });
-  assert.equal(noLink.$("h2").textContent, "This page needs your personal link");
+  assert.equal(noLink.$("h1").textContent, "This page needs your personal link");
   assert.equal(noLink.calls.length, 0, "no link, no request");
   const bad = await page({ search: "?t=not-a-token" });
-  assert.equal(bad.$("h2").textContent, "This page needs your personal link");
+  assert.equal(bad.$("h1").textContent, "This page needs your personal link");
   assert.equal(bad.calls.length, 0);
 });
 

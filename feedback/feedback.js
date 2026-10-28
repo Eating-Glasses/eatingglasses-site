@@ -230,7 +230,7 @@
 
     function card(title, body, kind) {
       clear();
-      var h = el("h2", { class: "fb-h", tabindex: "-1", text: title });
+      var h = el("h1", { class: "fb-h", tabindex: "-1", text: title }); // one h1 on every state of the page: the form's title, or this
       app.appendChild(el("div", { class: "fb-msg " + (kind || "") }, [h, el("p", { text: body })]));
       focus(h);
     }
