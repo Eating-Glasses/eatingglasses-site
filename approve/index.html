@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Approve a beta sign-up</title>
+<!-- A link from an email to Justin: never indexed, and the address (it carries a one-use token) is never sent on as a referrer. -->
+<meta name="robots" content="noindex, nofollow" />
+<meta name="referrer" content="no-referrer" />
+<meta name="theme-color" content="#f97316" />
+<link rel="icon" type="image/png" href="/favicon.png?v=4" />
+<link rel="apple-touch-icon" href="/favicon.png?v=4" />
+<link rel="preload" href="/fonts/Geist-latin-variable.woff2" as="font" type="font/woff2" crossorigin />
+<link rel="stylesheet" href="/site.css?v=2" />
+<style>
+/* /approve: orange field, one white card, the same look as /feedback. One sign-up, three buttons. */
+  body{ min-height:100vh; display:flex; flex-direction:column; } /* a short state (a plain message) keeps the footer at the bottom of the screen */
+  main{ flex:1; display:flex; }
+  .fb-field{ flex:1; width:100%; padding:26px 0 48px; }
+  .panel{ background:#fff; border-radius:24px; box-shadow:var(--shadow); padding:26px 18px 24px; color:var(--body); }
+  .fb-title{ font-size:clamp(28px,7.6vw,40px); letter-spacing:-.045em; line-height:1.06; margin:0 0 12px; }
+  .fb-title:focus{ outline:none; }
+  .step-sub{ font-size:17px; line-height:1.5; color:var(--body); margin:0 0 6px; }
+  .fb-loading{ font-size:17px; color:var(--muted); margin:0; padding:10px 0; }
+  .fb-msg p{ font-size:17px; line-height:1.55; color:var(--body); margin:0; }
+  .fb-msg.ok .fb-title::after{ content:""; display:block; width:56px; height:6px; border-radius:3px; background:var(--orange); margin-top:16px; }
+  .rehearsal{ font-size:15.5px; line-height:1.45; font-weight:600; color:var(--ink); background:var(--sand); border-left:6px solid var(--orange); border-radius:6px 14px 14px 6px; padding:12px 14px; margin:16px 0 0; }
+  .ap-actions{ display:grid; gap:12px; margin:22px 0 4px; }
+  .ap-actions .btn{ width:100%; }
+  .btn:focus-visible{ outline:3px solid var(--ink); outline-offset:3px; }
+  .hint{ font-size:14.5px; line-height:1.45; color:var(--muted); margin:14px 0 0; }
+  .status-banner{ display:none; border-radius:14px; padding:14px 16px; font-size:15.5px; font-weight:600; line-height:1.45; margin:18px 0 0; }
+  .status-banner.show{ display:block; }
+  .status-banner.err{ background:#fef2f2; border:2px solid #b91c1c; color:#991b1b; }
+  @media (min-width:600px){
+    .fb-field{ padding:44px 0 72px; }
+    .panel{ padding:38px 36px 34px; }
+    .ap-actions{ grid-template-columns:1fr; }
+  }
+</style>
+</head>
+<body>
+  <header class="eg-head">
+    <div class="wrap">
+      <a class="home" href="/" aria-label="Eating Glasses home"><img src="/logo-light.png" alt="Eating Glasses" width="1248" height="832" /></a>
+    </div>
+  </header>
+
+  <main>
+    <div class="fb-field band-or on-or">
+      <div class="wrap narrow">
+        <div class="panel">
+          <div id="app" aria-live="polite"><p class="fb-loading">Loading the sign-up...</p></div>
+          <noscript><p class="fb-loading">This page needs JavaScript. Open the link from your email in your phone's browser.</p></noscript>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="eg-foot">
+    <div class="wrap">
+      <span class="who">Eating Glasses LLC · © 2026</span>
+      <nav>
+        <a href="/">Home</a><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a>
+      </nav>
+    </div>
+  </footer>
+<script src="/approve/approve.js?v=1"></script>
+<script>EGApprove.boot(window);</script>
+</body>
+</html>
