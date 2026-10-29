@@ -47,6 +47,7 @@
     paused: "This person is paused, so no invite goes.",
     no_consent: "This person has no OK to email on file, so no invite goes.",
     revoked: "Apple says this person stopped testing or was removed, so the sign-up was put on hold instead.",
+    already_in_group: "Apple already lists this person in the TestFlight group, so nobody was invited again.",
     unreadable: "The invite could not be started just now, so the daily run tries again."
   };
 

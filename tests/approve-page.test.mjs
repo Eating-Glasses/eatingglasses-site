@@ -159,6 +159,7 @@ test("A BUTTON PRESS is the only decide, it is sent once however often it is pre
     ["approve", json(200, { ok: true, status: "approved", signup: { first_name: "Sam", number: 12 }, invited: false, queued: "daily_cap" }), "Approved", /Sam is approved\. Today's limit of new invites is used up/],
     ["approve", json(200, { ok: true, status: "approved", signup: { first_name: "Sam", number: 12 }, invited: false, queued: "build" }), "Approved", /no approved build right now/],
     ["approve", json(200, { ok: true, status: "approved", signup: { first_name: "Sam", number: 12 }, invited: false, queued: "something_new" }), "Approved", /Sam is approved\. The invite could not be started just now/],
+    ["approve", json(200, { ok: true, status: "approved", signup: { first_name: "Sam", number: 12 }, invited: false, queued: "already_in_group" }), "Approved", /Apple already lists this person in the TestFlight group, so nobody was invited again/],
     ["hold", json(200, { ok: true, status: "held", signup: { first_name: "Sam", number: 12 } }), "Held", /Sam stays on the list and nothing is sent/],
     ["decline", json(200, { ok: true, status: "declined", signup: { first_name: "Sam", number: 12 } }), "Marked not a fit", /Nothing is sent to Sam\./],
     ["approve", json(200, { ok: true, status: "rehearsal", decision: "approve", signup: { first_name: "Sam", number: 12 } }), "Rehearsal only", /changed nothing/],
