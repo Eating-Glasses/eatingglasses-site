@@ -30,6 +30,7 @@
     expired: { title: "This link has expired", body: "The next daily run sends a fresh email for this sign-up." },
     used: { title: "This link was already used", body: "The sign-up has been decided. Nothing more to do." },
     decided: { title: "This sign-up has moved on", body: "It was decided or handled another way since this email was sent. Nothing was changed." },
+    on_hold: { title: "This sign-up is on hold", body: "A hold was placed after this email was sent. An Approve link does not release a hold: ask LC to release it, and the next daily run sends a fresh email. Nothing was changed." },
     paused: { title: "Onboarding is switched off right now", body: "Nothing was done, and the link still works when it is switched back on." },
     not_inviteable: { title: "This sign-up cannot be invited", body: "It has no OK to email on file, so nobody can be invited from it. Nothing was changed." },
     error: { title: "That did not work", body: "Nothing was changed that this page can see. Reload the page to check, or try again in a moment." }
@@ -61,7 +62,7 @@
   // ── the server ────────────────────────────────────────────────────────────────────────────────────────────────
   function classify(http, j, asked) {
     j = j || {};
-    if (j.ok === true && j.status === "ok" && j.signup) return { kind: "card", signup: j.signup, meets: j.meets_rule === true, why: j.why || "other", rehearsal: j.rehearsal === true };
+    if (j.ok === true && j.status === "ok" && j.signup) return { kind: "card", signup: j.signup, meets: j.meets_rule === true, why: j.why || "other", rehearsal: j.rehearsal === true, stage: j.stage || "awaiting_approval", holdReason: typeof j.hold_reason === "string" ? j.hold_reason : "" };
     if (j.ok === true && j.status === "rehearsal") return { kind: "rehearsal", signup: j.signup || null, decision: j.decision || asked || null };
     if (j.ok === true && j.status === "approved") return { kind: "approved", signup: j.signup || null, invited: j.invited === true, queued: typeof j.queued === "string" ? j.queued : null };
     if (j.ok === true && (j.status === "held" || j.status === "declined")) return { kind: j.status, signup: j.signup || null };
@@ -69,6 +70,7 @@
     if (j.status === "used") return { kind: "used" };
     if (j.status === "expired") return { kind: "expired" };
     if (j.status === "decided") return { kind: "decided" };
+    if (j.status === "on_hold") return { kind: "on_hold" };
     if (j.status === "paused") return { kind: "paused" };
     if (j.status === "not_inviteable") return { kind: "not_inviteable" };
     return { kind: "error" }; // a 5xx, a 403, a platform 404 (the function is not there), a non-JSON answer
@@ -104,8 +106,16 @@
     if (card.why === "caregiver") return "Meets the invite rule: no. This is a caregiver sign-up, so the teen and parent path comes first.";
     return "Meets the invite rule: no. Open the sign-up row to see which part.";
   }
-  function buttonLabel(decision, name) {
-    return decision === "approve" ? "Approve and invite " + name : decision === "hold" ? "Hold" : "Not a fit";
+  // A held sign-up's link can still Hold (keep the hold) or Not a fit, never Approve: the server refuses it, and the page does not offer it.
+  function decisionsFor(card) {
+    return card && card.stage === "held" ? ["hold", "decline"] : DECISIONS;
+  }
+  function holdLine(card) {
+    var why = card.holdReason ? String(card.holdReason) : "";
+    return "On hold" + (why ? ": " + why : ".");
+  }
+  function buttonLabel(decision, name, held) {
+    return decision === "approve" ? "Approve and invite " + name : decision === "hold" ? (held ? "Keep on hold" : "Hold") : "Not a fit";
   }
   function resultText(res) {
     var w = who(res.signup).name;
@@ -135,7 +145,7 @@
       }
       var pressed = false;
       ui.card(res, pick, function (decision) {
-        if (pressed || DECISIONS.indexOf(decision) < 0) return Promise.resolve(null);
+        if (pressed || decisionsFor(res).indexOf(decision) < 0) return Promise.resolve(null);
         pressed = true;
         ui.busy(true);
         return api.decide(token, decision).then(function (out) {
@@ -184,19 +194,25 @@
         clear();
         buttons = [];
         var w = who(card.signup);
+        var held = card.stage === "held";
         var kids = [el("h1", { class: "fb-title", text: w.label }), el("p", { class: "step-sub", text: ruleLine(card) })];
+        if (held) kids.push(el("p", { class: "rehearsal", text: holdLine(card) }));
         if (card.rehearsal) kids.push(el("p", { class: "rehearsal", text: "Rehearsal link from a dry run: pressing a button here decides nothing." }));
         var row = el("div", { class: "ap-actions" });
         // the link's choice first and as the main button; the other two follow
-        var order = [pick].concat(DECISIONS.filter(function (d) { return d !== pick; }));
+        var offered = decisionsFor(card);
+        var main = offered.indexOf(pick) >= 0 ? pick : offered[0];
+        var order = [main].concat(offered.filter(function (d) { return d !== main; }));
         order.forEach(function (d) {
-          var b = el("button", { type: "button", class: "btn " + (d === pick ? "btn-primary" : "btn-secondary"), "data-decision": d, text: buttonLabel(d, w.name) });
+          var b = el("button", { type: "button", class: "btn " + (d === main ? "btn-primary" : "btn-secondary"), "data-decision": d, text: buttonLabel(d, w.name, held) });
           b.addEventListener("click", function () { onPress(d); });
           buttons.push(b);
           row.appendChild(b);
         });
         kids.push(row);
-        kids.push(el("p", { class: "hint", text: "Nothing happens until you press a button. Nothing is sent to " + w.name + " until you approve." }));
+        kids.push(el("p", { class: "hint", text: held
+          ? "This sign-up is on hold, and an Approve link does not release a hold: ask LC to release it first. Nothing is sent to " + w.name + "."
+          : "Nothing happens until you press a button. Nothing is sent to " + w.name + " until you approve." }));
         noticeNode = el("p", { class: "status-banner err", role: "alert", text: "" });
         kids.push(noticeNode);
         kids.forEach(function (k) { mount.appendChild(k); });
@@ -223,5 +239,5 @@
     });
   }
 
-  return { API_URL: API_URL, MESSAGES: MESSAGES, QUEUED: QUEUED, paramsFromSearch: paramsFromSearch, classify: classify, createApi: createApi, resultText: resultText, ruleLine: ruleLine, start: start, createDomUi: createDomUi, boot: boot };
+  return { API_URL: API_URL, MESSAGES: MESSAGES, QUEUED: QUEUED, paramsFromSearch: paramsFromSearch, classify: classify, createApi: createApi, resultText: resultText, ruleLine: ruleLine, holdLine: holdLine, decisionsFor: decisionsFor, start: start, createDomUi: createDomUi, boot: boot };
 });

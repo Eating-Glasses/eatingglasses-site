@@ -73,7 +73,7 @@ test("the link: a 43-character token and a known ?do=; anything else is no token
 // ── the server ──────────────────────────────────────────────────────────────────────────────────────────────────
 test("every answer of the server maps to one thing on the page", () => {
   const c = EG.classify;
-  assert.deepEqual(c(200, { ok: true, status: "ok", signup: { first_name: "Sam", number: 1 }, meets_rule: false, why: "caregiver", rehearsal: true }), { kind: "card", signup: { first_name: "Sam", number: 1 }, meets: false, why: "caregiver", rehearsal: true });
+  assert.deepEqual(c(200, { ok: true, status: "ok", signup: { first_name: "Sam", number: 1 }, meets_rule: false, why: "caregiver", rehearsal: true }), { kind: "card", signup: { first_name: "Sam", number: 1 }, meets: false, why: "caregiver", rehearsal: true, stage: "awaiting_approval", holdReason: "" });
   assert.equal(c(200, { ok: true, status: "approved", signup: {}, invited: true }).kind, "approved");
   assert.equal(c(200, { ok: true, status: "approved", signup: {}, invited: false, queued: "daily_cap" }).queued, "daily_cap");
   assert.equal(c(200, { ok: true, status: "held", signup: {} }).kind, "held");
@@ -202,6 +202,33 @@ test("a dropped connection AFTER a press: the buttons come back with a plain not
   assert.ok(!r.log.some((l) => l[0] === "result"), "no result was claimed");
 });
 
+test("A HELD SIGN-UP: the card says it is held and why; its link can Hold or say Not a fit, never Approve (not offered, and not sent if pressed); a refused Approve says why", async () => {
+  const c = EG.classify(200, { ok: true, status: "ok", signup: { first_name: "Sam", number: 4 }, meets_rule: true, why: "ok", stage: "held", hold_reason: "LC: waits for ready", rehearsal: false });
+  assert.deepEqual({ kind: c.kind, stage: c.stage, holdReason: c.holdReason }, { kind: "card", stage: "held", holdReason: "LC: waits for ready" });
+  assert.equal(EG.classify(200, { ok: true, status: "ok", signup: {}, stage: "awaiting_approval" }).stage, "awaiting_approval");
+  assert.equal(EG.classify(200, { ok: true, status: "ok", signup: {} }).stage, "awaiting_approval", "an older answer with no stage is not held");
+  assert.deepEqual(EG.decisionsFor(c), ["hold", "decline"]);
+  assert.deepEqual(EG.decisionsFor({ stage: "awaiting_approval" }), ["approve", "hold", "decline"]);
+  assert.equal(EG.holdLine(c), "On hold: LC: waits for ready");
+  assert.equal(EG.holdLine({ holdReason: "" }), "On hold.");
+  assert.equal(EG.classify(409, { ok: false, status: "on_hold" }).kind, "on_hold");
+
+  const s = server({ check: CARD({ stage: "held", hold_reason: "LC: waits for ready" }), decide: json(200, { ok: true, status: "held", signup: { first_name: "Sam", number: 12 } }) });
+  const r = recorder();
+  await EG.start({ token: TOKEN, pick: "approve", api: EG.createApi(s.fetchFn), ui: r.ui });
+  assert.equal(r.log.find((l) => l[0] === "card")[1].stage, "held");
+  await r.press("approve");
+  assert.equal(s.calls.filter((x) => x.body.action === "decide").length, 0, "an Approve press on a held sign-up is never sent");
+  await r.press("hold");
+  assert.deepEqual(s.calls.at(-1).body, { action: "decide", token: TOKEN, decision: "hold" });
+  // the server's refusal (the hold was placed between opening the page and pressing) has its own words
+  const s2 = server({ check: CARD(), decide: json(409, { ok: false, status: "on_hold" }) });
+  const r2 = recorder();
+  await EG.start({ token: TOKEN, pick: "approve", api: EG.createApi(s2.fetchFn), ui: r2.ui });
+  await r2.press("approve");
+  assert.deepEqual(r2.log.find((l) => l[0] === "result").slice(1), [EG.MESSAGES.on_hold.title, EG.MESSAGES.on_hold.body, false]);
+});
+
 test("the wording: the rule line says why for a caregiver; the first name and number come from the server; a name is never made up", () => {
   assert.equal(EG.ruleLine({ meets: true }), "Meets the invite rule: yes.");
   assert.match(EG.ruleLine({ meets: false, why: "caregiver" }), /caregiver sign-up, so the teen and parent path comes first/);
@@ -244,7 +271,7 @@ test("nothing the server sends is ever parsed as HTML, and the page makes no req
 test("copy rules on everything the page says: no em or en dash, no 'we', 'our' or 'us', plain ASCII", () => {
   const strings = [...Object.values(EG.MESSAGES).flatMap((m) => [m.title, m.body]), ...Object.values(EG.QUEUED), EG.ruleLine({ meets: true }), EG.ruleLine({ meets: false, why: "caregiver" }), EG.ruleLine({ meets: false, why: "other" })];
   for (const k of ["approved", "held", "declined", "rehearsal"]) { const t = EG.resultText({ kind: k, signup: { first_name: "Sam", number: 1 }, invited: true }); strings.push(t.title, t.body); }
-  strings.push(EG.resultText({ kind: "approved", signup: { first_name: "Sam" }, invited: false, queued: "x" }).body);
+  strings.push(EG.resultText({ kind: "approved", signup: { first_name: "Sam" }, invited: false, queued: "x" }).body, EG.holdLine({ holdReason: "LC: waits" }), EG.holdLine({}));
   assert.ok(strings.length > 25);
   for (const s of strings) {
     assert.ok(!/[–—]/.test(s), `a dash in: ${s}`);

@@ -82,6 +82,20 @@ test("pressing Approve locks the buttons, sends ONE decide, and the result repla
   assert.equal(buttons(page).length, 0, "no button after a decision");
 });
 
+test("a held sign-up's card says it is held and why, and offers Keep on hold and Not a fit, never Approve", { skip }, async () => {
+  for (const pick of ["approve", "hold", "decline"]) {
+    const page = open(`?t=${TOKEN}&do=${pick}`, { check: CARD({ stage: "held", hold_reason: "LC: waits for ready" }) });
+    await page.started;
+    assert.match(page.app().textContent, /On hold: LC: waits for ready/);
+    const bs = buttons(page);
+    assert.deepEqual(bs.map((b) => b.dataset.decision), pick === "decline" ? ["decline", "hold"] : ["hold", "decline"], pick);
+    assert.deepEqual(bs.map((b) => b.textContent).sort(), ["Keep on hold", "Not a fit"]);
+    assert.ok(!bs.some((b) => /Approve/.test(b.textContent)), "no Approve button");
+    assert.match(page.app().textContent, /an Approve link does not release a hold: ask LC to release it first/);
+    assert.equal(page.calls.length, 1, "only the check");
+  }
+});
+
 test("a caregiver card says why; a rehearsal card says nothing will happen", { skip }, async () => {
   const care = open(`?t=${TOKEN}`, { check: CARD({ meets_rule: false, why: "caregiver" }) });
   await care.started;
