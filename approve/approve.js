@@ -49,6 +49,7 @@
     no_consent: "This person has no OK to email on file, so no invite goes.",
     revoked: "Apple says this person stopped testing or was removed, so the sign-up was put on hold instead.",
     already_in_group: "Apple already lists this person in the TestFlight group, so nobody was invited again.",
+    not_approved: "A hold or another change landed first, so nobody was invited.",
     unreadable: "The invite could not be started just now, so the daily run tries again."
   };
 
@@ -62,10 +63,10 @@
   // ── the server ────────────────────────────────────────────────────────────────────────────────────────────────
   function classify(http, j, asked) {
     j = j || {};
-    if (j.ok === true && j.status === "ok" && j.signup) return { kind: "card", signup: j.signup, meets: j.meets_rule === true, why: j.why || "other", rehearsal: j.rehearsal === true, stage: j.stage || "awaiting_approval", holdReason: typeof j.hold_reason === "string" ? j.hold_reason : "" };
+    if (j.ok === true && j.status === "ok" && j.signup) return { kind: "card", signup: j.signup, meets: j.meets_rule === true, why: j.why || "other", rehearsal: j.rehearsal === true, stage: j.stage || "awaiting_approval", holdReason: typeof j.hold_reason === "string" ? j.hold_reason : "", inGroup: j.in_group_not_invited === true };
     if (j.ok === true && j.status === "rehearsal") return { kind: "rehearsal", signup: j.signup || null, decision: j.decision || asked || null };
     if (j.ok === true && j.status === "approved") return { kind: "approved", signup: j.signup || null, invited: j.invited === true, queued: typeof j.queued === "string" ? j.queued : null };
-    if (j.ok === true && (j.status === "held" || j.status === "declined")) return { kind: j.status, signup: j.signup || null };
+    if (j.ok === true && (j.status === "held" || j.status === "declined")) return { kind: j.status, signup: j.signup || null, inGroup: j.in_group_not_invited === true };
     if (http === 404 && j.status === "invalid") return { kind: "invalid" };
     if (j.status === "used") return { kind: "used" };
     if (j.status === "expired") return { kind: "expired" };
@@ -110,6 +111,9 @@
   function decisionsFor(card) {
     return card && card.stage === "held" ? ["hold", "decline"] : DECISIONS;
   }
+  // A person Apple already lists in the TestFlight group but has not invited: holding or declining leaves them in the group.
+  var IN_GROUP_LINE = "Already in the TestFlight group, not invited yet.";
+  var IN_GROUP_AFTER = " Apple still lists them in the TestFlight group; remove them in App Store Connect if they should not be invited.";
   function holdLine(card) {
     var why = card.holdReason ? String(card.holdReason) : "";
     return "On hold" + (why ? ": " + why : ".");
@@ -124,8 +128,8 @@
         return res.invited
           ? { title: "Done", body: w + " is invited. Apple is sending the TestFlight invite, and the setup email goes with it." }
           : { title: "Approved", body: w + " is approved. " + (QUEUED[res.queued] || QUEUED.unreadable) };
-      case "held": return { title: "Held", body: w + " stays on the list and nothing is sent. Ask LC to release the hold when you are ready." };
-      case "declined": return { title: "Marked not a fit", body: "Nothing is sent to " + w + "." };
+      case "held": return { title: "Held", body: w + " stays on the list and nothing is sent. Ask LC to release the hold when you are ready." + (res.inGroup ? IN_GROUP_AFTER : "") };
+      case "declined": return { title: "Marked not a fit", body: "Nothing is sent to " + w + "." + (res.inGroup ? IN_GROUP_AFTER : "") };
       case "rehearsal": return { title: "Rehearsal only", body: "This link came from a dry run, so pressing the button changed nothing. Nobody was invited or told anything." };
       default: return null;
     }
@@ -197,6 +201,7 @@
         var held = card.stage === "held";
         var kids = [el("h1", { class: "fb-title", text: w.label }), el("p", { class: "step-sub", text: ruleLine(card) })];
         if (held) kids.push(el("p", { class: "rehearsal", text: holdLine(card) }));
+        if (card.inGroup) kids.push(el("p", { class: "rehearsal", text: IN_GROUP_LINE }));
         if (card.rehearsal) kids.push(el("p", { class: "rehearsal", text: "Rehearsal link from a dry run: pressing a button here decides nothing." }));
         var row = el("div", { class: "ap-actions" });
         // the link's choice first and as the main button; the other two follow
@@ -239,5 +244,5 @@
     });
   }
 
-  return { API_URL: API_URL, MESSAGES: MESSAGES, QUEUED: QUEUED, paramsFromSearch: paramsFromSearch, classify: classify, createApi: createApi, resultText: resultText, ruleLine: ruleLine, holdLine: holdLine, decisionsFor: decisionsFor, start: start, createDomUi: createDomUi, boot: boot };
+  return { API_URL: API_URL, MESSAGES: MESSAGES, QUEUED: QUEUED, paramsFromSearch: paramsFromSearch, classify: classify, createApi: createApi, resultText: resultText, ruleLine: ruleLine, holdLine: holdLine, IN_GROUP_LINE: IN_GROUP_LINE, IN_GROUP_AFTER: IN_GROUP_AFTER, decisionsFor: decisionsFor, start: start, createDomUi: createDomUi, boot: boot };
 });

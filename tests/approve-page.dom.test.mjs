@@ -96,6 +96,21 @@ test("a held sign-up's card says it is held and why, and offers Keep on hold and
   }
 });
 
+test("a person already in the TestFlight group but not invited: the card says so", { skip }, async () => {
+  const page = open(`?t=${TOKEN}`, { check: CARD({ in_group_not_invited: true }) });
+  await page.started;
+  assert.match(page.app().textContent, /Already in the TestFlight group, not invited yet\./);
+  const plain = open(`?t=${TOKEN}`, { check: CARD() });
+  await plain.started;
+  assert.ok(!/TestFlight group/.test(plain.app().textContent));
+  // after a Hold the page says they are still in the group
+  const held = open(`?t=${TOKEN}`, { check: CARD({ in_group_not_invited: true }), decide: json(200, { ok: true, status: "held", signup: { first_name: "Sam", number: 12 }, in_group_not_invited: true }) });
+  await held.started;
+  buttons(held).find((b) => b.dataset.decision === "hold").click();
+  await tick(); await tick();
+  assert.match(held.app().textContent, /Apple still lists them in the TestFlight group; remove them in App Store Connect if they should not be invited\./);
+});
+
 test("a caregiver card says why; a rehearsal card says nothing will happen", { skip }, async () => {
   const care = open(`?t=${TOKEN}`, { check: CARD({ meets_rule: false, why: "caregiver" }) });
   await care.started;

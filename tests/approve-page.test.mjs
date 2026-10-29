@@ -73,7 +73,10 @@ test("the link: a 43-character token and a known ?do=; anything else is no token
 // ── the server ──────────────────────────────────────────────────────────────────────────────────────────────────
 test("every answer of the server maps to one thing on the page", () => {
   const c = EG.classify;
-  assert.deepEqual(c(200, { ok: true, status: "ok", signup: { first_name: "Sam", number: 1 }, meets_rule: false, why: "caregiver", rehearsal: true }), { kind: "card", signup: { first_name: "Sam", number: 1 }, meets: false, why: "caregiver", rehearsal: true, stage: "awaiting_approval", holdReason: "" });
+  assert.deepEqual(c(200, { ok: true, status: "ok", signup: { first_name: "Sam", number: 1 }, meets_rule: false, why: "caregiver", rehearsal: true }), { kind: "card", signup: { first_name: "Sam", number: 1 }, meets: false, why: "caregiver", rehearsal: true, stage: "awaiting_approval", holdReason: "", inGroup: false });
+  assert.equal(c(200, { ok: true, status: "ok", signup: { first_name: "Sam", number: 1 }, meets_rule: true, in_group_not_invited: true }).inGroup, true);
+  assert.equal(c(200, { ok: true, status: "held", signup: {}, in_group_not_invited: true }).inGroup, true);
+  assert.equal(c(200, { ok: true, status: "declined", signup: {} }).inGroup, false);
   assert.equal(c(200, { ok: true, status: "approved", signup: {}, invited: true }).kind, "approved");
   assert.equal(c(200, { ok: true, status: "approved", signup: {}, invited: false, queued: "daily_cap" }).queued, "daily_cap");
   assert.equal(c(200, { ok: true, status: "held", signup: {} }).kind, "held");
@@ -229,6 +232,21 @@ test("A HELD SIGN-UP: the card says it is held and why; its link can Hold or say
   assert.deepEqual(r2.log.find((l) => l[0] === "result").slice(1), [EG.MESSAGES.on_hold.title, EG.MESSAGES.on_hold.body, false]);
 });
 
+test("A PERSON ALREADY IN THE TESTFLIGHT GROUP, NOT INVITED: the card says so, and a Hold or Not a fit tells Justin they are still in the group", () => {
+  assert.equal(EG.IN_GROUP_LINE, "Already in the TestFlight group, not invited yet.");
+  assert.equal(EG.classify(200, { ok: true, status: "ok", signup: { first_name: "Sam" }, in_group_not_invited: true }).inGroup, true);
+  assert.equal(EG.classify(200, { ok: true, status: "ok", signup: { first_name: "Sam" } }).inGroup, false);
+  for (const kind of ["held", "declined"]) {
+    const yes = EG.resultText(EG.classify(200, { ok: true, status: kind, signup: { first_name: "Sam", number: 4 }, in_group_not_invited: true }));
+    const no = EG.resultText(EG.classify(200, { ok: true, status: kind, signup: { first_name: "Sam", number: 4 } }));
+    assert.ok(yes.body.endsWith(EG.IN_GROUP_AFTER), kind);
+    assert.match(yes.body, /remove them in App Store Connect if they should not be invited\./);
+    assert.ok(!no.body.includes("App Store Connect"), kind);
+  }
+  assert.equal(EG.classify(409, { ok: false, status: "on_hold" }).kind, "on_hold");
+  assert.match(EG.resultText({ kind: "approved", signup: { first_name: "Sam" }, invited: false, queued: "not_approved" }).body, /A hold or another change landed first, so nobody was invited\./);
+});
+
 test("the wording: the rule line says why for a caregiver; the first name and number come from the server; a name is never made up", () => {
   assert.equal(EG.ruleLine({ meets: true }), "Meets the invite rule: yes.");
   assert.match(EG.ruleLine({ meets: false, why: "caregiver" }), /caregiver sign-up, so the teen and parent path comes first/);
@@ -271,7 +289,7 @@ test("nothing the server sends is ever parsed as HTML, and the page makes no req
 test("copy rules on everything the page says: no em or en dash, no 'we', 'our' or 'us', plain ASCII", () => {
   const strings = [...Object.values(EG.MESSAGES).flatMap((m) => [m.title, m.body]), ...Object.values(EG.QUEUED), EG.ruleLine({ meets: true }), EG.ruleLine({ meets: false, why: "caregiver" }), EG.ruleLine({ meets: false, why: "other" })];
   for (const k of ["approved", "held", "declined", "rehearsal"]) { const t = EG.resultText({ kind: k, signup: { first_name: "Sam", number: 1 }, invited: true }); strings.push(t.title, t.body); }
-  strings.push(EG.resultText({ kind: "approved", signup: { first_name: "Sam" }, invited: false, queued: "x" }).body, EG.holdLine({ holdReason: "LC: waits" }), EG.holdLine({}));
+  strings.push(EG.resultText({ kind: "approved", signup: { first_name: "Sam" }, invited: false, queued: "x" }).body, EG.holdLine({ holdReason: "LC: waits" }), EG.holdLine({}), EG.IN_GROUP_LINE, EG.IN_GROUP_AFTER);
   assert.ok(strings.length > 25);
   for (const s of strings) {
     assert.ok(!/[–—]/.test(s), `a dash in: ${s}`);
