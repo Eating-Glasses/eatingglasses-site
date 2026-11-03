@@ -50,7 +50,7 @@ const BEFORE = (() => {
 const LAG = (brand) => `Your newest readings in Eating Glasses will be about 3 hours behind your ${brand} app. That is normal.`;
 
 test("BEFORE YOU START: one line, turn on Apple Health sharing in the CGM app before opening Eating Glasses; the TestFlight install Email 2 already said is not repeated, and the old 'open it once, wait, close it' line is gone", () => {
-  assert.equal(BEFORE, "Before you start Turn on Apple Health sharing in your CGM app before you open Eating Glasses.");
+  assert.equal(BEFORE, "Before you start If your CGM shares to Apple Health (Dexcom, Stelo or Eversense), turn that on in its app before you open Eating Glasses."); // S84 delta review: never tell a Libre or Medtronic member to turn on sharing they do not have
   assert.ok(!/TestFlight|invite|Spam|Junk/.test(BEFORE), "the install and the invite are Email 2 step 1 and the /beta page, not this card");
   assert.ok(!/wait about a minute|close it completely|open it once/i.test(SETUP), "that line was for builds 15 and earlier");
 });
