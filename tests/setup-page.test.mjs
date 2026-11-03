@@ -2,15 +2,18 @@
 //
 //   node --test tests/setup-page.test.mjs        (Node 18+; no dependencies, no network)
 //
-// HELD HERE (Justin 11-03: "absolutely no friction ... when a new user tries to connect with their data for the first time", and "clear, concise, and helpful"):
-//   - BEFORE YOU START tells a tester to install the TestFlight app and to turn on Apple Health sharing in the CGM app BEFORE opening Eating Glasses, and no longer
-//     carries the "open it once, wait a minute, close it" line (that was for builds 15 and earlier; a current build waits on its own);
+// HELD HERE (Justin 11-03: "absolutely no friction ... when a new user tries to connect with their data for the first time", and "we need to make this as easy as possible for users ...
+// we need to always be clear, concise, and helpful"):
+//   - BEFORE YOU START is one line: turn on Apple Health sharing in the CGM app BEFORE opening Eating Glasses. It does not repeat the TestFlight install (Email 2 step 1 and the /beta
+//     page already say it), and it no longer carries the "open it once, wait a minute, close it" line (that was for builds 15 and earlier; a current build waits on its own);
 //   - Dexcom G7, Dexcom G6 and Stelo say the newest readings in Eating Glasses are about 3 hours behind the CGM app, and that this is normal (the vendors' own
 //     pages: a 3 hour delay; read 11-03). Eversense says nothing about a delay (not confirmed). NOTHING tells a tester their first readings take a while: once sharing
 //     is on, Eating Glasses reads what is already in Apple Health right away (LC, 11-03: measured 52 s and 4.8 min after a fix);
-//   - the Eating Glasses step names the buttons the app really has (Continue with Apple, Connect Apple Health);
-//   - FreeStyle Libre and Medtronic say a computer is needed and to plan on 10 to 15 minutes the first time, and Medtronic is named the way the app names it;
-//   - a "No readings came through?" section, in the app's own words for the screen it describes, with the steps in order;
+//   - the Eating Glasses step is ONE line that cannot skip a screen ("Open Eating Glasses and follow the screens. When Apple Health asks, turn on Blood Glucose, then tap Allow."), the same
+//     line Email 2 step 3 says;
+//   - FreeStyle Libre and Medtronic keep the wording they had before this PR ("Use a computer. It is the simplest way." for Libre, "easiest on a computer" for Medtronic): no "You need a
+//     computer" and no minutes figure, which nothing in the app or the vendor pages establishes for a first-time tester; Medtronic is named the way the app names it;
+//   - a "No readings came through?" section, in the app's own words for the screen it describes, with the steps in order and NO wait in it;
 //   - the /beta success page tells a person who just joined to install the TestFlight app now, and the form is untouched.
 import test from "node:test";
 import assert from "node:assert/strict";
@@ -46,11 +49,9 @@ const BEFORE = (() => {
 
 const LAG = (brand) => `Your newest readings in Eating Glasses will be about 3 hours behind your ${brand} app. That is normal.`;
 
-test("BEFORE YOU START: install the TestFlight app, and turn on Apple Health sharing in the CGM app before opening Eating Glasses; the old 'open it once, wait, close it' line is gone", () => {
-  assert.match(BEFORE, /Install the TestFlight app from the App Store, then Eating Glasses from Apple's invite\./);
-  // the real invite (Justin 11-03, verbatim): sender "Justin Silver via TestFlight <testflight_no_reply@email.apple.com>", subject "Justin Silver has invited you to test Eating Glasses."
-  assert.ok(BEFORE.includes('The invite is an email from Justin Silver via TestFlight called "Justin Silver has invited you to test Eating Glasses." Check Spam, Junk and Promotions too.'), BEFORE);
-  assert.match(BEFORE, /If your CGM shares to Apple Health \(Dexcom, Stelo or Eversense\), turn that on in its app before you open Eating Glasses\./);
+test("BEFORE YOU START: one line, turn on Apple Health sharing in the CGM app before opening Eating Glasses; the TestFlight install Email 2 already said is not repeated, and the old 'open it once, wait, close it' line is gone", () => {
+  assert.equal(BEFORE, "Before you start Turn on Apple Health sharing in your CGM app before you open Eating Glasses.");
+  assert.ok(!/TestFlight|invite|Spam|Junk/.test(BEFORE), "the install and the invite are Email 2 step 1 and the /beta page, not this card");
   assert.ok(!/wait about a minute|close it completely|open it once/i.test(SETUP), "that line was for builds 15 and earlier");
 });
 
@@ -59,32 +60,36 @@ test("the lag is said for Dexcom G7, Dexcom G6 and Stelo only, as how old the ne
   assert.ok(card("dexcom-g6").includes(LAG("Dexcom")), "G6");
   assert.ok(card("stelo").includes(LAG("Stelo")), "Stelo");
   for (const id of ["eversense", "libre", "medtronic"]) assert.ok(!/3 hour|hours behind|delay/i.test(card(id)), `${id}: no lag claim`);
-  assert.ok(!/first readings|can take a while|take up to|few hours|come back in|3 hour delay/i.test(textOf(MAIN)), "nobody is told to wait");
+  assert.ok(!/first readings|can take a while|take up to|few hours|come back in|3 hour delay|after a minute|\bwait/i.test(textOf(MAIN)), "nobody is told to wait");
   assert.ok(!/Stelo sends readings to Apple Health on about a 3 hour delay/.test(SETUP), "Stelo's old middle-of-the-card line is replaced by the same line the others have");
 });
 
-test("each Apple Health card says first the CGM app, then Eating Glasses, with the buttons the app really has", () => {
+test("each Apple Health card says first the CGM app, then Eating Glasses, in one line that cannot skip a screen", () => {
   for (const id of ["dexcom-g7", "dexcom-g6", "stelo", "eversense"]) {
     const t = card(id);
-    assert.match(t, /Tap Continue with Apple\. Then tap Connect Apple Health, turn on Blood Glucose, and tap Allow\./, id);
+    assert.ok(t.includes("Open Eating Glasses and follow the screens. When Apple Health asks, turn on Blood Glucose, then tap Allow."), `${id}: one line that cannot skip a screen`);
+    assert.ok(!/Tap Continue with Apple\. Then tap Connect Apple Health/.test(t), `${id}: no screen-by-screen taps`);
     assert.ok(t.indexOf("First, in the") < t.indexOf("Then, in Eating Glasses"), `${id}: the CGM app comes first`);
     assert.ok(!/Your readings come in from there/.test(t), `${id}: no filler`);
   }
 });
 
-test("FreeStyle Libre and Medtronic: a computer is needed, 10 to 15 minutes the first time; Medtronic is named the way the app names it; the in-app exit is named by its real label", () => {
+test("FreeStyle Libre and Medtronic: the wording they had before this PR (Libre: 'Use a computer. It is the simplest way.'; Medtronic: 'easiest on a computer'), no 'You need a computer' and no minutes figure; Medtronic is named the way the app names it; the in-app exit is named by its real label", () => {
   for (const id of ["libre", "medtronic"]) {
     const t = card(id);
-    assert.match(t, /You need a computer\. Plan on 10 to 15 minutes the first time\./, id);
+    assert.ok(!/You need a computer|Plan on|10 to 15|minute/i.test(t), `${id}: no "you need a computer" and no minutes figure`);
     assert.ok(t.includes(`tap "My CGM isn't in Apple Health"`), `${id}: the exit label`);
   }
-  assert.ok(card("medtronic").startsWith("Medtronic (MiniMed, Guardian)"), "the card is named like the app's row");
+  assert.ok(card("libre").includes("Get your file Use a computer. It is the simplest way. Open libreview.com."), "Libre: the app's own first step, as on main");
+  assert.ok(card("medtronic").includes("Get your file (easiest on a computer)"), "Medtronic: the heading it had on main");
+  assert.ok(card("libre").startsWith("FreeStyle Libre 2 or 3 (LibreView) Libre doesn't share readings with Apple Health, so you bring your history in from a LibreView file instead. Get your file"), "one intro sentence");
+  assert.ok(card("medtronic").startsWith("Medtronic (MiniMed, Guardian) Medtronic doesn't share readings with Apple Health, so you bring your history in from a CareLink file instead. Get your file"), "one intro sentence, and the card is named like the app's row");
   assert.ok(card("medtronic").includes('Choose Medtronic (MiniMed, Guardian), then tap "Import my CareLink data"'), "and so is the in-app pick");
   assert.ok(MAIN.includes('<a href="#medtronic">Medtronic (MiniMed, Guardian)</a>'), "and the jump chip");
   assert.ok(!/Medtronic Guardian\b/.test(textOf(MAIN)), "no half-name left");
 });
 
-test("NO READINGS CAME THROUGH: a section, a jump chip, five steps in order, the app's own words for the screen, and the way out", () => {
+test("NO READINGS CAME THROUGH: a section, a jump chip, four steps in order (none of them a wait), the app's own words for the screen, and the way out", () => {
   assert.ok(MAIN.includes('<a href="#no-readings">No readings?</a>'), "a jump chip");
   const t = card("no-readings");
   assert.ok(t.startsWith("No readings came through?"), "the heading is the app's own screen title");
@@ -93,9 +98,9 @@ test("NO READINGS CAME THROUGH: a section, a jump chip, five steps in order, the
     "In the Health app, tap your picture or initials, then Apps, then Eating Glasses, and turn on Blood Glucose.",
     "In that same list, open your CGM app (for example Dexcom G7) and turn on Blood Glucose there too.",
     "In your CGM app, check that Apple Health sharing is on. If it is already on, turn it off and back on.",
-    "If you just turned sharing on, tap Try again after a minute.",
     "Still stuck? Email support@eatingglasses.com with your CGM and what the screen says.",
   ]);
+  assert.ok(!/after a minute|wait/i.test(t), "no wait anywhere in it (M3: readings arrive right away, so nobody is told to wait)");
   assert.match(t, /bring a file in/i, "the file way out");
   assert.ok(t.includes("Import my history"), "by the app's own label");
   assert.ok(/mailto:support@eatingglasses\.com/.test(MAIN), "and the address is a link");
@@ -121,7 +126,7 @@ test("the page is still a clean page: tags balance, no em or en dash, no 'we' or
   // every in-page link has a target
   for (const m of MAIN.matchAll(/href="#([^"]+)"/g)) assert.ok(MAIN.includes(`id="${m[1]}"`), `#${m[1]} exists`);
   const words = t.split(" ").length;
-  assert.ok(words <= 900, `${words} words (683 before S84; the new No readings card and the lag lines are the growth)`);
+  assert.ok(words <= 850, `${words} words (683 before S84; the new No readings card and the lag lines are the growth; 893 before the E2 round)`);
 });
 
 test("/beta success: a person who just joined is told to install the TestFlight app now; the other two answers and the form are untouched", () => {
