@@ -48,7 +48,7 @@ test("the bright line is stated, and the data wording is the approved wording on
     "It never computes or suggests an insulin dose.",
     "It never diagnoses a condition.",
     "It never predicts glucose or sends alarms. The CGM keeps that job.",
-    "It never sells or shares health data.",
+    "It never sells health data or shares it with advertisers.",
     "Your CGM readings never leave your phone.",
     "Glucose is analyzed on the phone by a rules-based engine and never sent to an AI.",
     "Optional food scans go to an Eating Glasses server and an AI service.",
