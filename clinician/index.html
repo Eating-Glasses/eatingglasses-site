@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>For clinicians | Eating Glasses</title>
+<meta name="description" content="What Eating Glasses does, what it never does, how data is handled, the care-team report, and how a patient joins the beta." />
+<link rel="canonical" href="https://eatingglasses.com/clinician/" />
+<meta name="theme-color" content="#f97316" />
+<link rel="icon" type="image/png" href="/favicon.png?v=4" />
+<link rel="apple-touch-icon" href="/favicon.png?v=4" />
+<link rel="preload" href="/fonts/Geist-latin-variable.woff2" as="font" type="font/woff2" crossorigin />
+<link rel="stylesheet" href="/site.css?v=2" />
+<style>
+/* clinician: orange hero with the pitch, then one card per question a clinician asks */
+  .hero{ padding:34px 0 40px; }
+  .hero h1{ font-size:clamp(46px,13vw,84px); margin:0 0 20px; }
+  .hero p.lead{ font-size:clamp(18px,2.2vw,21px); line-height:1.45; font-weight:560; color:var(--ink); max-width:44ch; margin:0 0 6px; letter-spacing:-.012em; }
+  .jumps{ display:flex; flex-wrap:wrap; gap:10px; margin:22px 0 0; padding:0; list-style:none; }
+  .jumps a{ display:inline-flex; align-items:center; min-height:46px; padding:8px 18px; border:2px solid var(--ink); border-radius:999px; background:#fff; font-size:15.5px; font-weight:650; letter-spacing:-.01em; text-decoration:none; color:var(--ink); }
+  .jumps a:hover{ background:var(--ink); color:var(--cream); }
+
+  .cards{ display:grid; gap:16px; }
+  .card{ padding:24px 22px 26px; scroll-margin-top:16px; }
+  .card h2{ font-size:28px; letter-spacing:-.045em; line-height:1.08; margin:0 0 12px; }
+  .card p{ font-size:16.5px; line-height:1.58; color:var(--body); margin:0 0 12px; }
+  .card p:last-child{ margin-bottom:0; }
+  .card ul{ margin:0 0 14px; padding:0 0 0 20px; }
+  .card li{ margin:0 0 9px; font-size:16.5px; line-height:1.52; color:var(--ink); font-weight:480; }
+  .card .small, .small{ font-size:14.5px; line-height:1.55; color:var(--muted); }
+  .card-ink p, .card-ink .small, .card-ink li{ color:var(--soft-ink); }
+  .card-ink h2{ color:#fff; font-size:24px; }
+  .cta{ margin:18px 0 0; }
+  .tailband{ padding:44px 0 56px; }
+
+  @media (min-width:700px){
+    .hero{ padding:56px 0 56px; }
+    .card{ padding:30px 34px 32px; }
+    .tailband{ padding:64px 0 72px; }
+  }
+  .eg-head .wrap, .eg-foot .wrap{ max-width:760px; }
+</style>
+</head>
+<body>
+  <header class="eg-head">
+    <div class="wrap">
+      <a class="home" href="/" aria-label="Eating Glasses home"><img src="/logo-light.png" alt="Eating Glasses" width="1248" height="832" /></a>
+    </div>
+  </header>
+
+  <main>
+    <section class="band band-or on-or hero">
+      <div class="wrap narrow">
+        <h1 class="display">For clinicians</h1>
+        <p class="lead">Eating Glasses finds the patterns in your CGM data, suggests small steps drawn from published research to work on them, and tracks your progress, all with nothing to log.</p>
+        <ul class="jumps" aria-label="Jump to a section">
+          <li><a href="#does">What it does</a></li>
+          <li><a href="#never">What it never does</a></li>
+          <li><a href="#data">How data is handled</a></li>
+          <li><a href="#report">The care-team report</a></li>
+          <li><a href="#join">How a patient joins</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <div class="band band-cr tailband">
+      <div class="wrap narrow">
+        <div class="cards">
+
+          <div class="card" id="does">
+            <h2>What it does</h2>
+            <p>Eating Glasses is an iPhone app for people who use insulin. It reads the glucose history a person already has, finds the patterns that summary numbers can hide, and explains each one in plain language.</p>
+            <p>It suggests small steps to work on a pattern, drawn from published research, with the source shown. Then it tracks progress and shows the person's own before and after.</p>
+            <p class="small">For people who use insulin and wear a CGM: adults, or ages 13 to 17 with a parent's consent. United States and iPhone. Dexcom, Stelo, FreeStyle Libre, Medtronic or Eversense.</p>
+          </div>
+
+          <div class="card card-ink" id="never">
+            <h2>What it never does</h2>
+            <ul>
+              <li>It never computes or suggests an insulin dose.</li>
+              <li>It never diagnoses a condition.</li>
+              <li>It never predicts glucose or sends alarms. The CGM keeps that job.</li>
+              <li>It never sells health data or shares it with advertisers.</li>
+            </ul>
+            <p>Anything about medication or settings goes to the care team. Eating Glasses is a general wellness product. It is not a medical device.</p>
+          </div>
+
+          <div class="card" id="data">
+            <h2>How data is handled</h2>
+            <ul>
+              <li>Your CGM readings never leave your phone.</li>
+              <li>Glucose is analyzed on the phone by a rules-based engine and never sent to an AI.</li>
+              <li>Optional food scans go to an Eating Glasses server and an AI service.</li>
+              <li>The account and its diabetes profile settings are stored on an Eating Glasses server.</li>
+              <li>The person decides who sees their summary.</li>
+            </ul>
+            <p class="small">Details are in the <a href="/privacy.html">privacy policy</a>.</p>
+          </div>
+
+          <div class="card" id="report">
+            <h2>The care-team report</h2>
+            <p>A one-page, visit-ready summary made by the app. It holds the consensus metrics, the patterns ranked with timing and sources, and the one question the person wants to ask.</p>
+            <p>The person shares it at the visit, on the phone or as a PDF. Every report is observations only, suggests no insulin or medication changes, and is not a diagnosis.</p>
+            <p class="small">A basic care-team report stays free. See an illustrated example on the <a href="/clinicians.html">clinicians page</a>.</p>
+          </div>
+
+          <div class="card card-ink" id="join">
+            <h2>How a patient joins the beta</h2>
+            <ul>
+              <li>Join the beta. The beta is free.</li>
+              <li>Turn on Apple Health access, or import a CareLink or LibreView file. The <a href="/setup/">setup guide</a> has the steps for each CGM.</li>
+              <li>Patterns appear from the history already on the phone, with what each one means.</li>
+              <li>Bring the one-page summary to the visit.</li>
+            </ul>
+            <p class="cta"><a class="btn btn-primary" href="/beta/?ref=cl01">Join the beta</a></p>
+          </div>
+
+          <div class="card" id="contact">
+            <h2>Contact</h2>
+            <p>Questions from a clinician are welcome at <a href="mailto:support@eatingglasses.com">support@eatingglasses.com</a>.</p>
+            <p class="small">Built by Justin Silver, who has lived with type 1 diabetes for 23 years.</p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="eg-foot">
+    <div class="wrap">
+      <span class="who">Eating Glasses LLC · © 2026</span>
+      <nav><a href="/">Home</a><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a></nav>
+    </div>
+  </footer>
+</body>
+</html>
