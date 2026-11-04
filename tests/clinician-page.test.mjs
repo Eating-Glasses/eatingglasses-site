@@ -53,7 +53,7 @@ test("the bright line is stated, and the data wording is the approved wording on
     "Glucose is analyzed on the phone by a rules-based engine and never sent to an AI.",
     "Optional food scans go to an Eating Glasses server and an AI service.",
     "The account and its diabetes profile settings are stored on an Eating Glasses server.",
-    "Every report states that it is observations only, contains no treatment recommendations, and is not a diagnosis.",
+    "Every report is observations only, suggests no insulin or medication changes, and is not a diagnosis.",
   ]) assert.ok(TEXT.includes(line), `missing: ${line}`);
   // each phrase below was proposed by someone and is false or unprovable (the claims file's "Never say" list)
   for (const [name, rx] of [
