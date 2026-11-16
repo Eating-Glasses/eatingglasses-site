@@ -512,7 +512,7 @@
     var contactOk = document.getElementById("contact_ok").checked;
 
     if (!firstName) { setError("first_name", "Enter your name."); ok = false; }
-    else if (!/^[\p{L}\p{M}][\p{L}\p{M}' ’-]{0,39}$/u.test(firstName)) { setError("first_name", "Just your name, please (letters only)."); ok = false; }
+    else if (!/^[\p{L}\p{M}][\p{L}\p{M}' ’.-]{0,39}$/u.test(firstName)) { setError("first_name", "Just your name, please (letters only)."); ok = false; }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { setError("email", "Enter a valid email address."); ok = false; }
     if (!heard) { setError("heard_from", "Choose one."); ok = false; }
     if (!adult || !contactOk) {
@@ -643,6 +643,8 @@
 
   form.addEventListener("submit", function (e) {
     e.preventDefault();
+    // Enter on step 1 acts exactly like "Next: your setup".
+    if (step1.classList.contains("show")) { document.getElementById("toStep2").click(); return; }
     if (!validateStep1() || !validateStep2()) {
       // If step 1 has the problem, send the visitor back to see it.
       if (!validateStep1()) {
