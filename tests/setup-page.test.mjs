@@ -132,11 +132,13 @@ test("the page is still a clean page: tags balance, no em or en dash, no 'we' or
 test("/beta success: a person who just joined is told to install the TestFlight app now; the other two answers and the form are untouched", () => {
   // the string is a JS literal in double quotes, so the quotes around Apple's subject are escaped in the source
   const lit = (start) => new RegExp(`body\\.textContent = "(${start}(?:[^"\\\\]|\\\\.)*)";`).exec(BETA)?.[1]?.replace(/\\"/g, '"');
-  const body = lit("Eating Glasses is inviting people in small groups");
+  const body = lit("Eating Glasses is adding people a few at a time");
   assert.ok(body, "the waitlist success text is there");
-  assert.ok(body.includes("When it's your turn, you'll get a personal email from Justin. Check your inbox for a confirmation."), "the existing lines stay");
+  // Option C (S84), merged only when Justin flips ONBOARDING_MODE to auto: the changed promise (draft 7c) and a confirmation sentence that asks for the confirm-your-email link
+  assert.ok(body.includes("Eating Glasses is adding people a few at a time. When it's your turn, you'll get an email from Justin, and then your invite comes from Apple. Check your inbox now and tap the link in the email from Justin to confirm your email address."), "the changed promise and the confirmation sentence");
+  assert.ok(!/inviting people in small groups|personal email|first invites|in October/.test(body), "the old promise is gone");
   // the real invite (Justin 11-03, verbatim): sender "Justin Silver via TestFlight", subject "Justin Silver has invited you to test Eating Glasses."
-  assert.ok(body.includes('Your invite comes from Apple: look for an email from Justin Silver via TestFlight called "Justin Silver has invited you to test Eating Glasses." Check Spam, Junk and Promotions too.'), body);
+  assert.ok(body.includes('Look for an email from Justin Silver via TestFlight called "Justin Silver has invited you to test Eating Glasses." Check Spam, Junk and Promotions too.'), body);
   assert.ok(body.includes("Install the TestFlight app from the App Store now, so it opens in one tap."), body);
   assert.ok(!/check spam and promotions|Apple's TestFlight\./.test(body), "the vaguer old sentences are gone");
   assert.ok(!/–|—/.test(body), "no dash");
