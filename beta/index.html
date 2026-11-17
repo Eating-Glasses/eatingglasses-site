@@ -616,13 +616,13 @@
     numEl.textContent = position ? ("You're #" + position + " on the list") : "You're on the list";
     if (statusKind === "notify") {
       headline.textContent = "You're on the list!";
-      body.textContent = "The first round is US and iPhone only, so Eating Glasses will email you the moment Android or your country opens up. Check your inbox for a confirmation.";
+      body.textContent = "The first round is US and iPhone only, so Eating Glasses will email you the moment Android or your country opens up. A confirmation email is on its way if this is your first sign-up. If you signed up before, your place stays as it is and no second email is sent.";
     } else if (statusKind === "exists") {
       headline.textContent = "You're already in!";
       body.textContent = "Looks like that email is already on the list. No need to sign up twice.";
     } else {
       headline.textContent = "You're on the list!";
-      body.textContent = "Eating Glasses is inviting people in small groups, with invites going out in the coming weeks. When it's your turn, you'll get a personal email from Justin. Check your inbox for a confirmation. Your invite comes from Apple: look for an email from Justin Silver via TestFlight called \"Justin Silver has invited you to test Eating Glasses.\" Check Spam, Junk and Promotions too. Install the TestFlight app from the App Store now, so it opens in one tap.";
+      body.textContent = "Eating Glasses is inviting people in small groups, with invites going out in the coming weeks. When it's your turn, you'll get a personal email from Justin. A confirmation email is on its way if this is your first sign-up. If you signed up before, your place stays as it is and no second email is sent. Your invite comes from Apple: look for an email from Justin Silver via TestFlight called \"Justin Silver has invited you to test Eating Glasses.\" Check Spam, Junk and Promotions too. Install the TestFlight app from the App Store now, so it opens in one tap.";
     }
     success.classList.add("show");
     success.scrollIntoView({ behavior: "smooth", block: "start" });
