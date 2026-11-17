@@ -134,7 +134,9 @@ test("/beta success: a person who just joined is told to install the TestFlight 
   const lit = (start) => new RegExp(`body\\.textContent = "(${start}(?:[^"\\\\]|\\\\.)*)";`).exec(BETA)?.[1]?.replace(/\\"/g, '"');
   const body = lit("Eating Glasses is inviting people in small groups");
   assert.ok(body, "the waitlist success text is there");
-  assert.ok(body.includes("When it's your turn, you'll get a personal email from Justin. Check your inbox for a confirmation."), "the existing lines stay");
+  assert.ok(body.includes("When it's your turn, you'll get a personal email from Justin. A confirmation email is on its way if this is your first sign-up. If you signed up before, your place stays as it is and no second email is sent."), "the existing lines stay, with the repeat sign-up sentence (S87 decision 8a)");
+  assert.ok(!/Check your inbox/.test(BETA), "the old sentence is gone from the page");
+  assert.ok(lit("The first round is US and iPhone only").includes("A confirmation email is on its way if this is your first sign-up. If you signed up before, your place stays as it is and no second email is sent."), "the notify answer carries it too");
   // the real invite (Justin 11-03, verbatim): sender "Justin Silver via TestFlight", subject "Justin Silver has invited you to test Eating Glasses."
   assert.ok(body.includes('Your invite comes from Apple: look for an email from Justin Silver via TestFlight called "Justin Silver has invited you to test Eating Glasses." Check Spam, Junk and Promotions too.'), body);
   assert.ok(body.includes("Install the TestFlight app from the App Store now, so it opens in one tap."), body);
