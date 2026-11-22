@@ -405,7 +405,11 @@ test("the page: never indexed, no referrer, no third-party host, the one script 
   assert.match(HTML, /EGFeedback\.boot\(window\)/);
   assert.match(HTML, /<div id="app"/);
   assert.match(HTML, /<noscript>/);
-  const hosts = [...(HTML + JS).matchAll(/https?:\/\/([a-z0-9.-]+)/gi)].map((m) => m[1].toLowerCase());
+  // the footer social row is the one place the page names another host: six outbound profile links, nothing loaded from them
+  const SOCIAL_HOSTS = ["www.instagram.com", "www.threads.com", "www.tiktok.com", "www.youtube.com", "x.com", "bsky.app"];
+  const soc = HTML.match(/<nav class="soc"[\s\S]*?<\/nav>/)[0];
+  assert.deepEqual([...soc.matchAll(/<a href="https:\/\/([^/"]+)/g)].map((m) => m[1]), SOCIAL_HOSTS);
+  const hosts = [...(HTML.replace(soc, "") + JS).matchAll(/https?:\/\/([a-z0-9.-]+)/gi)].map((m) => m[1].toLowerCase());
   const allowed = new Set(["pnnqxzqpfjsliwymmecv.supabase.co", "www.w3.org"]);
   for (const h of hosts) assert.ok(allowed.has(h), `the page contacts or names ${h}`);
   assert.ok(!/googleapis|gstatic|cdn\.|unpkg|jsdelivr|cloudflare/i.test(HTML + JS), "fonts and scripts are served from this site");
