@@ -54,7 +54,7 @@ strong,b{ font-weight:650; color:var(--ink); }
 .eg-foot a{ display:inline-flex; align-items:center; min-height:44px; padding:0 10px; color:var(--cream); font-weight:600; font-size:14.5px; text-decoration:none; }
 .eg-foot a:hover{ color:var(--glow); text-decoration:underline; }
 /* social icon row: 22px glyphs in currentColor, 44px touch targets */
-.eg-foot .soc{ margin:0 -11px; gap:0; flex-wrap:nowrap; }
+.eg-foot .soc{ margin:0 -11px; gap:0; flex-wrap:wrap; }
 .eg-foot .soc a{ justify-content:center; min-width:44px; padding:0; }
 .eg-foot .soc a:hover{ text-decoration:none; }
 .eg-foot .soc svg{ display:block; width:22px; height:22px; }

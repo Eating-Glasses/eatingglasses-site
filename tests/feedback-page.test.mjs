@@ -405,8 +405,8 @@ test("the page: never indexed, no referrer, no third-party host, the one script 
   assert.match(HTML, /EGFeedback\.boot\(window\)/);
   assert.match(HTML, /<div id="app"/);
   assert.match(HTML, /<noscript>/);
-  // the footer social row is the one place the page names another host: six outbound profile links, nothing loaded from them
-  const SOCIAL_HOSTS = ["www.instagram.com", "www.threads.com", "www.tiktok.com", "www.youtube.com", "x.com", "bsky.app"];
+  // the footer social row is the one place the page names another host: eight outbound profile links, nothing loaded from them
+  const SOCIAL_HOSTS = ["www.instagram.com", "www.threads.com", "www.tiktok.com", "www.youtube.com", "x.com", "bsky.app", "www.facebook.com", "www.linkedin.com"];
   const soc = HTML.match(/<nav class="soc"[\s\S]*?<\/nav>/)[0];
   assert.deepEqual([...soc.matchAll(/<a href="https:\/\/([^/"]+)/g)].map((m) => m[1]), SOCIAL_HOSTS);
   const hosts = [...(HTML.replace(soc, "") + JS).matchAll(/https?:\/\/([a-z0-9.-]+)/gi)].map((m) => m[1].toLowerCase());
